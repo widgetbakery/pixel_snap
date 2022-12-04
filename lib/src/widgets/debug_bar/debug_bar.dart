@@ -124,10 +124,10 @@ class _OverrideButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool selected = ratio == overrideDevicePixelRatio;
+    bool selected = ratio == PixelPerfect.instance.overrideDevicePixelRatio;
     return CustomButton(
       onPressed: () {
-        overrideDevicePixelRatio = ratio;
+        PixelPerfect.instance.overrideDevicePixelRatio = ratio;
       },
       selected: selected,
       builder: _buttonBuilder,
@@ -147,14 +147,14 @@ bool _enabled = true;
 void _setEnabled(bool enabled) {
   _enabled = enabled;
   if (enabled) {
-    overridePixelSnap(null);
+    PixelPerfect.instance.overridePixelSnapFunction = null;
   } else {
-    overridePixelSnap(({
+    PixelPerfect.instance.overridePixelSnapFunction = ({
       required double value,
       required double devicePixelRatio,
       required PixelSnapMode mode,
     }) =>
-        value);
+        value;
   }
 }
 

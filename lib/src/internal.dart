@@ -1,18 +1,72 @@
 import 'package:flutter/widgets.dart';
 import 'package:pixel_perfect/src/pixel_snap.dart';
 
-double? _overrideDevicePixelRatio;
+class PixelPerfect {
+  PixelPerfect._() {
+    WidgetsBinding.instance.addObserver(_Observer(this));
+  }
 
-double get devicePixelRatio =>
-    _overrideDevicePixelRatio ??
-    WidgetsBinding.instance.window.devicePixelRatio;
+  void _didChangeMetrics() {
+    _maybeReassemble();
+  }
 
-set overrideDevicePixelRatio(double? value) {
-  _overrideDevicePixelRatio = value;
-  WidgetsBinding.instance.reassembleApplication();
+  double get devicePixelRatio =>
+      _overrideDevicePixelRatio ??
+      WidgetsBinding.instance.window.devicePixelRatio;
+
+  PixelSnapFunction _pixelSnapFunction = _defaultPixelSnap;
+  double? _overrideDevicePixelRatio;
+
+  set overrideDevicePixelRatio(double? value) {
+    _overrideDevicePixelRatio = value;
+    _maybeReassemble();
+  }
+
+  double? get overrideDevicePixelRatio => _overrideDevicePixelRatio;
+
+  set overridePixelSnapFunction(
+    PixelSnapFunction? snapFunction,
+  ) {
+    _pixelSnapFunction = snapFunction ?? _defaultPixelSnap;
+    _maybeReassemble();
+  }
+
+  double pixelSnap(double value, PixelSnapMode mode) {
+    if (!value.isFinite) {
+      return value;
+    }
+    return _pixelSnapFunction(
+      value: value,
+      devicePixelRatio: devicePixelRatio,
+      mode: mode,
+    );
+  }
+
+  void _maybeReassemble() {
+    if (_lastReassembleDevicePixelRatio != devicePixelRatio ||
+        _lastReassemblePixelSnapFunction != _pixelSnapFunction) {
+      _lastReassembleDevicePixelRatio = devicePixelRatio;
+      _lastReassemblePixelSnapFunction = _pixelSnapFunction;
+      WidgetsBinding.instance.reassembleApplication();
+    }
+  }
+
+  double? _lastReassembleDevicePixelRatio;
+  PixelSnapFunction? _lastReassemblePixelSnapFunction;
+
+  static final instance = PixelPerfect._();
 }
 
-double? get overrideDevicePixelRatio => _overrideDevicePixelRatio;
+class _Observer extends WidgetsBindingObserver {
+  _Observer(this.pixelPerfect);
+
+  @override
+  void didChangeMetrics() {
+    pixelPerfect._didChangeMetrics();
+  }
+
+  final PixelPerfect pixelPerfect;
+}
 
 typedef PixelSnapFunction = double Function({
   required double value,
@@ -36,24 +90,4 @@ double _defaultPixelSnap({
     case PixelSnapMode.floor:
       return (value * devicePixelRatio).floor() / devicePixelRatio;
   }
-}
-
-PixelSnapFunction _pixelSnapFunction = _defaultPixelSnap;
-
-void overridePixelSnap(
-  PixelSnapFunction? snap,
-) {
-  _pixelSnapFunction = snap ?? _defaultPixelSnap;
-  WidgetsBinding.instance.reassembleApplication();
-}
-
-double pixelSnap(double value, PixelSnapMode mode) {
-  if (!value.isFinite) {
-    return value;
-  }
-  return _pixelSnapFunction(
-    value: value,
-    devicePixelRatio: devicePixelRatio,
-    mode: mode,
-  );
 }

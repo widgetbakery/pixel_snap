@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 
-import 'internal.dart' as internal;
+import 'internal.dart';
 
 enum PixelSnapMode {
   /// Snap to the nearest pixel.
@@ -15,7 +15,7 @@ enum PixelSnapMode {
 
 extension PixelSnapExtNum on num {
   double pixelSnap([PixelSnapMode mode = PixelSnapMode.snap]) {
-    return internal.pixelSnap(toDouble(), mode);
+    return PixelPerfect.instance.pixelSnap(toDouble(), mode);
   }
 
   double get ps => pixelSnap();
