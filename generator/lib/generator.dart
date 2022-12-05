@@ -22,6 +22,7 @@ class Generator {
     'Text',
     'RichText',
     'Center',
+    'FractionallySizedBox',
   ];
 
   String generateWidgets() {

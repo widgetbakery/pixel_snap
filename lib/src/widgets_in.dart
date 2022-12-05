@@ -11,7 +11,6 @@ class GeneratePixelSnap<T> {
 @GeneratePixelSnap<DecoratedBox>()
 @GeneratePixelSnap<Container>()
 @GeneratePixelSnap<FittedBox>()
-@GeneratePixelSnap<FractionallySizedBox>()
 @GeneratePixelSnap<IntrinsicWidth>()
 @GeneratePixelSnap<LimitedBox>()
 @GeneratePixelSnap<OverflowBox>()
