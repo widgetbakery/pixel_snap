@@ -1,8 +1,6 @@
 import 'package:pixel_perfect/material.dart';
 
 void main() {
-  // overrideDevicePixelRatio = 1.75;
-  // overridePixelSnapFunction((p0) => p0);
   runApp(const MainApp());
 }
 
