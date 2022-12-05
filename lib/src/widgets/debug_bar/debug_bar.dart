@@ -95,6 +95,7 @@ class _PixelPerfectDebugBar extends StatelessWidget {
                       const _OverrideButton(ratio: 2.0),
                       const _OverrideButton(ratio: 2.25),
                       const _OverrideButton(ratio: 2.5),
+                      const _OverrideButton(ratio: 2.75),
                       const _OverrideButton(ratio: 3.0),
                     ].intersperse(SizedBox(width: 4.ps)),
                   ],
