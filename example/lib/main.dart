@@ -6,95 +6,150 @@ void main() {
   runApp(const MainApp());
 }
 
+const _simpleDecoration = BoxDecoration(
+  border: Border.fromBorderSide(BorderSide(color: Colors.black, width: 1)),
+);
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Builder(
-        builder: (context) {
-          return PixelPerfectDebugBar(
-            child: Scaffold(
-              body: Align(
-                alignment: const Alignment(0, 0),
+    return PixelPerfectDebugBar(
+      child: MaterialApp(
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
                 child: Container(
                   margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.green, width: 1),
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  // child: Container(
-                  //   padding: const EdgeInsets.all(10),
-                  //   decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.red, width: 1),
-                  //   ),
-                  // ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Expanded(
-                      //   child: Container(
-                      //     // width: 100,
-                      //     // height: 100,
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(color: Colors.red, width: 1)),
-                      //   ),
-                      // ),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.red, width: 1)),
-                        child: const Text('Hello!'),
-                      ),
-                      // const SizedBox(width: 5),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.red, width: 1)),
-                        child: const Text('Hello!'),
-                      ),
-                      // const SizedBox(width: 10),
-                      // Expanded(
-                      //   child: Container(
-                      //     // width: 100,
-                      //     // height: 100,
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(color: Colors.red, width: 1)),
-                      //   ),
-                      // ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.red, width: 1)),
-                        child: Column(
-                          children: const [
-                            Text('Hello'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  // child: ListView.builder(
-                  //   itemBuilder: (context, i) {
-                  //     return Container(
-                  //       decoration: const BoxDecoration(
-                  //         border: Border(
-                  //             bottom:
-                  //                 BorderSide(color: Colors.red, width: 1.0)),
-                  //       ),
-                  //       padding: const EdgeInsets.all(10),
-                  //       child: const PixelSnapSize(
-                  //         child: Text('Hello World!'),
-                  //       ),
-                  //     );
-                  //   },
-                  //   itemCount: 200,
-                  // ),
+                  decoration: _simpleDecoration,
+                  width: 40,
+                  height: 20,
                 ),
               ),
-            ),
-          );
-        },
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: const EdgeInsets.all(10).copyWith(top: 0),
+                  decoration: _simpleDecoration,
+                  width: 80,
+                  height: 20,
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: _simpleDecoration,
+                    width: 51,
+                    height: 7,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10).copyWith(top: 0),
+                decoration: _simpleDecoration,
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                child: Row(
+                  children: List.generate(
+                    3,
+                    (index) => Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.all(4),
+                        decoration: _simpleDecoration,
+                        height: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10).copyWith(top: 0),
+                decoration: _simpleDecoration,
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                    3,
+                    (index) => Container(
+                      margin: const EdgeInsets.all(4),
+                      decoration: _simpleDecoration,
+                      width: 40,
+                      height: 10,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10).copyWith(top: 0),
+                decoration: _simpleDecoration,
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    3,
+                    (index) => Container(
+                      margin: const EdgeInsets.all(4),
+                      decoration: _simpleDecoration,
+                      width: 40,
+                      height: 10,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10).copyWith(top: 0),
+                decoration: _simpleDecoration,
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    3,
+                    (index) => Container(
+                      margin: const EdgeInsets.all(4),
+                      decoration: _simpleDecoration,
+                      width: 40,
+                      height: 10,
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 2,
+                child: Container(
+                  margin: const EdgeInsets.all(10).copyWith(top: 0),
+                  decoration: _simpleDecoration,
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(
+                    alignment: Alignment.center,
+                    widthFactor: 0.7,
+                    heightFactor: 0.7,
+                    child: Container(
+                      decoration: _simpleDecoration,
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.all(10).copyWith(top: 0),
+                  decoration: _simpleDecoration,
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(
+                    alignment: Alignment.center,
+                    widthFactor: 0.7,
+                    heightFactor: 0.7,
+                    child: Container(
+                      decoration: _simpleDecoration,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
