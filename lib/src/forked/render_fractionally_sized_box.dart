@@ -28,8 +28,8 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     double? heightFactor,
     super.alignment,
     super.textDirection,
-  }) : _widthFactor = widthFactor,
-       _heightFactor = heightFactor {
+  })  : _widthFactor = widthFactor,
+        _heightFactor = heightFactor {
     assert(_widthFactor == null || _widthFactor! >= 0.0);
     assert(_heightFactor == null || _heightFactor! >= 0.0);
   }
@@ -94,8 +94,10 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     final double result;
     if (child == null) {
       result = super.computeMinIntrinsicWidth(height);
-    } else { // the following line relies on double.infinity absorption
-      result = child!.getMinIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
+    } else {
+      // the following line relies on double.infinity absorption
+      result =
+          child!.getMinIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
     }
     assert(result.isFinite);
     return (result / (_widthFactor ?? 1.0)).ps;
@@ -106,8 +108,10 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     final double result;
     if (child == null) {
       result = super.computeMaxIntrinsicWidth(height);
-    } else { // the following line relies on double.infinity absorption
-      result = child!.getMaxIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
+    } else {
+      // the following line relies on double.infinity absorption
+      result =
+          child!.getMaxIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
     }
     assert(result.isFinite);
     return (result / (_widthFactor ?? 1.0)).ps;
@@ -118,7 +122,8 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     final double result;
     if (child == null) {
       result = super.computeMinIntrinsicHeight(width);
-    } else { // the following line relies on double.infinity absorption
+    } else {
+      // the following line relies on double.infinity absorption
       result = child!.getMinIntrinsicHeight((width * (_widthFactor ?? 1.0)).ps);
     }
     assert(result.isFinite);
@@ -130,7 +135,8 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     final double result;
     if (child == null) {
       result = super.computeMaxIntrinsicHeight(width);
-    } else { // the following line relies on double.infinity absorption
+    } else {
+      // the following line relies on double.infinity absorption
       result = child!.getMaxIntrinsicHeight((width * (_widthFactor ?? 1.0)).ps);
     }
     assert(result.isFinite);
@@ -140,10 +146,12 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
   @override
   Size computeDryLayout(BoxConstraints constraints) {
     if (child != null) {
-      final Size childSize = child!.getDryLayout(_getInnerConstraints(constraints));
+      final Size childSize =
+          child!.getDryLayout(_getInnerConstraints(constraints));
       return constraints.constrain(childSize);
     }
-    return constraints.constrain(_getInnerConstraints(constraints).constrain(Size.zero));
+    return constraints
+        .constrain(_getInnerConstraints(constraints).constrain(Size.zero));
   }
 
   @override
@@ -153,14 +161,17 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       size = constraints.constrain(child!.size);
       alignChild();
     } else {
-      size = constraints.constrain(_getInnerConstraints(constraints).constrain(Size.zero));
+      size = constraints
+          .constrain(_getInnerConstraints(constraints).constrain(Size.zero));
     }
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DoubleProperty('widthFactor', _widthFactor, ifNull: 'pass-through'));
-    properties.add(DoubleProperty('heightFactor', _heightFactor, ifNull: 'pass-through'));
+    properties.add(
+        DoubleProperty('widthFactor', _widthFactor, ifNull: 'pass-through'));
+    properties.add(
+        DoubleProperty('heightFactor', _heightFactor, ifNull: 'pass-through'));
   }
 }
