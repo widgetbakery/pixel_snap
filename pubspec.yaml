@@ -1,10 +1,10 @@
 name: pixel_perfect
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/irondash/pixel_perfect
 
 environment:
-  sdk: '>=2.19.0-444.0.dev <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
