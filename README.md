@@ -57,6 +57,9 @@ For example:
     // You can use .ps shorthand for numeric values.
     final width = 10.ps; // same as 10.pixelSnap()
 ```
+
+## Pixel-snapped widgets
+
 Now this already looks like an impovement, but still seems very manual. And what about layout? How will this help with `Align`, `Row` or `Column`? Sure we can do better?
 
 Why yes, we can. PixelSnap comes with thin wrappers around many Flutter widgets that already do the pixel snapping for you. To use this, simply import
