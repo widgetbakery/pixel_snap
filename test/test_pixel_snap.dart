@@ -1,7 +1,7 @@
-import 'package:pixel_perfect/src/internal.dart';
+import 'package:pixel_snap/src/internal.dart';
 
-class TextPixelPerfect extends PixelPerfect {
-  TextPixelPerfect(this.ratio);
+class TextPixelSnap extends PixelSnap {
+  TextPixelSnap(this.ratio);
 
   @override
   void didChangeMetrics() {}

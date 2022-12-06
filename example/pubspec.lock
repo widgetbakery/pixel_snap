@@ -115,7 +115,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
-  pixel_perfect:
+  pixel_snap:
     dependency: "direct main"
     description:
       path: ".."

@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pixel_perfect/src/pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
 
 typedef PixelSnapFunction = double Function(double);
 

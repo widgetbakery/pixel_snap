@@ -9,8 +9,8 @@ import '../pixel_ratio_override.dart';
 import '../pixel_snap_size.dart';
 import 'custom_button.dart';
 
-class PixelPerfectDebugBar extends StatelessWidget {
-  const PixelPerfectDebugBar({
+class PixelSnapDebugBar extends StatelessWidget {
+  const PixelSnapDebugBar({
     super.key,
     required this.child,
   });
@@ -22,7 +22,7 @@ class PixelPerfectDebugBar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _PixelPerfectDebugBar(),
+        const _PixelSnapDebugBar(),
         Expanded(
           child: PixelRatioOverrideWidget(
             child: child,
@@ -45,8 +45,8 @@ extension on num {
 
 double _pixelSnap(double v) => v.ps;
 
-class _PixelPerfectDebugBar extends StatelessWidget {
-  const _PixelPerfectDebugBar();
+class _PixelSnapDebugBar extends StatelessWidget {
+  const _PixelSnapDebugBar();
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +125,10 @@ class _OverrideButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool selected = ratio == PixelPerfect.instance.overrideDevicePixelRatio;
+    bool selected = ratio == PixelSnap.instance.overrideDevicePixelRatio;
     return CustomButton(
       onPressed: () {
-        PixelPerfect.instance.overrideDevicePixelRatio = ratio;
+        PixelSnap.instance.overrideDevicePixelRatio = ratio;
       },
       selected: selected,
       builder: _buttonBuilder,
@@ -148,9 +148,9 @@ bool _enabled = true;
 void _setEnabled(bool enabled) {
   _enabled = enabled;
   if (enabled) {
-    PixelPerfect.instance.overridePixelSnapFunction = null;
+    PixelSnap.instance.overridePixelSnapFunction = null;
   } else {
-    PixelPerfect.instance.overridePixelSnapFunction = ({
+    PixelSnap.instance.overridePixelSnapFunction = ({
       required double value,
       required double devicePixelRatio,
       required PixelSnapMode mode,

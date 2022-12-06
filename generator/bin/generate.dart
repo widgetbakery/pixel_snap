@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 
 import 'package:args/args.dart';
-import 'package:pixel_perfect_generator/generator.dart';
+import 'package:pixel_snap_generator/generator.dart';
 
 void main(List<String> args) {
   final parser = ArgParser();

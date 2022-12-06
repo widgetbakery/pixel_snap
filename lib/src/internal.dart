@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:pixel_perfect/src/pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
 
-abstract class PixelPerfect {
+abstract class PixelSnap {
   double get devicePixelRatio =>
       _overrideDevicePixelRatio ?? getSystemDevicePixelRatio();
 
@@ -36,18 +36,18 @@ abstract class PixelPerfect {
   double getSystemDevicePixelRatio();
   void didChangeMetrics();
 
-  static PixelPerfect get instance => _instance;
+  static PixelSnap get instance => _instance;
 
   @visibleForTesting
-  static void setInstance(PixelPerfect instance) {
+  static void setInstance(PixelSnap instance) {
     _instance = instance;
   }
 
-  static PixelPerfect _instance = DefaultPixelPerfect._();
+  static PixelSnap _instance = DefaultPixelSnap._();
 }
 
-class DefaultPixelPerfect extends PixelPerfect {
-  DefaultPixelPerfect._() {
+class DefaultPixelSnap extends PixelSnap {
+  DefaultPixelSnap._() {
     WidgetsBinding.instance.addObserver(_Observer(this));
   }
 
@@ -74,14 +74,14 @@ class DefaultPixelPerfect extends PixelPerfect {
 }
 
 class _Observer extends WidgetsBindingObserver {
-  _Observer(this.pixelPerfect);
+  _Observer(this.pixelSnap);
 
   @override
   void didChangeMetrics() {
-    pixelPerfect.didChangeMetrics();
+    pixelSnap.didChangeMetrics();
   }
 
-  final PixelPerfect pixelPerfect;
+  final PixelSnap pixelSnap;
 }
 
 typedef PixelSnapFunction = double Function({

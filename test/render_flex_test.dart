@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart' hide RenderFlex;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pixel_perfect/material.dart';
-import 'package:pixel_perfect/src/forked/render_flex.dart';
-import 'package:pixel_perfect/src/internal.dart';
+import 'package:pixel_snap/material.dart';
+import 'package:pixel_snap/src/forked/render_flex.dart';
+import 'package:pixel_snap/src/internal.dart';
 
-import 'test_pixel_perfect.dart';
+import 'test_pixel_snap.dart';
 import 'test_rendering.dart';
 
 void _setFlex(RenderBox child, int? flex) {
@@ -17,7 +17,7 @@ void main() {
   TestRenderingFlutterBinding.ensureInitialized();
 
   group('Pixel Snap', () {
-    PixelPerfect.setInstance(TextPixelPerfect(1.0));
+    PixelSnap.setInstance(TextPixelSnap(1.0));
     test('Filed and pixel-snapped', () {
       final box1 = RenderDecoratedBox(decoration: const BoxDecoration());
       final box2 = RenderDecoratedBox(decoration: const BoxDecoration());
@@ -138,7 +138,7 @@ void main() {
   });
 
   group('Original Tests', () {
-    PixelPerfect.setInstance(TextPixelPerfect(1.0));
+    PixelSnap.setInstance(TextPixelSnap(1.0));
 
     test('Overconstrained flex', () {
       final RenderDecoratedBox box =
