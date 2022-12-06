@@ -2,15 +2,15 @@
 
 If you have ever run a Flutter application on a system with non-integral pixel scaling, such as Windows at 150%, you may have noticed that your beautiful Flutter application suddenly looks blurry. But why? You're not using any bitmaps, Flutter draws everything with vector. So where's the blurryness coming from?
 
-![blurry-border](https://user-images.githubusercontent.com/96958/205772494-5f0e2d63-3d01-4ea0-8d0e-9539411e5cf5.gif)
-
-> 1px border being blurry at 150% pixel scaling.
-
 ## Logical vs Physical Pixels
 
 The Flutter coordinate system uses logical pixels, which means that all paddings, insets, sizes, and border widths are specified in terms of logical pixels. The display however, is make of physical pixels and the ratio between logical and physical pixels is called *pixel device ratio*. If device pixel ratio is 1, one logical pixel represents exactly 1 physical pixel. If the device ratio is 2, one logical pixel will translate to two physical pixels.
 
 The problem arises when the device pixel ratio is not an integer. In this case, a logical pixel with a ratio of 1.5 will result in 1.5 physical pixels. A line with a logical width of 1 pixel will render as 1.5 physical pixels wide. Because it is not possible to lit up fractional values of physical pixels, the line will be anti-aliased and thus will look blurry.
+
+![blurry-border](https://user-images.githubusercontent.com/96958/205772494-5f0e2d63-3d01-4ea0-8d0e-9539411e5cf5.gif)
+
+> 1px border being blurry at 150% pixel scaling.
 
 Non integral pixel ratios are very common on Windows. If you're developing your application on a Mac with 2.0 scaling (which is probably the most forgiving one), you might not even be aware that you have a problem until you run your application on a Windows machine for the first time.
 
