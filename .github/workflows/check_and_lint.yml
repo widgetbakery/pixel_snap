@@ -14,8 +14,6 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "master"
-      - name: Flutter Format
-        run: flutter format . --output=none --set-exit-if-changed
       - name: Install Melos
         run: flutter pub global activate melos
       - name: Melos Boostrap
