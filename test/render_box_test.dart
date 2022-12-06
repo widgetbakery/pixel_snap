@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/rendering.dart' hide RenderFractionallySizedOverflowBox;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pixel_perfect/pixel_perfect.dart';

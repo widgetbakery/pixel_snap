@@ -198,8 +198,6 @@ class TestRenderingFlutterBinding extends BindingBase
 /// If `onErrors` is not null, it is set as [TestRenderingFlutterBinding.onError].
 void pumpFrame(
     {EnginePhase phase = EnginePhase.layout, VoidCallback? onErrors}) {
-  assert(TestRenderingFlutterBinding.instance != null);
-  assert(TestRenderingFlutterBinding.instance.renderView != null);
   assert(TestRenderingFlutterBinding.instance.renderView.child !=
       null); // call layout() first!
 
