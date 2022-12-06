@@ -298,11 +298,10 @@ class Text extends StatelessWidget {
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
       textHeightBehavior: textHeightBehavior ??
           defaultTextStyle.textHeightBehavior ??
-          DefaultTextHeightBehavior.maybeOf(context),
+          DefaultTextHeightBehavior.of(context),
       selectionRegistrar: registrar,
-      selectionColor: selectionColor ??
-          DefaultSelectionStyle.of(context).selectionColor ??
-          DefaultSelectionStyle.defaultColor,
+      selectionColor:
+          selectionColor ?? DefaultSelectionStyle.of(context).selectionColor,
       text: TextSpan(
         style: effectiveTextStyle,
         text: data,

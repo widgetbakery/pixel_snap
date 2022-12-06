@@ -495,7 +495,7 @@ class DecoratedBox extends StatelessWidget {
 /// ```dart
 /// Container(
 ///   constraints: BoxConstraints.expand(
-///     height: Theme.of(context).textTheme.headlineMedium!.fontSize! * 1.1 + 200.0,
+///     height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 + 200.0,
 ///   ),
 ///   padding: const EdgeInsets.all(8.0),
 ///   color: Colors.blue[600],
@@ -504,7 +504,7 @@ class DecoratedBox extends StatelessWidget {
 ///   child: Text('Hello World',
 ///     style: Theme.of(context)
 ///         .textTheme
-///         .headlineMedium!
+///         .headline4!
 ///         .copyWith(color: Colors.white)),
 /// )
 /// ```
@@ -787,7 +787,7 @@ class IntrinsicWidth extends StatelessWidget {
   /// See also:
   ///
   ///  * [RenderBox.getMaxIntrinsicWidth], which defines a widget's max
-  ///    intrinsic width in general.
+  ///    intrinsic width  in general.
   final double? stepWidth;
 
   /// If non-null, force the child's height to be a multiple of this value.
@@ -1680,25 +1680,20 @@ class CustomPaint extends StatelessWidget {
 /// See also:
 ///
 ///  * [IconButton], for interactive icons.
-///  * [Icons], for the list of available Material Icons for use with this class.
+///  * [Icons], the library of Material Icons available for use with this class.
 ///  * [IconTheme], which provides ambient configuration for icons.
 ///  * [ImageIcon], for showing icons from [AssetImage]s or other [ImageProvider]s.
 class Icon extends StatelessWidget {
   /// Creates an icon.
+  ///
+  /// The [size] and [color] default to the value given by the current [IconTheme].
   const Icon(this.icon,
       {super.key,
       this.size,
-      this.fill,
-      this.weight,
-      this.grade,
-      this.opticalSize,
       this.color,
-      this.shadows,
       this.semanticLabel,
-      this.textDirection})
-      : assert(fill == null || (0.0 <= fill && fill <= 1.0)),
-        assert(weight == null || (0.0 < weight)),
-        assert(opticalSize == null || (0.0 < opticalSize));
+      this.textDirection,
+      this.shadows});
 
   /// The icon to display. The available icons are described in [Icons].
   ///
@@ -1710,7 +1705,9 @@ class Icon extends StatelessWidget {
   ///
   /// Icons occupy a square with width and height equal to size.
   ///
-  /// Defaults to the nearest [IconTheme]'s [IconThemeData.size].
+  /// Defaults to the current [IconTheme] size, if any. If there is no
+  /// [IconTheme], or it does not specify an explicit size, then it defaults to
+  /// 24.0.
   ///
   /// If this [Icon] is being placed inside an [IconButton], then use
   /// [IconButton.iconSize] instead, so that the [IconButton] can make the splash
@@ -1718,87 +1715,23 @@ class Icon extends StatelessWidget {
   /// pass down the size to the [Icon].
   final double? size;
 
-  /// The fill for drawing the icon.
-  ///
-  /// Requires the underlying icon font to support the `FILL` [FontVariation]
-  /// axis, otherwise has no effect. Variable font filenames often indicate
-  /// the supported axes. Must be between 0.0 (unfilled) and 1.0 (filled),
-  /// inclusive.
-  ///
-  /// Can be used to convey a state transition for animation or interaction.
-  ///
-  /// Defaults to nearest [IconTheme]'s [IconThemeData.fill].
-  ///
-  /// See also:
-  ///  * [weight], for controlling stroke weight.
-  ///  * [grade], for controlling stroke weight in a more granular way.
-  ///  * [opticalSize], for controlling optical size.
-  final double? fill;
-
-  /// The stroke weight for drawing the icon.
-  ///
-  /// Requires the underlying icon font to support the `wght` [FontVariation]
-  /// axis, otherwise has no effect. Variable font filenames often indicate
-  /// the supported axes. Must be greater than 0.
-  ///
-  /// Defaults to nearest [IconTheme]'s [IconThemeData.weight].
-  ///
-  /// See also:
-  ///  * [fill], for controlling fill.
-  ///  * [grade], for controlling stroke weight in a more granular way.
-  ///  * [opticalSize], for controlling optical size.
-  ///  * https://fonts.google.com/knowledge/glossary/weight_axis
-  final double? weight;
-
-  /// The grade (granular stroke weight) for drawing the icon.
-  ///
-  /// Requires the underlying icon font to support the `GRAD` [FontVariation]
-  /// axis, otherwise has no effect. Variable font filenames often indicate
-  /// the supported axes. Can be negative.
-  ///
-  /// Grade and [weight] both affect a symbol's stroke weight (thickness), but
-  /// grade has a smaller impact on the size of the symbol.
-  ///
-  /// Grade is also available in some text fonts. One can match grade levels
-  /// between text and symbols for a harmonious visual effect. For example, if
-  /// the text font has a -25 grade value, the symbols can match it with a
-  /// suitable value, say -25.
-  ///
-  /// Defaults to nearest [IconTheme]'s [IconThemeData.grade].
-  ///
-  /// See also:
-  ///  * [fill], for controlling fill.
-  ///  * [weight], for controlling stroke weight in a less granular way.
-  ///  * [opticalSize], for controlling optical size.
-  ///  * https://fonts.google.com/knowledge/glossary/grade_axis
-  final double? grade;
-
-  /// The optical size for drawing the icon.
-  ///
-  /// Requires the underlying icon font to support the `opsz` [FontVariation]
-  /// axis, otherwise has no effect. Variable font filenames often indicate
-  /// the supported axes. Must be greater than 0.
-  ///
-  /// For an icon to look the same at different sizes, the stroke weight
-  /// (thickness) must change as the icon size scales. Optical size offers a way
-  /// to automatically adjust the stroke weight as icon size changes.
-  ///
-  /// Defaults to nearest [IconTheme]'s [IconThemeData.opticalSize].
-  ///
-  /// See also:
-  ///  * [fill], for controlling fill.
-  ///  * [weight], for controlling stroke weight.
-  ///  * [grade], for controlling stroke weight in a more granular way.
-  ///  * https://fonts.google.com/knowledge/glossary/optical_size_axis
-  final double? opticalSize;
-
   /// The color to use when drawing the icon.
   ///
-  /// Defaults to the nearest [IconTheme]'s [IconThemeData.color].
+  /// Defaults to the current [IconTheme] color, if any.
   ///
   /// The color (whether specified explicitly here or obtained from the
-  /// [IconTheme]) will be further adjusted by the nearest [IconTheme]'s
-  /// [IconThemeData.opacity].
+  /// [IconTheme]) will be further adjusted by the opacity of the current
+  /// [IconTheme], if any.
+  ///
+  /// In material apps, if there is a [Theme] without any [IconTheme]s
+  /// specified, icon colors default to white if the theme is dark
+  /// and black if the theme is light.
+  ///
+  /// If no [IconTheme] and no [Theme] is specified, icons will default to
+  /// black.
+  ///
+  /// See [Theme] to set the current theme and [ThemeData.brightness]
+  /// for setting the current theme's brightness.
   ///
   /// {@tool snippet}
   /// Typically, a Material Design color will be used, as follows:
@@ -1811,17 +1744,6 @@ class Icon extends StatelessWidget {
   /// ```
   /// {@end-tool}
   final Color? color;
-
-  /// A list of [Shadow]s that will be painted underneath the icon.
-  ///
-  /// Multiple shadows are supported to replicate lighting from multiple light
-  /// sources.
-  ///
-  /// Shadows must be in the same order for [Icon] to be considered as
-  /// equivalent as order produces differing transparency.
-  ///
-  /// Defaults to the nearest [IconTheme]'s [IconThemeData.shadows].
-  final List<Shadow>? shadows;
 
   /// Semantic label for the icon.
   ///
@@ -1847,19 +1769,24 @@ class Icon extends StatelessWidget {
   /// specified, either directly using this property or using [Directionality].
   final TextDirection? textDirection;
 
+  /// A list of [Shadow]s that will be painted underneath the icon.
+  ///
+  /// Multiple shadows are supported to replicate lighting from multiple light
+  /// sources.
+  ///
+  /// Shadows must be in the same order for [Icon] to be considered as
+  /// equivalent as order produces differing transparency.
+  final List<Shadow>? shadows;
+
   @override
   Widget build(BuildContext context) {
     Widget res = widgets.Icon(
       icon,
       size: size?.pixelSnap(),
-      fill: fill,
-      weight: weight,
-      grade: grade,
-      opticalSize: opticalSize,
       color: color,
-      shadows: shadows,
       semanticLabel: semanticLabel,
       textDirection: textDirection,
+      shadows: shadows,
     );
     return res;
   }
@@ -2201,9 +2128,11 @@ class Image extends StatelessWidget {
   /// bundled, the app has to specify which ones to include. For instance a
   /// package named `fancy_backgrounds` could have:
   ///
-  ///     lib/backgrounds/background1.png
-  ///     lib/backgrounds/background2.png
-  ///     lib/backgrounds/background3.png
+  /// ```
+  /// lib/backgrounds/background1.png
+  /// lib/backgrounds/background2.png
+  /// lib/backgrounds/background3.png
+  /// ```
   ///
   /// To include, say the first image, the `pubspec.yaml` of the app should
   /// specify it in the assets section:
@@ -2350,14 +2279,14 @@ class Image extends StatelessWidget {
   /// {@template flutter.widgets.Image.frameBuilder.chainedBuildersExample}
   /// ```dart
   /// Image(
-  ///   image: _image,
-  ///   frameBuilder: (BuildContext context, Widget child, int? frame, bool? wasSynchronouslyLoaded) {
+  ///   ...
+  ///   frameBuilder: (BuildContext context, Widget child, int frame, bool wasSynchronouslyLoaded) {
   ///     return Padding(
-  ///       padding: const EdgeInsets.all(8.0),
+  ///       padding: EdgeInsets.all(8.0),
   ///       child: child,
   ///     );
   ///   },
-  ///   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+  ///   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
   ///     return Center(child: child);
   ///   },
   /// )
@@ -2367,11 +2296,11 @@ class Image extends StatelessWidget {
   ///
   /// ```dart
   /// Center(
-  ///   child: Padding(
-  ///     padding: const EdgeInsets.all(8.0),
-  ///     child: image,
+  ///   Padding(
+  ///     padding: EdgeInsets.all(8.0),
+  ///     child: <image>,
   ///   ),
-  /// ),
+  /// )
   /// ```
   /// {@endtemplate}
   ///
@@ -2486,7 +2415,6 @@ class Image extends StatelessWidget {
 
   /// The rendering quality of the image.
   ///
-  /// {@template flutter.widgets.image.filterQuality}
   /// If the image is of a high quality and its pixels are perfectly aligned
   /// with the physical screen pixels, extra quality enhancement may not be
   /// necessary. If so, then [FilterQuality.none] would be the most efficient.
@@ -2501,7 +2429,6 @@ class Image extends StatelessWidget {
   ///
   ///  * [FilterQuality], the enum containing all possible filter quality
   ///    options.
-  /// {@endtemplate}
   final FilterQuality filterQuality;
 
   /// Used to combine [color] with this image.
