@@ -132,9 +132,9 @@ With this in place, the example above can be rewritten as:
 
 If you stick to these, you application should be pixel-perfect with very little additional work.
 
-* If you're need to use Widget that sizes itself, you can wrap it in a `PixelSnapSize` widget. This will extend the size of widget to nearest physical pixel and thus ensure that this widget, when put in any of your pixel-snapped widgets won't disturb the overal layout.
+* If you're need to use Widget that sizes itself, you can wrap it in a `PixelSnapSize` widget. This will extend the size of widget to nearest physical pixel and thus ensure that this widget, when put in your pixel-snapped widget hierarchy won't disturb the overal layout.
 
-* If you are using foreign widgets that are not physical pixels aware, but are customizable enough so that they let you specify padding, insets or border, you can use the `.pixelSnap()` extension method to pixel snap them.
+* If you are using foreign widgets that are not physical pixels aware but are customizable enough so that they let you specify padding, insets or border, you can use the `.pixelSnap()` extension method to pixel snap them.
 
 ## Simulating different device pixel ratios
 
@@ -154,7 +154,7 @@ See the example app for more details.
 
 ## Pixel snapping function
 
-The default pixel snapping function is chosen to give the following result:
+The default pixel snapping function was chosen to give the following result:
 
 | Logical pixels | Scaling Factor | Physical pixels |
 |----------------|----------------|-----------------|
