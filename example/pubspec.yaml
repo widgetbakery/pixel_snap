@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pixel_perfect:
+  pixel_snap:
     path: ../
 
 dev_dependencies:

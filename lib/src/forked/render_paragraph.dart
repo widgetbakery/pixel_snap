@@ -1,5 +1,5 @@
 import 'package:flutter/rendering.dart';
-import 'package:pixel_perfect/src/pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
 
 class RenderParagraphPixelCeil extends RenderParagraph {
   RenderParagraphPixelCeil(

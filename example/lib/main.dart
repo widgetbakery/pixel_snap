@@ -1,4 +1,4 @@
-import 'package:pixel_perfect/material.dart';
+import 'package:pixel_snap/material.dart';
 
 void main() {
   runApp(const MainApp());
@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PixelPerfectDebugBar(
+    return PixelSnapDebugBar(
       child: MaterialApp(
         home: Scaffold(
           backgroundColor: Colors.white,

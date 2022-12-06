@@ -1,4 +1,4 @@
-# PixelPerfect - Sharp looking applications at any pixel scaling factor
+# PixelSnap - Sharp looking applications at any pixel scaling factor
 
 If you have ever run a Flutter application on a system with non-integral pixel scaling, such as Windows at 150%, you may have noticed that your beautiful Flutter application suddenly looks blurry. But why? You're not using any bitmaps, Flutter draws everything with vector. So where's the blurryness coming from?
 
@@ -33,9 +33,9 @@ But that's not enough. In additon you'll need to make sure that:
 - Layout widget that fills area with multiple children needs to make sure that children sizes are properly snapped to physical pixels, while ensuring that the area is covered. If you have row with 3 children filling 100 physical pixels, the children will need to be sized at 33, 33 and 34 physical pixels exactly.
 - Whenever the device pixel ratio changes, you need to recompute the layout to ensure that the conditons above are met.
 
-# PixelPerfect for the rescue
+# PixelSnap for the rescue
 
-Doing all these things ad-hoc and manualy would by a lot of work and possibly very error prone. Fortunately, you don't have to. PixelPerfect can help in multiple ways:
+Doing all these things ad-hoc and manualy would by a lot of work and possibly very error prone. Fortunately, you don't have to. PixelSnap can help in multiple ways:
 
 ## Extension methods for easy pixel snapping
 
@@ -59,10 +59,10 @@ For example:
 ```
 Now this already looks like an impovement, but still seems very manual. And what about layout? How will this help with `Align`, `Row` or `Column`? Sure we can do better?
 
-Why yes, we can. PixelPerfect comes with thin wrappers around many Flutter widgets that already do the pixel snapping for you. To use this, simply import
+Why yes, we can. PixelSnap comes with thin wrappers around many Flutter widgets that already do the pixel snapping for you. To use this, simply import
 
 ```dart
-import 'package:pixel_perfect/widgets.dart';
+import 'package:pixel_snap/widgets.dart';
 ```
 
 instead of the standard
@@ -76,8 +76,8 @@ This replaces some of the basic Flutter widgets with pixel-snapping alternatives
 If you're using material or cupertino import this instead:
 
 ```dart
-import 'package:pixel_perfect/material.dart';
-import 'package:pixel_perfect/cupertino.dart';
+import 'package:pixel_snap/material.dart';
+import 'package:pixel_snap/cupertino.dart';
 ```
 
 Note that this will reexport the original (unmodified) material and cupertino widgets in additon to the pixel-snapped alternatives to standard widgets.
@@ -138,13 +138,13 @@ If you stick to these, you application should be pixel-perfect with very little 
 
 ## Simulating different device pixel ratios
 
-PixelPerfect comes with `PixelPerfectDebugBar` widget. You can put it above your applicaiton widget (it should be the top level widget) and it will give you a bar that can be used to switch between simulated device pixel ratios and turn pixel snapping on and off.
+PixelSnap comes with `PixelSnapDebugBar` widget. You can put it above your applicaiton widget (it should be the top level widget) and it will give you a bar that can be used to switch between simulated device pixel ratios and turn pixel snapping on and off.
 
 See the example app for more details.
 
 <img width="536" alt="Screenshot 2022-12-05 at 23 38 25" src="https://user-images.githubusercontent.com/96958/205761824-2ef2d2f7-74d0-424a-8b44-d55707d1b336.png">
 
-> Screenshot of `PixelPerfectDebugBar` in action. The image might be displayed blurred, but the actual application has perfectly sharp 2px wide border lines on simulated 1.75x device pixel ratio.
+> Screenshot of `PixelSnapDebugBar` in action. The image might be displayed blurred, but the actual application has perfectly sharp 2px wide border lines on simulated 1.75x device pixel ratio.
 
 <br/>
 
@@ -180,6 +180,6 @@ Using pixel snapping with arbitrary transforms will produce a result that is "sl
 
 ### Rebuilding after changing device pixel ratio
 
-PixelPerfect will detect change in device pixel ratio and force reassembling of entire application. Because there are potentially many calculations requiring current window device pixel ratio, obtaining the ratio through `MediaInfo.of(context)` is too expensive. It is also inconvenient (we need the ratio during layout in render objects and in extension methods). Bypassing `MediaInfo` means that Flutter does not know which widgets depend on device pixel ratio, so we end up rebuilding of entire tree.
+PixelSnap will detect change in device pixel ratio and force reassembling of entire application. Because there are potentially many calculations requiring current window device pixel ratio, obtaining the ratio through `MediaInfo.of(context)` is too expensive. It is also inconvenient (we need the ratio during layout in render objects and in extension methods). Bypassing `MediaInfo` means that Flutter does not know which widgets depend on device pixel ratio, so we end up rebuilding of entire tree.
 
 This is not ideal, but changing device pixel ratio already is an expensive operation so the tradeoff seems acceptable. Possibly missing animation frame in situation while window resizes as it is moved across monitors doesn't seem like a big issue.

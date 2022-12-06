@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 import 'package:dart_style/dart_style.dart';
-import 'package:pixel_perfect_generator/parser.dart';
+import 'package:pixel_snap_generator/parser.dart';
 
 class GeneratorException implements Exception {
   GeneratorException(this.message);

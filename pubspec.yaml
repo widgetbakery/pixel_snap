@@ -1,7 +1,7 @@
-name: pixel_perfect
-description: A new Flutter package project.
+name: pixel_snap
+description: Sharp looking Flutter applications with fractional device pixel ratios.
 version: 0.0.1
-homepage: https://github.com/irondash/pixel_perfect
+homepage: https://github.com/irondash/pixel_snap
 
 environment:
   sdk: '>=2.17.0 <3.0.0'

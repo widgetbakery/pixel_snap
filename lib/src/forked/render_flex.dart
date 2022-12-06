@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-import 'package:pixel_perfect/src/pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
 
 bool? _startIsTopLeft(Axis direction, TextDirection? textDirection,
     VerticalDirection? verticalDirection) {

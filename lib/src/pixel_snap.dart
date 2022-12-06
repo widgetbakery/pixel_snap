@@ -15,7 +15,7 @@ enum PixelSnapMode {
 
 extension PixelSnapExtNum on num {
   double pixelSnap([PixelSnapMode mode = PixelSnapMode.snap]) {
-    return PixelPerfect.instance.pixelSnap(toDouble(), mode);
+    return PixelSnap.instance.pixelSnap(toDouble(), mode);
   }
 
   double get ps => pixelSnap();

@@ -14,7 +14,7 @@ class PixelRatioOverrideWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final override = PixelPerfect.instance.overrideDevicePixelRatio;
+    final override = PixelSnap.instance.overrideDevicePixelRatio;
     final original = WidgetsBinding.instance.window.devicePixelRatio;
     return _OverrideTransform(
       newScale: (override ?? original) / original,

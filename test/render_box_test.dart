@@ -1,17 +1,17 @@
 import 'package:flutter/rendering.dart' hide RenderFractionallySizedOverflowBox;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pixel_perfect/pixel_perfect.dart';
-import 'package:pixel_perfect/src/forked/render_fractionally_sized_box.dart';
-import 'package:pixel_perfect/src/internal.dart';
+import 'package:pixel_snap/pixel_snap.dart';
+import 'package:pixel_snap/src/forked/render_fractionally_sized_box.dart';
+import 'package:pixel_snap/src/internal.dart';
 
-import 'test_pixel_perfect.dart';
+import 'test_pixel_snap.dart';
 import 'test_rendering.dart';
 
 void main() {
   TestRenderingFlutterBinding.ensureInitialized();
 
   test('RenderFractionallySizedBox constraints', () {
-    PixelPerfect.setInstance(TextPixelPerfect(1.0));
+    PixelSnap.setInstance(TextPixelSnap(1.0));
 
     RenderBox root, leaf, test;
     root = RenderPositionedBox(
@@ -36,9 +36,9 @@ void main() {
   });
 
   test('RenderPixelSnapSize', () {
-    PixelPerfect.setInstance(TextPixelPerfect(1.0));
+    PixelSnap.setInstance(TextPixelSnap(1.0));
     double pixelSnap(double value) =>
-        PixelPerfect.instance.pixelSnap(value, PixelSnapMode.snap);
+        PixelSnap.instance.pixelSnap(value, PixelSnapMode.snap);
     RenderBox snapSize;
     final root = RenderPositionedBox(
       child: snapSize = RenderPixelSnapSize(
@@ -55,7 +55,7 @@ void main() {
   });
 
   test('Alignment centers on pixel boundary', () {
-    PixelPerfect.setInstance(TextPixelPerfect(1.0));
+    PixelSnap.setInstance(TextPixelSnap(1.0));
     RenderBox box;
     final root = RenderPositionedBox(
       alignment: Alignment.center.pixelSnap(),
