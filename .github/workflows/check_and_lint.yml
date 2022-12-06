@@ -16,7 +16,13 @@ jobs:
           channel: "master"
       - name: Flutter Format
         run: flutter format . --output=none --set-exit-if-changed
+      - name: Install Melos
+        run: flutter pub global activate melos
+      - name: Melos Boostrap
+        run: melos bootstrap
+      - name: Flutter Format
+        run: melos exec -c 1 flutter format . --output=none --set-exit-if-changed
       - name: Flutter Analyze
-        run: flutter analyze
+        run: melos exec -c 1 flutter analyze
       - name: Futter Test
-        run: flutter test
+        run: melos exec -c 1 flutter test
