@@ -416,6 +416,7 @@ class RenderFlex extends RenderBox
         child = childParentData.nextSibling;
       }
       assert(availableFlexSpace.isInfinite ||
+          totalFlex == 0 ||
           availableFlexSpace.abs() < precisionErrorTolerance);
 
       return maxCrossSize;

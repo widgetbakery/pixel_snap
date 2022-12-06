@@ -1,25 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:pixel_perfect/src/pixel_snap.dart';
 
-class PixelPerfect {
-  PixelPerfect._() {
-    WidgetsBinding.instance.addObserver(_Observer(this));
-  }
-
-  void _didChangeMetrics() {
-    _maybeReassemble();
-  }
-
+abstract class PixelPerfect {
   double get devicePixelRatio =>
-      _overrideDevicePixelRatio ??
-      WidgetsBinding.instance.window.devicePixelRatio;
+      _overrideDevicePixelRatio ?? getSystemDevicePixelRatio();
 
   PixelSnapFunction _pixelSnapFunction = _defaultPixelSnap;
   double? _overrideDevicePixelRatio;
 
   set overrideDevicePixelRatio(double? value) {
     _overrideDevicePixelRatio = value;
-    _maybeReassemble();
+    didChangeMetrics();
   }
 
   double? get overrideDevicePixelRatio => _overrideDevicePixelRatio;
@@ -28,7 +19,7 @@ class PixelPerfect {
     PixelSnapFunction? snapFunction,
   ) {
     _pixelSnapFunction = snapFunction ?? _defaultPixelSnap;
-    _maybeReassemble();
+    didChangeMetrics();
   }
 
   double pixelSnap(double value, PixelSnapMode mode) {
@@ -42,6 +33,33 @@ class PixelPerfect {
     );
   }
 
+  double getSystemDevicePixelRatio();
+  void didChangeMetrics();
+
+  static PixelPerfect get instance => _instance;
+
+  @visibleForTesting
+  static void setInstance(PixelPerfect instance) {
+    _instance = instance;
+  }
+
+  static PixelPerfect _instance = DefaultPixelPerfect._();
+}
+
+class DefaultPixelPerfect extends PixelPerfect {
+  DefaultPixelPerfect._() {
+    WidgetsBinding.instance.addObserver(_Observer(this));
+  }
+
+  @override
+  void didChangeMetrics() {
+    _maybeReassemble();
+  }
+
+  @override
+  double getSystemDevicePixelRatio() =>
+      WidgetsBinding.instance.window.devicePixelRatio;
+
   void _maybeReassemble() {
     if (_lastReassembleDevicePixelRatio != devicePixelRatio ||
         _lastReassemblePixelSnapFunction != _pixelSnapFunction) {
@@ -53,8 +71,6 @@ class PixelPerfect {
 
   double? _lastReassembleDevicePixelRatio;
   PixelSnapFunction? _lastReassemblePixelSnapFunction;
-
-  static final instance = PixelPerfect._();
 }
 
 class _Observer extends WidgetsBindingObserver {
@@ -62,7 +78,7 @@ class _Observer extends WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    pixelPerfect._didChangeMetrics();
+    pixelPerfect.didChangeMetrics();
   }
 
   final PixelPerfect pixelPerfect;
