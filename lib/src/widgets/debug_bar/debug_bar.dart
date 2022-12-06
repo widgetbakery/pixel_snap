@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 
@@ -13,12 +14,17 @@ class PixelSnapDebugBar extends StatelessWidget {
   const PixelSnapDebugBar({
     super.key,
     required this.child,
+    this.enableInReleaseMode = false,
   });
 
   final Widget child;
+  final bool enableInReleaseMode;
 
   @override
   Widget build(BuildContext context) {
+    if (kReleaseMode && !enableInReleaseMode) {
+      return child;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
