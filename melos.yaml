@@ -1,0 +1,6 @@
+name: pixel_perfect
+
+packages:
+  - .
+  - generator
+  - example
