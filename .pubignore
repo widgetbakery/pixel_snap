@@ -1,1 +1,4 @@
 generator
+# Why is this necessary? Pub seems to include build folder for some reason
+build
+
