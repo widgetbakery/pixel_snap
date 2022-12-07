@@ -271,6 +271,13 @@ class Text extends StatelessWidget {
   /// (semi-transparent grey).
   final Color? selectionColor;
 
+  static TextHeightBehavior? _defaultTextHeightBehaviorMaybeOf(
+      BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<DefaultTextHeightBehavior>()
+        ?.textHeightBehavior;
+  }
+
   @override
   Widget build(BuildContext context) {
     final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
@@ -298,7 +305,7 @@ class Text extends StatelessWidget {
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
       textHeightBehavior: textHeightBehavior ??
           defaultTextStyle.textHeightBehavior ??
-          DefaultTextHeightBehavior.of(context),
+          _defaultTextHeightBehaviorMaybeOf(context),
       selectionRegistrar: registrar,
       selectionColor:
           selectionColor ?? DefaultSelectionStyle.of(context).selectionColor,
