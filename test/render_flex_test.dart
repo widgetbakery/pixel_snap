@@ -13,6 +13,18 @@ void _setFlex(RenderBox child, int? flex) {
   cpd.flex = flex;
 }
 
+class _RenderConstrainedBox extends RenderConstrainedBox {
+  _RenderConstrainedBox({required super.additionalConstraints});
+
+  double _lastIntrinsicWidthArg = 0.0;
+
+  @override
+  double getMaxIntrinsicHeight(double width) {
+    _lastIntrinsicWidthArg = width;
+    return super.getMaxIntrinsicHeight(width);
+  }
+}
+
 void main() {
   TestRenderingFlutterBinding.ensureInitialized();
 
@@ -22,23 +34,73 @@ void main() {
       final box1 = RenderDecoratedBox(decoration: const BoxDecoration());
       final box2 = RenderDecoratedBox(decoration: const BoxDecoration());
       final box3 = RenderDecoratedBox(decoration: const BoxDecoration());
+      final box4 = RenderDecoratedBox(decoration: const BoxDecoration());
+      final box5 = RenderDecoratedBox(decoration: const BoxDecoration());
+      final box6 = RenderDecoratedBox(decoration: const BoxDecoration());
+      final box7 = RenderDecoratedBox(decoration: const BoxDecoration());
 
       final flex = RenderFlex(
         textDirection: TextDirection.ltr,
-        children: [box1, box2, box3],
+        children: [box1, box2, box3, box4, box5, box6, box7],
       );
 
       _setFlex(box1, 1);
       _setFlex(box2, 1);
       _setFlex(box3, 1);
+      _setFlex(box4, 1);
+      _setFlex(box5, 1);
+      _setFlex(box6, 1);
+      _setFlex(box7, 1);
 
       layout(flex,
           constraints: const BoxConstraints.tightFor(width: 100, height: 100));
 
       expect(flex.size.width, equals(100.0), reason: 'flex width');
-      expect(box1.size.width, equals(33.0));
-      expect(box2.size.width, equals(33.0));
-      expect(box3.size.width, equals(34.0));
+
+      // The error should be spread evenly
+      expect(box1.size.width, equals(14.0));
+      expect(box2.size.width, equals(14.0));
+      expect(box3.size.width, equals(14.0));
+      expect(box4.size.width, equals(14.0));
+      expect(box5.size.width, equals(15.0));
+      expect(box6.size.width, equals(14.0));
+      expect(box7.size.width, equals(15.0));
+    });
+
+    test('Filed and pixel-snapped intrinsic consistent with layout', () {
+      _RenderConstrainedBox makeBox(double height) => _RenderConstrainedBox(
+          additionalConstraints: BoxConstraints.tightFor(height: height));
+      final box1 = makeBox(10);
+      final box2 = makeBox(10);
+      final box3 = makeBox(10);
+      final box4 = makeBox(10);
+      final box5 = makeBox(20);
+      final box6 = makeBox(10);
+      final box7 = makeBox(10);
+
+      final flex = RenderFlex(
+        textDirection: TextDirection.ltr,
+        children: [box1, box2, box3, box4, box5, box6, box7],
+      );
+
+      _setFlex(box1, 1);
+      _setFlex(box2, 1);
+      _setFlex(box3, 1);
+      _setFlex(box4, 1);
+      _setFlex(box5, 1);
+      _setFlex(box6, 1);
+      _setFlex(box7, 1);
+
+      final height = flex.getMaxIntrinsicHeight(100);
+
+      expect(height, equals(20));
+      expect(box1._lastIntrinsicWidthArg, equals(14.0));
+      expect(box2._lastIntrinsicWidthArg, equals(14.0));
+      expect(box3._lastIntrinsicWidthArg, equals(14.0));
+      expect(box4._lastIntrinsicWidthArg, equals(14.0));
+      expect(box5._lastIntrinsicWidthArg, equals(15.0));
+      expect(box6._lastIntrinsicWidthArg, equals(14.0));
+      expect(box7._lastIntrinsicWidthArg, equals(15.0));
     });
 
     test('Cross-axis pixel snapped', () {

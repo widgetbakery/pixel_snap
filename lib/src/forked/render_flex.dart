@@ -391,25 +391,26 @@ class RenderFlex extends RenderBox
       // When you're overconstrained spacePerFlex can be negative.
       double availableFlexSpace =
           (availableMainSpace - inflexibleSpace).clamp(0, double.infinity);
-      final double spacePerFlex = math.max(0.0, availableFlexSpace / totalFlex);
 
+      int remainingFlex = totalFlex;
       // Size remaining (flexible) items, find the maximum cross size.
       child = firstChild;
       while (child != null) {
+        final double spacePerFlex =
+            math.max(0.0, availableFlexSpace / remainingFlex);
         final int flex = _getFlex(child);
+        remainingFlex -= flex;
         if (flex > 0) {
           // Last flex child should be already pixel aligned.
           assert(child != lastFlexChild ||
               (availableFlexSpace.abs() - availableFlexSpace.abs().ps).abs() <
                   precisionErrorTolerance);
-          maxCrossSize = math.max(
-              maxCrossSize,
-              childSize(
-                  child,
-                  child == lastFlexChild
-                      ? availableFlexSpace
-                      : (spacePerFlex * flex).ps));
-          availableFlexSpace -= spacePerFlex * flex;
+          final childMainAxisSize = child == lastFlexChild
+              ? availableFlexSpace
+              : (spacePerFlex * flex).ps;
+          maxCrossSize =
+              math.max(maxCrossSize, childSize(child, childMainAxisSize));
+          availableFlexSpace -= childMainAxisSize;
         }
         final FlexParentData childParentData =
             child.parentData! as FlexParentData;
@@ -698,11 +699,14 @@ class RenderFlex extends RenderBox
         math.max(0.0, (canFlex ? maxMainSize : 0.0) - allocatedSize);
     double allocatedFlexSpace = 0.0;
     if (totalFlex > 0) {
-      final double spacePerFlex =
-          canFlex ? (freeSpace / totalFlex) : double.nan;
+      int remainingFlex = totalFlex;
       child = firstChild;
       while (child != null) {
+        final double spacePerFlex = canFlex
+            ? ((freeSpace - allocatedFlexSpace) / remainingFlex)
+            : double.nan;
         final int flex = _getFlex(child);
+        remainingFlex -= flex;
         if (flex > 0) {
           final double maxChildExtent = canFlex
               ? (child == lastFlexChild
