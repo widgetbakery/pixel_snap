@@ -1,3 +1,8 @@
+## 0.0.2
+
+ - **FIX**: ensure that pixel snapping is spread evenly.
+ - **FEAT**: fork Image and RawImage widgets (#5).
+
 ## 0.0.1+2
 
  - **FIX**: compatibility with latest Flutter master.
