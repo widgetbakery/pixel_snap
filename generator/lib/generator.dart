@@ -23,6 +23,8 @@ class Generator {
     'RichText',
     'Center',
     'FractionallySizedBox',
+    'RawImage',
+    'Image',
   ];
 
   String generateWidgets() {
@@ -37,8 +39,6 @@ class Generator {
     _buffer.writeln('import \'package:flutter/widgets.dart\';');
     _buffer.writeln('import \'package:flutter/widgets.dart\' as widgets;');
     _buffer.writeln('export \'package:flutter/widgets.dart\' hide $classes;');
-    _buffer.writeln('import \'package:flutter/foundation.dart\';');
-    _buffer.writeln('import \'dart:io\' show File;');
 
     for (final c in _classes) {
       _buffer.writeln();

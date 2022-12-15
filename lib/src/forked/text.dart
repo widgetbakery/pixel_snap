@@ -285,6 +285,8 @@ class Text extends StatelessWidget {
     if (style == null || style!.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
     }
+    // FIXME(knopp): Remove once boldTextOf is in stable
+    // ignore: deprecated_member_use
     if (MediaQuery.boldTextOverride(context)) {
       effectiveTextStyle = effectiveTextStyle!
           .merge(const TextStyle(fontWeight: FontWeight.bold));

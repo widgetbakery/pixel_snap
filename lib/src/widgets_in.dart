@@ -21,7 +21,6 @@ class GeneratePixelSnap<T> {
 @GeneratePixelSnap<PhysicalModel>()
 @GeneratePixelSnap<CustomPaint>()
 @GeneratePixelSnap<Icon>()
-@GeneratePixelSnap<Image>()
 @GeneratePixelSnap<ImageIcon>()
 @GeneratePixelSnap<AnimatedAlign>()
 @GeneratePixelSnap<AnimatedContainer>()
