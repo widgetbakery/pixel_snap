@@ -14,6 +14,7 @@ export 'package:flutter/widgets.dart' hide RawImage;
 import '../forked/render_flex.dart';
 import '../forked/render_fractionally_sized_box.dart';
 import '../forked/render_paragraph.dart';
+import '../forked/render_fitted_box.dart';
 import '../forked/raw_image.dart';
 
 /// A widget that aligns its child within itself and optionally sizes itself
@@ -665,77 +666,6 @@ class Container extends StatelessWidget {
       margin: margin?.pixelSnap(),
       transform: transform,
       transformAlignment: transformAlignment?.pixelSnap(),
-      clipBehavior: clipBehavior,
-      child: child,
-    );
-    return res;
-  }
-}
-
-/// Scales and positions its child within itself according to [fit].
-///
-/// {@youtube 560 315 https://www.youtube.com/watch?v=T4Uehk3_wlY}
-///
-/// {@tool dartpad}
-/// In this example, the image is stretched to fill the entire [Container], which would
-/// not happen normally without using FittedBox.
-///
-/// ** See code in examples/api/lib/widgets/basic/fitted_box.0.dart **
-/// {@end-tool}
-///
-/// See also:
-///
-///  * [Transform], which applies an arbitrary transform to its child widget at
-///    paint time.
-///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
-class FittedBox extends StatelessWidget {
-  /// Creates a widget that scales and positions its child within itself according to [fit].
-  ///
-  /// The [fit] and [alignment] arguments must not be null.
-  const FittedBox(
-      {super.key,
-      this.fit = BoxFit.contain,
-      this.alignment = Alignment.center,
-      this.clipBehavior = Clip.none,
-      this.child})
-      : assert(fit != null),
-        assert(alignment != null),
-        assert(clipBehavior != null);
-
-  /// How to inscribe the child into the space allocated during layout.
-  final BoxFit fit;
-
-  /// How to align the child within its parent's bounds.
-  ///
-  /// An alignment of (-1.0, -1.0) aligns the child to the top-left corner of its
-  /// parent's bounds. An alignment of (1.0, 0.0) aligns the child to the middle
-  /// of the right edge of its parent's bounds.
-  ///
-  /// Defaults to [Alignment.center].
-  ///
-  /// See also:
-  ///
-  ///  * [Alignment], a class with convenient constants typically used to
-  ///    specify an [AlignmentGeometry].
-  ///  * [AlignmentDirectional], like [Alignment] for specifying alignments
-  ///    relative to text direction.
-  final AlignmentGeometry alignment;
-
-  /// {@macro flutter.material.Material.clipBehavior}
-  ///
-  /// Defaults to [Clip.none].
-  final Clip clipBehavior;
-
-  /// The widget below this widget in the tree.
-  ///
-  /// {@macro flutter.widgets.ProxyWidget.child}
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget res = widgets.FittedBox(
-      fit: fit,
-      alignment: alignment.pixelSnap(),
       clipBehavior: clipBehavior,
       child: child,
     );
@@ -4095,6 +4025,88 @@ class RichText extends MultiChildRenderObjectWidget {
     properties.add(DiagnosticsProperty<TextHeightBehavior>(
         'textHeightBehavior', textHeightBehavior,
         defaultValue: null));
+  }
+}
+
+/// Scales and positions its child within itself according to [fit].
+///
+/// {@youtube 560 315 https://www.youtube.com/watch?v=T4Uehk3_wlY}
+///
+/// {@tool dartpad}
+/// In this example, the image is stretched to fill the entire [Container], which would
+/// not happen normally without using FittedBox.
+///
+/// ** See code in examples/api/lib/widgets/basic/fitted_box.0.dart **
+/// {@end-tool}
+///
+/// See also:
+///
+///  * [Transform], which applies an arbitrary transform to its child widget at
+///    paint time.
+///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
+class FittedBox extends SingleChildRenderObjectWidget {
+  /// Creates a widget that scales and positions its child within itself according to [fit].
+  ///
+  /// The [fit] and [alignment] arguments must not be null.
+  const FittedBox({
+    super.key,
+    this.fit = BoxFit.contain,
+    this.alignment = Alignment.center,
+    this.clipBehavior = Clip.none,
+    super.child,
+  })  : assert(fit != null),
+        assert(alignment != null),
+        assert(clipBehavior != null);
+
+  /// How to inscribe the child into the space allocated during layout.
+  final BoxFit fit;
+
+  /// How to align the child within its parent's bounds.
+  ///
+  /// An alignment of (-1.0, -1.0) aligns the child to the top-left corner of its
+  /// parent's bounds. An alignment of (1.0, 0.0) aligns the child to the middle
+  /// of the right edge of its parent's bounds.
+  ///
+  /// Defaults to [Alignment.center].
+  ///
+  /// See also:
+  ///
+  ///  * [Alignment], a class with convenient constants typically used to
+  ///    specify an [AlignmentGeometry].
+  ///  * [AlignmentDirectional], like [Alignment] for specifying alignments
+  ///    relative to text direction.
+  final AlignmentGeometry alignment;
+
+  /// {@macro flutter.material.Material.clipBehavior}
+  ///
+  /// Defaults to [Clip.none].
+  final Clip clipBehavior;
+
+  @override
+  RenderFittedBox createRenderObject(BuildContext context) {
+    return RenderFittedBox(
+      fit: fit,
+      alignment: alignment,
+      textDirection: Directionality.maybeOf(context),
+      clipBehavior: clipBehavior,
+    );
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, RenderFittedBox renderObject) {
+    renderObject
+      ..fit = fit
+      ..alignment = alignment
+      ..textDirection = Directionality.maybeOf(context)
+      ..clipBehavior = clipBehavior;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(EnumProperty<BoxFit>('fit', fit));
+    properties
+        .add(DiagnosticsProperty<AlignmentGeometry>('alignment', alignment));
   }
 }
 

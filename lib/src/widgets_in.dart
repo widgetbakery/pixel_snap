@@ -14,7 +14,6 @@ class GeneratePixelSnapFork<T> {
 @GeneratePixelSnap<ConstrainedBox>()
 @GeneratePixelSnap<DecoratedBox>()
 @GeneratePixelSnap<Container>()
-@GeneratePixelSnap<FittedBox>()
 @GeneratePixelSnap<IntrinsicWidth>()
 @GeneratePixelSnap<LimitedBox>()
 @GeneratePixelSnap<OverflowBox>()
@@ -39,5 +38,6 @@ class GeneratePixelSnapFork<T> {
 @GeneratePixelSnapFork<Center>()
 @GeneratePixelSnapFork<Text>()
 @GeneratePixelSnapFork<RichText>()
+@GeneratePixelSnapFork<FittedBox>()
 @GeneratePixelSnapFork<Image>()
 void generate() {}

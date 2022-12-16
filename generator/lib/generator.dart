@@ -42,6 +42,7 @@ class Generator {
     _buffer.writeln('import \'../forked/render_flex.dart\';');
     _buffer.writeln('import \'../forked/render_fractionally_sized_box.dart\';');
     _buffer.writeln('import \'../forked/render_paragraph.dart\';');
+    _buffer.writeln('import \'../forked/render_fitted_box.dart\';');
     _buffer.writeln('import \'../forked/raw_image.dart\';');
 
     for (final c in contents.classes) {

@@ -126,6 +126,54 @@ extension PixelSnapExtConstraints on BoxConstraints {
       maxHeight: maxHeight.pixelSnap(mode),
     );
   }
+
+  /// Returns a size that attempts to meet the following conditions, in order:
+  ///
+  ///  * The size must satisfy these constraints.
+  ///  * The aspect ratio of the returned size matches the aspect ratio of the
+  ///    given size.
+  ///  * The returned size as big as possible while still being equal to or
+  ///    smaller than the given size.
+  Size pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(Size size) {
+    if (isTight) {
+      Size result = smallest;
+      return result;
+    }
+
+    double width = size.width;
+    double height = size.height;
+    assert(width > 0.0);
+    assert(height > 0.0);
+    final double aspectRatio = width / height;
+
+    if (width > maxWidth) {
+      width = maxWidth;
+      height = (width / aspectRatio);
+    }
+
+    if (height > maxHeight) {
+      height = maxHeight;
+      width = (height * aspectRatio);
+    }
+
+    if (width < minWidth) {
+      width = minWidth;
+      height = (width / aspectRatio);
+    }
+
+    if (height < minHeight) {
+      height = minHeight;
+      width = (height * aspectRatio);
+    }
+
+    Size result = Size(
+      constrainWidth(width.pixelSnap(PixelSnapMode.snap)),
+      constrainHeight(
+        height.pixelSnap(PixelSnapMode.ceil),
+      ),
+    );
+    return result;
+  }
 }
 
 extension PixelSnapExtBorderSide on BorderSide {
@@ -278,6 +326,18 @@ class PixelSnapAlignment extends Alignment {
   @override
   Offset withinRect(Rect rect) {
     return super.withinRect(rect).pixelSnap();
+  }
+
+  @override
+  Rect inscribe(Size size, Rect rect) {
+    final double halfWidthDelta = (rect.width - size.width) / 2.0;
+    final double halfHeightDelta = (rect.height - size.height) / 2.0;
+    return Rect.fromLTWH(
+      (rect.left + halfWidthDelta + x * halfWidthDelta).pixelSnap(),
+      (rect.top + halfHeightDelta + y * halfHeightDelta).pixelSnap(),
+      size.width,
+      size.height,
+    );
   }
 }
 

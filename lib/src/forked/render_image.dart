@@ -2,56 +2,6 @@ import 'package:flutter/rendering.dart';
 
 import '../pixel_snap.dart';
 
-extension on BoxConstraints {
-  /// Returns a size that attempts to meet the following conditions, in order:
-  ///
-  ///  * The size must satisfy these constraints.
-  ///  * The aspect ratio of the returned size matches the aspect ratio of the
-  ///    given size.
-  ///  * The returned size as big as possible while still being equal to or
-  ///    smaller than the given size.
-  Size constrainSizeAndAttemptToPreserveAspectRatioPixelSnap(Size size) {
-    if (isTight) {
-      Size result = smallest;
-      return result;
-    }
-
-    double width = size.width;
-    double height = size.height;
-    assert(width > 0.0);
-    assert(height > 0.0);
-    final double aspectRatio = width / height;
-
-    if (width > maxWidth) {
-      width = maxWidth;
-      height = (width / aspectRatio);
-    }
-
-    if (height > maxHeight) {
-      height = maxHeight;
-      width = (height * aspectRatio);
-    }
-
-    if (width < minWidth) {
-      width = minWidth;
-      height = (width / aspectRatio);
-    }
-
-    if (height < minHeight) {
-      height = minHeight;
-      width = (height * aspectRatio);
-    }
-
-    Size result = Size(
-      constrainWidth(width.pixelSnap(PixelSnapMode.ceil)),
-      constrainHeight(
-        height.pixelSnap(PixelSnapMode.ceil),
-      ),
-    );
-    return result;
-  }
-}
-
 class RenderImagePixelSnap extends RenderImage {
   RenderImagePixelSnap({
     super.image,
@@ -93,7 +43,7 @@ class RenderImagePixelSnap extends RenderImage {
     }
 
     return constraints
-        .constrainSizeAndAttemptToPreserveAspectRatioPixelSnap(Size(
+        .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(Size(
       image!.width.toDouble() / scale,
       image!.height.toDouble() / scale,
     ));
