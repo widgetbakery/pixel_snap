@@ -1,3 +1,8 @@
+## 0.0.3
+
+ - **FEAT**: add forked version of FittedBox.
+ - **FEAT**: generate forked widgets instead of copying manually (#6).
+
 ## 0.0.2
 
  - **FIX**: ensure that pixel snapping is spread evenly.
