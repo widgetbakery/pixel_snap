@@ -13,36 +13,44 @@ class GeneratorException implements Exception {
 }
 
 class Generator {
-  Generator(this._classes);
+  Generator(this.contents);
 
   final List<String> _ourCustomWidgets = [
-    'Flex',
-    'Row',
-    'Column',
-    'Text',
-    'RichText',
-    'Center',
-    'FractionallySizedBox',
     'RawImage',
-    'Image',
   ];
 
   String generateWidgets() {
     _buffer.clear();
     _buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     // There are still some asserts in Flutter code
-    _buffer.writeln("// ignore_for_file: unnecessary_null_comparison");
+    _buffer.writeln(
+        "// ignore_for_file: unnecessary_null_comparison, deprecated_member_use");
 
     final classes = _ourCustomWidgets.join(', ');
     _buffer.writeln('import \'../pixel_snap.dart\';');
     _buffer.writeln('import \'../widgets/pixel_snap_size.dart\';');
-    _buffer.writeln('import \'package:flutter/widgets.dart\';');
+    _buffer.writeln('import \'package:flutter/widgets.dart\' hide RawImage;');
+    _buffer.writeln('import \'package:flutter/foundation.dart\';');
+    _buffer.writeln('import \'package:flutter/semantics.dart\';');
     _buffer.writeln('import \'package:flutter/widgets.dart\' as widgets;');
-    _buffer.writeln('export \'package:flutter/widgets.dart\' hide $classes;');
+    _buffer.writeln(
+        'import \'package:flutter/rendering.dart\' show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;');
+    _buffer.writeln('import \'dart:ui\' as ui;');
+    _buffer.writeln('import \'dart:io\' show File;');
 
-    for (final c in _classes) {
+    _buffer.writeln('export \'package:flutter/widgets.dart\' hide $classes;');
+    _buffer.writeln('import \'../forked/render_flex.dart\';');
+    _buffer.writeln('import \'../forked/render_fractionally_sized_box.dart\';');
+    _buffer.writeln('import \'../forked/render_paragraph.dart\';');
+    _buffer.writeln('import \'../forked/raw_image.dart\';');
+
+    for (final c in contents.classes) {
       _buffer.writeln();
       _writeClass(c);
+    }
+
+    for (final c in contents.forkedClasses) {
+      _buffer.writeln(c.contents);
     }
 
     return _buffer.toString();
@@ -51,8 +59,11 @@ class Generator {
   String generatePackage(String name) {
     _buffer.clear();
     _buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-    final classes =
-        [..._ourCustomWidgets, ..._classes.map((e) => e.className)].join(', ');
+    final classes = [
+      ..._ourCustomWidgets,
+      ...contents.forkedClasses.map((e) => e.className),
+      ...contents.classes.map((e) => e.className)
+    ].join(', ');
 
     _buffer.writeln('export \'package:flutter/$name.dart\' hide $classes;');
     _buffer.writeln('export \'widgets.dart\';');
@@ -159,7 +170,7 @@ class Generator {
   }
 
   final _buffer = StringBuffer();
-  final List<Class> _classes;
+  final Contents contents;
 }
 
 void generate({
@@ -167,11 +178,11 @@ void generate({
   required String outputPath,
 }) async {
   final parser = Parser(inputFile);
-  final classes = await parser.parse();
+  final contents = await parser.parse();
 
-  final widgets = Generator(classes).generateWidgets();
-  final material = Generator(classes).generatePackage('material');
-  final cupertino = Generator(classes).generatePackage('cupertino');
+  final widgets = Generator(contents).generateWidgets();
+  final material = Generator(contents).generatePackage('material');
+  final cupertino = Generator(contents).generatePackage('cupertino');
 
   final formatter = DartFormatter();
 
