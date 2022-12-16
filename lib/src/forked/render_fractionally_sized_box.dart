@@ -26,12 +26,18 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     super.child,
     double? widthFactor,
     double? heightFactor,
-    super.alignment,
+    required AlignmentGeometry alignment,
     super.textDirection,
   })  : _widthFactor = widthFactor,
-        _heightFactor = heightFactor {
+        _heightFactor = heightFactor,
+        super(alignment: alignment.pixelSnap()) {
     assert(_widthFactor == null || _widthFactor! >= 0.0);
     assert(_heightFactor == null || _heightFactor! >= 0.0);
+  }
+
+  @override
+  set alignment(AlignmentGeometry value) {
+    super.alignment = value.pixelSnap();
   }
 
   /// If non-null, the factor of the incoming width to use.

@@ -18,6 +18,7 @@ void main() {
       child: RenderConstrainedBox(
         additionalConstraints: BoxConstraints.tight(const Size(199.0, 175.0)),
         child: test = RenderFractionallySizedOverflowBox(
+          alignment: Alignment.center,
           widthFactor: 1.5,
           heightFactor: 0.5,
           child: leaf = RenderConstrainedBox(

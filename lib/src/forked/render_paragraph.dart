@@ -1,8 +1,8 @@
-import 'package:flutter/rendering.dart';
+import 'package:flutter/rendering.dart' as rendering;
 import 'package:pixel_snap/src/pixel_snap.dart';
 
-class RenderParagraphPixelCeil extends RenderParagraph {
-  RenderParagraphPixelCeil(
+class RenderParagraph extends rendering.RenderParagraph {
+  RenderParagraph(
     super.text, {
     super.textAlign,
     required super.textDirection,
@@ -39,7 +39,7 @@ class RenderParagraphPixelCeil extends RenderParagraph {
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
+  rendering.Size computeDryLayout(rendering.BoxConstraints constraints) {
     final size = super.computeDryLayout(constraints);
     return size.pixelSnap(PixelSnapMode.ceil);
   }

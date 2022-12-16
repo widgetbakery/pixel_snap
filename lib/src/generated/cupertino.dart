@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 export 'package:flutter/cupertino.dart'
     hide
+        RawImage,
         Flex,
         Row,
         Column,
+        FractionallySizedBox,
+        Center,
         Text,
         RichText,
-        Center,
-        FractionallySizedBox,
-        RawImage,
         Image,
         Align,
         Baseline,

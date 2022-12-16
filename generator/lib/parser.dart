@@ -79,19 +79,42 @@ class Class {
   final ChildType childType;
 }
 
+class ForkedClass {
+  ForkedClass({
+    required this.className,
+    required this.contents,
+  });
+
+  final String className;
+  final String contents;
+}
+
 class ParseException implements Exception {
   ParseException(this.message);
 
   final String message;
 }
 
+class Contents {
+  Contents({
+    required this.classes,
+    required this.forkedClasses,
+  });
+
+  final List<Class> classes;
+  final List<ForkedClass> forkedClasses;
+}
+
 class Parser {
   Parser(this.rootPath) : _context = _createAnalysisContext(path: rootPath);
 
-  Future<List<Class>> parse() async {
+  Future<Contents> parse() async {
     final rootUnit = await _resolveUnit(rootPath);
     await _processRootUnit(rootUnit);
-    return _classes;
+    return Contents(
+      classes: _classes,
+      forkedClasses: _forkedClasses,
+    );
   }
 
   Future<void> _processRootUnit(ResolvedUnitResult unit) async {
@@ -101,7 +124,11 @@ class Parser {
     for (final annotation in f.metadata) {
       final value = annotation.computeConstantValue();
       final type = value!.type as InterfaceType;
-      await _processClass(type.typeArguments.first as InterfaceType);
+      if (type.element.name == "GeneratePixelSnap") {
+        await _processClass(type.typeArguments.first as InterfaceType);
+      } else if (type.element.name == "GeneratePixelSnapFork") {
+        await _processFork(type.typeArguments.first as InterfaceType);
+      }
     }
   }
 
@@ -143,6 +170,24 @@ class Parser {
     }
   }
 
+  Future<void> _processFork(InterfaceType type) async {
+    final contents = StringBuffer();
+    contents.write(await _elementToString(type.element, includeComments: true));
+    if (type.element.name == 'Image') {
+      final cu = type.element.enclosingElement;
+      final state = cu.getClass("_ImageState");
+      if (state != null) {
+        contents.write(await _elementToString(state, includeComments: true));
+      }
+    }
+    _forkedClasses.add(
+      ForkedClass(
+        className: type.element.name,
+        contents: contents.toString(),
+      ),
+    );
+  }
+
   Future<void> _processClass(
     InterfaceType type,
   ) async {
@@ -150,7 +195,7 @@ class Parser {
     for (final c in type.constructors) {
       constructors.add(Constructor(
         docString: c.documentationComment,
-        code: await _elementToString(c),
+        code: await _elementToString(c, includeComments: false),
       ));
     }
     final fields = <Field>[];
@@ -181,7 +226,10 @@ class Parser {
     ));
   }
 
-  Future<String> _elementToString(Element element) async {
+  Future<String> _elementToString(
+    Element element, {
+    required bool includeComments,
+  }) async {
     final source = element.source!;
     final unit = await _resolveUnit(source.fullName);
     final locator = NodeLocator2(element.nameOffset);
@@ -189,7 +237,13 @@ class Parser {
     if (node is SimpleIdentifier) {
       node = node.parent;
     }
-    return node!.toSource();
+    if (includeComments) {
+      final content = source.contents.data;
+      final substring = content.substring(node!.offset, node.end);
+      return substring;
+    } else {
+      return node!.toSource();
+    }
   }
 
   Future<ResolvedUnitResult> _resolveUnit(String path) async {
@@ -211,6 +265,7 @@ class Parser {
   }
 
   final _classes = <Class>[];
+  final _forkedClasses = <ForkedClass>[];
   final _resolvedUnits = <String, ResolvedUnitResult>{};
   final AnalysisContext _context;
   final String rootPath;
