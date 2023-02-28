@@ -68,7 +68,7 @@ extension PixelSnapExtAlignmentGeometry on AlignmentGeometry {
     if (this is Alignment) {
       return (this as Alignment).pixelSnap();
     } else if (this is AlignmentDirectional) {
-      return (this as Alignment).pixelSnap();
+      return (this as AlignmentDirectional).pixelSnap();
     } else {
       return this;
     }
