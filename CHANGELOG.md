@@ -1,3 +1,8 @@
+## 0.0.4
+
+ - **FIX**: wrong cast for AlignmentDirectional.
+ - **FEAT**: add forked version of FittedBox.
+
 ## 0.0.3
 
  - **FEAT**: add forked version of FittedBox.
