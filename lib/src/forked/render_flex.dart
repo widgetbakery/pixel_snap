@@ -401,10 +401,6 @@ class RenderFlex extends RenderBox
         final int flex = _getFlex(child);
         remainingFlex -= flex;
         if (flex > 0) {
-          // Last flex child should be already pixel aligned.
-          assert(child != lastFlexChild ||
-              (availableFlexSpace.abs() - availableFlexSpace.abs().ps).abs() <
-                  precisionErrorTolerance);
           final childMainAxisSize = child == lastFlexChild
               ? availableFlexSpace
               : (spacePerFlex * flex).ps;
@@ -417,6 +413,7 @@ class RenderFlex extends RenderBox
         child = childParentData.nextSibling;
       }
       assert(availableFlexSpace.isInfinite ||
+          availableFlexSpace.isNaN ||
           totalFlex == 0 ||
           availableFlexSpace.abs() < precisionErrorTolerance);
 
