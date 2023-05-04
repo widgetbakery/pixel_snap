@@ -1,3 +1,32 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 2023-05-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pixel_snap` - `v0.0.5`](#pixel_snap---v005)
+
+---
+
+#### `pixel_snap` - `v0.0.5`
+
+ - **FEAT**: upgrade to latest Flutter stable (#10).
+
+## 0.0.5
+
+ - **FEAT**: upgrade to latest Flutter stable (#10).
+
 ## 0.0.4
 
  - **FIX**: wrong cast for AlignmentDirectional.
