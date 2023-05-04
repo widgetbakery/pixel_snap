@@ -32,6 +32,7 @@ class Generator {
     _buffer.writeln('import \'package:flutter/widgets.dart\' hide RawImage;');
     _buffer.writeln('import \'package:flutter/foundation.dart\';');
     _buffer.writeln('import \'package:flutter/semantics.dart\';');
+    _buffer.writeln('import \'package:flutter/scheduler.dart\';');
     _buffer.writeln('import \'package:flutter/widgets.dart\' as widgets;');
     _buffer.writeln(
         'import \'package:flutter/rendering.dart\' show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;');

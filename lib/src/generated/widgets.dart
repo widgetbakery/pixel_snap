@@ -5,6 +5,7 @@ import '../widgets/pixel_snap_size.dart';
 import 'package:flutter/widgets.dart' hide RawImage;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter/rendering.dart'
     show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;
@@ -503,7 +504,7 @@ class DecoratedBox extends StatelessWidget {
 /// ```dart
 /// Container(
 ///   constraints: BoxConstraints.expand(
-///     height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 + 200.0,
+///     height: Theme.of(context).textTheme.headlineMedium!.fontSize! * 1.1 + 200.0,
 ///   ),
 ///   padding: const EdgeInsets.all(8.0),
 ///   color: Colors.blue[600],
@@ -512,7 +513,7 @@ class DecoratedBox extends StatelessWidget {
 ///   child: Text('Hello World',
 ///     style: Theme.of(context)
 ///         .textTheme
-///         .headline4!
+///         .headlineMedium!
 ///         .copyWith(color: Colors.white)),
 /// )
 /// ```
@@ -724,7 +725,7 @@ class IntrinsicWidth extends StatelessWidget {
   /// See also:
   ///
   ///  * [RenderBox.getMaxIntrinsicWidth], which defines a widget's max
-  ///    intrinsic width  in general.
+  ///    intrinsic width in general.
   final double? stepWidth;
 
   /// If non-null, force the child's height to be a multiple of this value.
@@ -1617,20 +1618,25 @@ class CustomPaint extends StatelessWidget {
 /// See also:
 ///
 ///  * [IconButton], for interactive icons.
-///  * [Icons], the library of Material Icons available for use with this class.
+///  * [Icons], for the list of available Material Icons for use with this class.
 ///  * [IconTheme], which provides ambient configuration for icons.
 ///  * [ImageIcon], for showing icons from [AssetImage]s or other [ImageProvider]s.
 class Icon extends StatelessWidget {
   /// Creates an icon.
-  ///
-  /// The [size] and [color] default to the value given by the current [IconTheme].
   const Icon(this.icon,
       {super.key,
       this.size,
+      this.fill,
+      this.weight,
+      this.grade,
+      this.opticalSize,
       this.color,
+      this.shadows,
       this.semanticLabel,
-      this.textDirection,
-      this.shadows});
+      this.textDirection})
+      : assert(fill == null || (0.0 <= fill && fill <= 1.0)),
+        assert(weight == null || (0.0 < weight)),
+        assert(opticalSize == null || (0.0 < opticalSize));
 
   /// The icon to display. The available icons are described in [Icons].
   ///
@@ -1642,9 +1648,7 @@ class Icon extends StatelessWidget {
   ///
   /// Icons occupy a square with width and height equal to size.
   ///
-  /// Defaults to the current [IconTheme] size, if any. If there is no
-  /// [IconTheme], or it does not specify an explicit size, then it defaults to
-  /// 24.0.
+  /// Defaults to the nearest [IconTheme]'s [IconThemeData.size].
   ///
   /// If this [Icon] is being placed inside an [IconButton], then use
   /// [IconButton.iconSize] instead, so that the [IconButton] can make the splash
@@ -1652,23 +1656,87 @@ class Icon extends StatelessWidget {
   /// pass down the size to the [Icon].
   final double? size;
 
+  /// The fill for drawing the icon.
+  ///
+  /// Requires the underlying icon font to support the `FILL` [FontVariation]
+  /// axis, otherwise has no effect. Variable font filenames often indicate
+  /// the supported axes. Must be between 0.0 (unfilled) and 1.0 (filled),
+  /// inclusive.
+  ///
+  /// Can be used to convey a state transition for animation or interaction.
+  ///
+  /// Defaults to nearest [IconTheme]'s [IconThemeData.fill].
+  ///
+  /// See also:
+  ///  * [weight], for controlling stroke weight.
+  ///  * [grade], for controlling stroke weight in a more granular way.
+  ///  * [opticalSize], for controlling optical size.
+  final double? fill;
+
+  /// The stroke weight for drawing the icon.
+  ///
+  /// Requires the underlying icon font to support the `wght` [FontVariation]
+  /// axis, otherwise has no effect. Variable font filenames often indicate
+  /// the supported axes. Must be greater than 0.
+  ///
+  /// Defaults to nearest [IconTheme]'s [IconThemeData.weight].
+  ///
+  /// See also:
+  ///  * [fill], for controlling fill.
+  ///  * [grade], for controlling stroke weight in a more granular way.
+  ///  * [opticalSize], for controlling optical size.
+  ///  * https://fonts.google.com/knowledge/glossary/weight_axis
+  final double? weight;
+
+  /// The grade (granular stroke weight) for drawing the icon.
+  ///
+  /// Requires the underlying icon font to support the `GRAD` [FontVariation]
+  /// axis, otherwise has no effect. Variable font filenames often indicate
+  /// the supported axes. Can be negative.
+  ///
+  /// Grade and [weight] both affect a symbol's stroke weight (thickness), but
+  /// grade has a smaller impact on the size of the symbol.
+  ///
+  /// Grade is also available in some text fonts. One can match grade levels
+  /// between text and symbols for a harmonious visual effect. For example, if
+  /// the text font has a -25 grade value, the symbols can match it with a
+  /// suitable value, say -25.
+  ///
+  /// Defaults to nearest [IconTheme]'s [IconThemeData.grade].
+  ///
+  /// See also:
+  ///  * [fill], for controlling fill.
+  ///  * [weight], for controlling stroke weight in a less granular way.
+  ///  * [opticalSize], for controlling optical size.
+  ///  * https://fonts.google.com/knowledge/glossary/grade_axis
+  final double? grade;
+
+  /// The optical size for drawing the icon.
+  ///
+  /// Requires the underlying icon font to support the `opsz` [FontVariation]
+  /// axis, otherwise has no effect. Variable font filenames often indicate
+  /// the supported axes. Must be greater than 0.
+  ///
+  /// For an icon to look the same at different sizes, the stroke weight
+  /// (thickness) must change as the icon size scales. Optical size offers a way
+  /// to automatically adjust the stroke weight as icon size changes.
+  ///
+  /// Defaults to nearest [IconTheme]'s [IconThemeData.opticalSize].
+  ///
+  /// See also:
+  ///  * [fill], for controlling fill.
+  ///  * [weight], for controlling stroke weight.
+  ///  * [grade], for controlling stroke weight in a more granular way.
+  ///  * https://fonts.google.com/knowledge/glossary/optical_size_axis
+  final double? opticalSize;
+
   /// The color to use when drawing the icon.
   ///
-  /// Defaults to the current [IconTheme] color, if any.
+  /// Defaults to the nearest [IconTheme]'s [IconThemeData.color].
   ///
   /// The color (whether specified explicitly here or obtained from the
-  /// [IconTheme]) will be further adjusted by the opacity of the current
-  /// [IconTheme], if any.
-  ///
-  /// In material apps, if there is a [Theme] without any [IconTheme]s
-  /// specified, icon colors default to white if the theme is dark
-  /// and black if the theme is light.
-  ///
-  /// If no [IconTheme] and no [Theme] is specified, icons will default to
-  /// black.
-  ///
-  /// See [Theme] to set the current theme and [ThemeData.brightness]
-  /// for setting the current theme's brightness.
+  /// [IconTheme]) will be further adjusted by the nearest [IconTheme]'s
+  /// [IconThemeData.opacity].
   ///
   /// {@tool snippet}
   /// Typically, a Material Design color will be used, as follows:
@@ -1681,6 +1749,17 @@ class Icon extends StatelessWidget {
   /// ```
   /// {@end-tool}
   final Color? color;
+
+  /// A list of [Shadow]s that will be painted underneath the icon.
+  ///
+  /// Multiple shadows are supported to replicate lighting from multiple light
+  /// sources.
+  ///
+  /// Shadows must be in the same order for [Icon] to be considered as
+  /// equivalent as order produces differing transparency.
+  ///
+  /// Defaults to the nearest [IconTheme]'s [IconThemeData.shadows].
+  final List<Shadow>? shadows;
 
   /// Semantic label for the icon.
   ///
@@ -1706,24 +1785,19 @@ class Icon extends StatelessWidget {
   /// specified, either directly using this property or using [Directionality].
   final TextDirection? textDirection;
 
-  /// A list of [Shadow]s that will be painted underneath the icon.
-  ///
-  /// Multiple shadows are supported to replicate lighting from multiple light
-  /// sources.
-  ///
-  /// Shadows must be in the same order for [Icon] to be considered as
-  /// equivalent as order produces differing transparency.
-  final List<Shadow>? shadows;
-
   @override
   Widget build(BuildContext context) {
     Widget res = widgets.Icon(
       icon,
       size: size?.pixelSnap(),
+      fill: fill,
+      weight: weight,
+      grade: grade,
+      opticalSize: opticalSize,
       color: color,
+      shadows: shadows,
       semanticLabel: semanticLabel,
       textDirection: textDirection,
-      shadows: shadows,
     );
     return res;
   }
@@ -2612,6 +2686,10 @@ class AnimatedSize extends StatelessWidget {
 /// you have some widgets and want them to be able to scroll if there is
 /// insufficient room, consider using a [ListView].
 ///
+/// The [Flex] widget does not allow its children to wrap across multiple
+/// horizontal or vertical runs. For a widget that allows its children to wrap,
+/// consider using the [Wrap] widget instead of [Flex].
+///
 /// If you only have one child, then rather than using [Flex], [Row], or
 /// [Column], consider using [Align] or [Center] to position the child.
 ///
@@ -2661,6 +2739,7 @@ class AnimatedSize extends StatelessWidget {
 ///  * [Flexible], to indicate children that should share the remaining room.
 ///  * [Spacer], a widget that takes up space proportional to its flex value.
 ///    that may be sized smaller (leaving some remaining room unused).
+///  * [Wrap], for a widget that allows its children to wrap over multiple _runs_.
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class Flex extends MultiChildRenderObjectWidget {
   /// Creates a flex layout.
@@ -2934,10 +3013,10 @@ class Flex extends MultiChildRenderObjectWidget {
 ///
 /// ```dart
 /// Row(
-///   children: <Widget>[
-///     const FlutterLogo(),
-///     const Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
-///     const Icon(Icons.sentiment_very_satisfied),
+///   children: const <Widget>[
+///     FlutterLogo(),
+///     Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
+///     Icon(Icons.sentiment_very_satisfied),
 ///   ],
 /// )
 /// ```
@@ -2961,12 +3040,12 @@ class Flex extends MultiChildRenderObjectWidget {
 ///
 /// ```dart
 /// Row(
-///   children: <Widget>[
-///     const FlutterLogo(),
-///     const Expanded(
+///   children: const <Widget>[
+///     FlutterLogo(),
+///     Expanded(
 ///       child: Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
 ///     ),
-///     const Icon(Icons.sentiment_very_satisfied),
+///     Icon(Icons.sentiment_very_satisfied),
 ///   ],
 /// )
 /// ```
@@ -2991,12 +3070,12 @@ class Flex extends MultiChildRenderObjectWidget {
 /// ```dart
 /// Row(
 ///   textDirection: TextDirection.rtl,
-///   children: <Widget>[
-///     const FlutterLogo(),
-///     const Expanded(
+///   children: const <Widget>[
+///     FlutterLogo(),
+///     Expanded(
 ///       child: Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
 ///     ),
-///     const Icon(Icons.sentiment_very_satisfied),
+///     Icon(Icons.sentiment_very_satisfied),
 ///   ],
 /// )
 /// ```
@@ -3485,7 +3564,7 @@ class Center extends Align {
 /// This sample demonstrates how to disable selection for a Text under a
 /// SelectionArea.
 ///
-/// ** See code in examples/api/lib/material/selection_area/disable_partial_selection.dart **
+/// ** See code in examples/api/lib/material/selection_container/selection_container_disabled.0.dart **
 /// {@end-tool}
 ///
 /// See also:
@@ -3502,8 +3581,9 @@ class Text extends StatelessWidget {
   /// The [data] parameter must not be null.
   ///
   /// The [overflow] property's behavior is affected by the [softWrap] argument.
-  /// If the [softWrap] is true or null, the glyph causing overflow, and those that follow,
-  /// will not be rendered. Otherwise, it will be shown with the given overflow option.
+  /// If the [softWrap] is true or null, the glyph causing overflow, and those
+  /// that follow, will not be rendered. Otherwise, it will be shown with the
+  /// given overflow option.
   const Text(
     String this.data, {
     super.key,
@@ -3650,7 +3730,7 @@ class Text extends StatelessWidget {
   /// text value:
   ///
   /// ```dart
-  /// Text(r'$$', semanticsLabel: 'Double dollars')
+  /// const Text(r'$$', semanticsLabel: 'Double dollars')
   /// ```
   /// {@endtemplate}
   final String? semanticsLabel;
@@ -3662,6 +3742,13 @@ class Text extends StatelessWidget {
   final ui.TextHeightBehavior? textHeightBehavior;
 
   /// The color to use when painting the selection.
+  ///
+  /// This is ignored if [SelectionContainer.maybeOf] returns null
+  /// in the [BuildContext] of the [Text] widget.
+  ///
+  /// If null, the ambient [DefaultSelectionStyle] is used (if any); failing
+  /// that, the selection color defaults to [DefaultSelectionStyle.defaultColor]
+  /// (semi-transparent grey).
   final Color? selectionColor;
 
   @override
@@ -3691,10 +3778,11 @@ class Text extends StatelessWidget {
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
       textHeightBehavior: textHeightBehavior ??
           defaultTextStyle.textHeightBehavior ??
-          DefaultTextHeightBehavior.of(context),
+          DefaultTextHeightBehavior.maybeOf(context),
       selectionRegistrar: registrar,
-      selectionColor:
-          selectionColor ?? DefaultSelectionStyle.of(context).selectionColor,
+      selectionColor: selectionColor ??
+          DefaultSelectionStyle.of(context).selectionColor ??
+          DefaultSelectionStyle.defaultColor,
       text: TextSpan(
         style: effectiveTextStyle,
         text: data,
@@ -3953,9 +4041,17 @@ class RichText extends MultiChildRenderObjectWidget {
   final ui.TextHeightBehavior? textHeightBehavior;
 
   /// The [SelectionRegistrar] this rich text is subscribed to.
+  ///
+  /// If this is set, [selectionColor] must be non-null.
   final SelectionRegistrar? selectionRegistrar;
 
   /// The color to use when painting the selection.
+  ///
+  /// This is ignored if [selectionRegistrar] is null.
+  ///
+  /// See the section on selections in the [RichText] top-level API
+  /// documentation for more details on enabling selection in [RichText]
+  /// widgets.
   final Color? selectionColor;
 
   @override
@@ -4463,11 +4559,9 @@ class Image extends StatefulWidget {
   /// bundled, the app has to specify which ones to include. For instance a
   /// package named `fancy_backgrounds` could have:
   ///
-  /// ```
-  /// lib/backgrounds/background1.png
-  /// lib/backgrounds/background2.png
-  /// lib/backgrounds/background3.png
-  /// ```
+  ///     lib/backgrounds/background1.png
+  ///     lib/backgrounds/background2.png
+  ///     lib/backgrounds/background3.png
   ///
   /// To include, say the first image, the `pubspec.yaml` of the app should
   /// specify it in the assets section:
@@ -4617,14 +4711,14 @@ class Image extends StatefulWidget {
   /// {@template flutter.widgets.Image.frameBuilder.chainedBuildersExample}
   /// ```dart
   /// Image(
-  ///   ...
-  ///   frameBuilder: (BuildContext context, Widget child, int frame, bool wasSynchronouslyLoaded) {
+  ///   image: _image,
+  ///   frameBuilder: (BuildContext context, Widget child, int? frame, bool? wasSynchronouslyLoaded) {
   ///     return Padding(
-  ///       padding: EdgeInsets.all(8.0),
+  ///       padding: const EdgeInsets.all(8.0),
   ///       child: child,
   ///     );
   ///   },
-  ///   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+  ///   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
   ///     return Center(child: child);
   ///   },
   /// )
@@ -4634,11 +4728,11 @@ class Image extends StatefulWidget {
   ///
   /// ```dart
   /// Center(
-  ///   Padding(
-  ///     padding: EdgeInsets.all(8.0),
-  ///     child: <image>,
+  ///   child: Padding(
+  ///     padding: const EdgeInsets.all(8.0),
+  ///     child: image,
   ///   ),
-  /// )
+  /// ),
   /// ```
   /// {@endtemplate}
   ///
@@ -4753,6 +4847,7 @@ class Image extends StatefulWidget {
 
   /// The rendering quality of the image.
   ///
+  /// {@template flutter.widgets.image.filterQuality}
   /// If the image is of a high quality and its pixels are perfectly aligned
   /// with the physical screen pixels, extra quality enhancement may not be
   /// necessary. If so, then [FilterQuality.none] would be the most efficient.
@@ -4767,6 +4862,7 @@ class Image extends StatefulWidget {
   ///
   ///  * [FilterQuality], the enum containing all possible filter quality
   ///    options.
+  /// {@endtemplate}
   final FilterQuality filterQuality;
 
   /// Used to combine [color] with this image.
@@ -5066,7 +5162,9 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
   }
 
   void _replaceImage({required ImageInfo? info}) {
-    _imageInfo?.dispose();
+    final ImageInfo? oldImageInfo = _imageInfo;
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => oldImageInfo?.dispose());
     _imageInfo = info;
   }
 
