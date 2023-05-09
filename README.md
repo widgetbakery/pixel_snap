@@ -55,9 +55,10 @@ For example:
         ),
     );
 
-    // To snap single value you can use
+    // To snap single value you can use:
     final width = 10.pixelSnap(ps);
-    // or directly
+
+    // Or call the PixelSnap instance directly:
     final width = ps(10);
 ```
 
@@ -184,8 +185,23 @@ This should not be a problem in practice. Desktop application are generally not 
 
 Using pixel snapping with arbitrary transforms will produce a result that is "slightly wrong", but since the transform likely shift things outside of pixel boundaries anyway, the distortion should be hard to notice.
 
-### Rebuilding after changing device pixel ratio
+### Disabling pixel snapping for part of the application
 
-PixelSnap will detect change in device pixel ratio and force reassembling of entire application. Because there are potentially many calculations requiring current window device pixel ratio, obtaining the ratio through `MediaInfo.of(context)` is too expensive. It is also inconvenient (we need the ratio during layout in render objects and in extension methods). Bypassing `MediaInfo` means that Flutter does not know which widgets depend on device pixel ratio, so we end up rebuilding of entire tree.
+It is possible to disable pixel snapping for arbitrary subviews using the `PixelSnapOverride` widget:
 
-This is not ideal, but changing device pixel ratio already is an expensive operation so the tradeoff seems acceptable. Possibly missing animation frame in situation while window resizes as it is moved across monitors doesn't seem like a big issue.
+```dart
+PixelSnapOverride(
+    pixelSnapFunction: (value, _, __) => value, // Disable pixel snapping
+    child: ...
+```
+
+Please note that this may result in a widget that has a size that is not
+properly pixel snapped and might affect other widgets around it. To prevent that,
+you can wrap the widget in a `PixelSnapSize` widget:
+
+```dart
+PixelSnapSize( // Ensure that child size is properly pixel snapped
+    child: PixelSnapOverride(
+    pixelSnapFunction: (value, _, __) => value,
+    child: ...
+```
