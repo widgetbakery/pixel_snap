@@ -1,23 +1,24 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../internal.dart';
-
 /// Applies overriden pixel ratio to child widgets.
 class PixelRatioOverrideWidget extends StatelessWidget {
   const PixelRatioOverrideWidget({
     super.key,
+    required this.newDevicePixelRatio,
+    required this.originalDevicePixelRatio,
     required this.child,
   });
 
+  final double? newDevicePixelRatio;
+  final double originalDevicePixelRatio;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final override = PixelSnap.instance.overrideDevicePixelRatio;
-    final original = WidgetsBinding.instance.window.devicePixelRatio;
     return _OverrideTransform(
-      newScale: (override ?? original) / original,
+      newScale: (newDevicePixelRatio ?? originalDevicePixelRatio) /
+          originalDevicePixelRatio,
       child: child,
     );
   }
@@ -43,9 +44,18 @@ class _InflateLayout extends SingleChildRenderObjectWidget {
 }
 
 class _RenderInflateLayout extends RenderShiftedBox {
-  _RenderInflateLayout(RenderBox? child, this.scale) : super(child);
+  _RenderInflateLayout(RenderBox? child, this._scale) : super(child);
 
-  double scale;
+  double _scale;
+
+  double get scale => _scale;
+
+  set scale(double value) {
+    if (_scale != value) {
+      _scale = value;
+      markNeedsLayout();
+    }
+  }
 
   @override
   bool hitTest(BoxHitTestResult result, {required Offset position}) {

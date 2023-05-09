@@ -1,5 +1,7 @@
 import 'package:flutter/rendering.dart';
-import 'package:pixel_snap/src/pixel_snap.dart';
+
+import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 
 /// Sizes its child to a fraction of the total available space.
 ///
@@ -27,17 +29,34 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
     double? widthFactor,
     double? heightFactor,
     required AlignmentGeometry alignment,
+    required PixelSnap pixelSnap,
     super.textDirection,
   })  : _widthFactor = widthFactor,
         _heightFactor = heightFactor,
-        super(alignment: alignment.pixelSnap()) {
+        _pixelSnap = pixelSnap,
+        _originalAlignment = alignment,
+        super(alignment: alignment.pixelSnap(pixelSnap)) {
     assert(_widthFactor == null || _widthFactor! >= 0.0);
     assert(_heightFactor == null || _heightFactor! >= 0.0);
   }
 
+  PixelSnap _pixelSnap;
+  AlignmentGeometry _originalAlignment;
+
+  PixelSnap get pixelSnap => _pixelSnap;
+
+  set pixelSnap(PixelSnap pixelSnap) {
+    if (_pixelSnap != pixelSnap) {
+      _pixelSnap = pixelSnap;
+      alignment = _originalAlignment;
+      markNeedsLayout();
+    }
+  }
+
   @override
   set alignment(AlignmentGeometry value) {
-    super.alignment = value.pixelSnap();
+    _originalAlignment = value;
+    super.alignment = value.pixelSnap(_pixelSnap);
   }
 
   /// If non-null, the factor of the incoming width to use.
@@ -88,10 +107,10 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       maxHeight = height;
     }
     return BoxConstraints(
-      minWidth: minWidth.ps,
-      maxWidth: maxWidth.ps,
-      minHeight: minHeight.ps,
-      maxHeight: maxHeight.ps,
+      minWidth: minWidth.pixelSnap(pixelSnap),
+      maxWidth: maxWidth.pixelSnap(pixelSnap),
+      minHeight: minHeight.pixelSnap(pixelSnap),
+      maxHeight: maxHeight.pixelSnap(pixelSnap),
     );
   }
 
@@ -102,11 +121,11 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       result = super.computeMinIntrinsicWidth(height);
     } else {
       // the following line relies on double.infinity absorption
-      result =
-          child!.getMinIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
+      result = child!.getMinIntrinsicWidth(
+          (height * (_heightFactor ?? 1.0)).pixelSnap(pixelSnap));
     }
     assert(result.isFinite);
-    return (result / (_widthFactor ?? 1.0)).ps;
+    return (result / (_widthFactor ?? 1.0)).pixelSnap(pixelSnap);
   }
 
   @override
@@ -116,11 +135,11 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       result = super.computeMaxIntrinsicWidth(height);
     } else {
       // the following line relies on double.infinity absorption
-      result =
-          child!.getMaxIntrinsicWidth((height * (_heightFactor ?? 1.0)).ps);
+      result = child!.getMaxIntrinsicWidth(
+          (height * (_heightFactor ?? 1.0)).pixelSnap(pixelSnap));
     }
     assert(result.isFinite);
-    return (result / (_widthFactor ?? 1.0)).ps;
+    return (result / (_widthFactor ?? 1.0)).pixelSnap(pixelSnap);
   }
 
   @override
@@ -130,10 +149,11 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       result = super.computeMinIntrinsicHeight(width);
     } else {
       // the following line relies on double.infinity absorption
-      result = child!.getMinIntrinsicHeight((width * (_widthFactor ?? 1.0)).ps);
+      result = child!.getMinIntrinsicHeight(
+          (width * (_widthFactor ?? 1.0)).pixelSnap(pixelSnap));
     }
     assert(result.isFinite);
-    return (result / (_heightFactor ?? 1.0)).ps;
+    return (result / (_heightFactor ?? 1.0)).pixelSnap(pixelSnap);
   }
 
   @override
@@ -143,10 +163,11 @@ class RenderFractionallySizedOverflowBox extends RenderAligningShiftedBox {
       result = super.computeMaxIntrinsicHeight(width);
     } else {
       // the following line relies on double.infinity absorption
-      result = child!.getMaxIntrinsicHeight((width * (_widthFactor ?? 1.0)).ps);
+      result = child!.getMaxIntrinsicHeight(
+          (width * (_widthFactor ?? 1.0)).pixelSnap(pixelSnap));
     }
     assert(result.isFinite);
-    return (result / (_heightFactor ?? 1.0)).ps;
+    return (result / (_heightFactor ?? 1.0)).pixelSnap(pixelSnap);
   }
 
   @override

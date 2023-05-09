@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 
 import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 
 class RenderImagePixelSnap extends RenderImage {
   RenderImagePixelSnap({
@@ -21,7 +22,19 @@ class RenderImagePixelSnap extends RenderImage {
     super.invertColors,
     super.isAntiAlias,
     super.filterQuality,
-  });
+    required PixelSnap pixelSnap,
+  }) : _pixelSnap = pixelSnap;
+
+  PixelSnap _pixelSnap;
+
+  PixelSnap get pixelSnap => _pixelSnap;
+
+  set pixelSnap(PixelSnap value) {
+    if (_pixelSnap != value) {
+      _pixelSnap = value;
+      markNeedsLayout();
+    }
+  }
 
   /// Find a size for the render image within the given constraints.
   ///
@@ -42,11 +55,12 @@ class RenderImagePixelSnap extends RenderImage {
       return constraints.smallest;
     }
 
-    return constraints
-        .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(Size(
-      image!.width.toDouble() / scale,
-      image!.height.toDouble() / scale,
-    ));
+    return constraints.pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(
+        pixelSnap,
+        Size(
+          image!.width.toDouble() / scale,
+          image!.height.toDouble() / scale,
+        ));
   }
 
   @override

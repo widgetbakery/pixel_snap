@@ -1,3 +1,4 @@
 {
-    "dart.runPubGetOnPubspecChanges": "never"
+    "dart.runPubGetOnPubspecChanges": "never",
+    "dart.flutterSdkPath": "/Users/Matej/Projects/flutter/stable",
 }

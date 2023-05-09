@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-import 'package:pixel_snap/src/pixel_snap.dart';
+import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 
 bool? _startIsTopLeft(Axis direction, TextDirection? textDirection,
     VerticalDirection? verticalDirection) {
@@ -97,6 +98,7 @@ class RenderFlex extends RenderBox
     VerticalDirection verticalDirection = VerticalDirection.down,
     TextBaseline? textBaseline,
     Clip clipBehavior = Clip.none,
+    required PixelSnap pixelSnap,
   })  : _direction = direction,
         _mainAxisAlignment = mainAxisAlignment,
         _mainAxisSize = mainAxisSize,
@@ -104,9 +106,21 @@ class RenderFlex extends RenderBox
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
         _textBaseline = textBaseline,
-        _clipBehavior = clipBehavior {
+        _clipBehavior = clipBehavior,
+        _pixelSnap = pixelSnap {
     addAll(children);
   }
+
+  PixelSnap _pixelSnap;
+
+  set pixelSnap(PixelSnap value) {
+    if (_pixelSnap != value) {
+      _pixelSnap = value;
+      markNeedsLayout();
+    }
+  }
+
+  PixelSnap get pixelSnap => _pixelSnap;
 
   /// The direction to use as the main axis.
   Axis get direction => _direction;
@@ -403,7 +417,7 @@ class RenderFlex extends RenderBox
         if (flex > 0) {
           final childMainAxisSize = child == lastFlexChild
               ? availableFlexSpace
-              : (spacePerFlex * flex).ps;
+              : (spacePerFlex * flex).pixelSnap(pixelSnap);
           maxCrossSize =
               math.max(maxCrossSize, childSize(child, childMainAxisSize));
           availableFlexSpace -= childMainAxisSize;
@@ -708,7 +722,7 @@ class RenderFlex extends RenderBox
           final double maxChildExtent = canFlex
               ? (child == lastFlexChild
                   ? (freeSpace - allocatedFlexSpace)
-                  : (spacePerFlex * flex).ps)
+                  : (spacePerFlex * flex).pixelSnap(pixelSnap))
               : double.infinity;
           late final double minChildExtent;
           switch (_getFit(child)) {
@@ -873,22 +887,26 @@ class RenderFlex extends RenderBox
         betweenSpace = 0.0;
         break;
       case MainAxisAlignment.center:
-        leadingSpace = (remainingSpace / 2.0).ps;
+        leadingSpace = (remainingSpace / 2.0).pixelSnap(pixelSnap);
         betweenSpace = 0.0;
         break;
       case MainAxisAlignment.spaceBetween:
         leadingSpace = 0.0;
-        betweenSpace =
-            childCount > 1 ? (remainingSpace / (childCount - 1)).ps : 0.0;
+        betweenSpace = childCount > 1
+            ? (remainingSpace / (childCount - 1)).pixelSnap(pixelSnap)
+            : 0.0;
         break;
       case MainAxisAlignment.spaceAround:
-        betweenSpace = childCount > 0 ? (remainingSpace / childCount).ps : 0.0;
-        leadingSpace = (betweenSpace / 2.0).ps;
+        betweenSpace = childCount > 0
+            ? (remainingSpace / childCount).pixelSnap(pixelSnap)
+            : 0.0;
+        leadingSpace = (betweenSpace / 2.0).pixelSnap(pixelSnap);
         break;
       case MainAxisAlignment.spaceEvenly:
-        betweenSpace =
-            childCount > 0 ? (remainingSpace / (childCount + 1)).ps : 0.0;
-        leadingSpace = betweenSpace.ps;
+        betweenSpace = childCount > 0
+            ? (remainingSpace / (childCount + 1)).pixelSnap(pixelSnap)
+            : 0.0;
+        leadingSpace = betweenSpace.pixelSnap(pixelSnap);
         break;
     }
 
@@ -914,7 +932,8 @@ class RenderFlex extends RenderBox
           break;
         case CrossAxisAlignment.center:
           childCrossPosition =
-              (crossSize / 2.0 - _getCrossSize(child.size) / 2.0).ps;
+              (crossSize / 2.0 - _getCrossSize(child.size) / 2.0)
+                  .pixelSnap(pixelSnap);
           break;
         case CrossAxisAlignment.stretch:
           childCrossPosition = 0.0;

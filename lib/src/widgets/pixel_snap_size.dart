@@ -1,69 +1,72 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pixel_snap/src/pixel_snap.dart';
 
-typedef PixelSnapFunction = double Function(double);
-
-double _defaultPixelSnap(double value) {
-  return value.pixelSnap(PixelSnapMode.ceil);
-}
+import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 
 class PixelSnapSize extends SingleChildRenderObjectWidget {
   const PixelSnapSize({
     super.key,
     required super.child,
-    this.pixelSnapFunction = _defaultPixelSnap,
+    this.pixelSnapMode = PixelSnapMode.ceil,
   });
 
-  final PixelSnapFunction pixelSnapFunction;
+  final PixelSnapMode pixelSnapMode;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return RenderPixelSnapSize(null, pixelSnapFunction);
+    return RenderPixelSnapSize(
+      null,
+      PixelSnap.of(context),
+      pixelSnapMode,
+    );
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderPixelSnapSize renderObject) {
     super.updateRenderObject(context, renderObject);
-    renderObject.pixelSnapFunction = pixelSnapFunction;
+    renderObject.pixelSnap = PixelSnap.of(context);
+    renderObject.pixelSnapMode = pixelSnapMode;
   }
 }
 
 class RenderPixelSnapSize extends RenderShiftedBox {
-  RenderPixelSnapSize(super.child, this.pixelSnapFunction);
+  RenderPixelSnapSize(
+    super.child,
+    this.pixelSnap,
+    this.pixelSnapMode,
+  );
 
-  PixelSnapFunction pixelSnapFunction;
-
-  double _pixelSnap(double value) {
-    return pixelSnapFunction(value);
-  }
-
-  Size _pixelSnapSize(Size size) {
-    return Size(
-      _pixelSnap(size.width),
-      _pixelSnap(size.height),
-    );
-  }
+  PixelSnap pixelSnap;
+  PixelSnapMode pixelSnapMode;
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    return _pixelSnap(super.computeMinIntrinsicWidth(height));
+    return super
+        .computeMinIntrinsicWidth(height)
+        .pixelSnap(pixelSnap, pixelSnapMode);
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    return _pixelSnap(super.computeMaxIntrinsicWidth(height));
+    return super
+        .computeMaxIntrinsicWidth(height)
+        .pixelSnap(pixelSnap, pixelSnapMode);
   }
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    return _pixelSnap(super.computeMinIntrinsicHeight(width));
+    return super
+        .computeMinIntrinsicHeight(width)
+        .pixelSnap(pixelSnap, pixelSnapMode);
   }
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    return _pixelSnap(super.computeMaxIntrinsicHeight(width));
+    return super
+        .computeMaxIntrinsicHeight(width)
+        .pixelSnap(pixelSnap, pixelSnapMode);
   }
 
   @override
@@ -72,7 +75,10 @@ class RenderPixelSnapSize extends RenderShiftedBox {
       return constraints.constrain(Size.zero);
     }
     child!.layout(constraints, parentUsesSize: true);
-    return constraints.constrain(_pixelSnapSize(child!.size));
+    return constraints.constrain(child!.size.pixelSnap(
+      pixelSnap,
+      pixelSnapMode,
+    ));
   }
 
   @override
@@ -82,6 +88,9 @@ class RenderPixelSnapSize extends RenderShiftedBox {
       return;
     }
     child!.layout(constraints, parentUsesSize: true);
-    size = constraints.constrain(_pixelSnapSize(child!.size));
+    size = constraints.constrain(child!.size.pixelSnap(
+      pixelSnap,
+      pixelSnapMode,
+    ));
   }
 }

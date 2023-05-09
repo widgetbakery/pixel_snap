@@ -43,19 +43,22 @@ You can use the `pixelSnap()` extension method to pixel snap numeric values, `Si
 
 For example:
 ```dart
+    final ps = PixelSnap.of(context);
     final widget = Container(
-        width: 10.pixelSnap(),
-        padding: const EdgeInsets.all(10).pixelSnap(),
+        width: 10.pixelSnap(ps),
+        padding: const EdgeInsets.all(10).pixelSnap(ps),
         decoration: BoxDecoration(
             border: Border.all(
-                width: 1.pixelSnap(),
+                width: 1.pixelSnap(ps),
                 color: Colors.black,
             ),
         ),
     );
 
-    // You can use .ps shorthand for numeric values.
-    final width = 10.ps; // same as 10.pixelSnap()
+    // To snap single value you can use
+    final width = 10.pixelSnap(ps);
+    // or directly
+    final width = ps(10);
 ```
 
 ## Pixel-snapped widgets

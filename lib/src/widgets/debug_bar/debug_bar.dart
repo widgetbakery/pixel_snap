@@ -2,15 +2,15 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show Colors;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' as original;
 
-import '../../internal.dart';
-import '../../pixel_snap.dart' show PixelSnapMode;
+import '../../generated/widgets.dart';
+import '../../pixel_snap.dart';
 import '../pixel_ratio_override.dart';
 import '../pixel_snap_size.dart';
 import 'custom_button.dart';
 
-class PixelSnapDebugBar extends StatelessWidget {
+class PixelSnapDebugBar extends StatefulWidget {
   const PixelSnapDebugBar({
     super.key,
     required this.child,
@@ -21,17 +21,70 @@ class PixelSnapDebugBar extends StatelessWidget {
   final bool enableInReleaseMode;
 
   @override
+  State<PixelSnapDebugBar> createState() => _PixelSnapDebugBarState();
+}
+
+double _dummyPixelSnap(
+  double value,
+  double devicePixelRatio,
+  PixelSnapMode mode,
+) {
+  return value;
+}
+
+abstract class _PixelSnapState {
+  bool get enabled;
+  set enabled(bool value);
+
+  double? get overrideRatio;
+  set overrideRatio(double? value);
+}
+
+class _PixelSnapDebugBarState extends State<PixelSnapDebugBar>
+    implements _PixelSnapState {
+  @override
+  bool get enabled => _enabled;
+
+  @override
+  set enabled(bool value) {
+    setState(() {
+      _enabled = value;
+    });
+  }
+
+  @override
+  double? get overrideRatio => _overrideRatio;
+
+  @override
+  set overrideRatio(double? value) {
+    setState(() {
+      _overrideRatio = value;
+    });
+  }
+
+  double? _overrideRatio;
+  bool _enabled = true;
+
+  @override
   Widget build(BuildContext context) {
-    if (kReleaseMode && !enableInReleaseMode) {
-      return child;
+    if (kReleaseMode && !widget.enableInReleaseMode) {
+      return widget.child;
     }
-    return Column(
+
+    return original.Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _PixelSnapDebugBar(),
+        _PixelSnapDebugBar(this),
         Expanded(
           child: PixelRatioOverrideWidget(
-            child: child,
+            newDevicePixelRatio: overrideRatio,
+            originalDevicePixelRatio:
+                WidgetsBinding.instance.window.devicePixelRatio,
+            child: PixelSnapOverride(
+              devicePixelRatio: overrideRatio,
+              pixelSnapFunction: !enabled ? _dummyPixelSnap : null,
+              child: widget.child,
+            ),
           ),
         ),
       ],
@@ -39,20 +92,10 @@ class PixelSnapDebugBar extends StatelessWidget {
   }
 }
 
-// Note that debugger is not part of PixelRatioOverrideWidget, so all pixel
-// snapping it does must be done against actual devicePixelRatio.
-
-extension on num {
-  double get ps {
-    final devicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
-    return (this * devicePixelRatio - 0.05).round() / devicePixelRatio;
-  }
-}
-
-double _pixelSnap(double v) => v.ps;
-
 class _PixelSnapDebugBar extends StatelessWidget {
-  const _PixelSnapDebugBar();
+  const _PixelSnapDebugBar(this.state);
+
+  final _PixelSnapState state;
 
   @override
   Widget build(BuildContext context) {
@@ -72,38 +115,36 @@ class _PixelSnapDebugBar extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: EdgeInsets.all(8.ps),
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
                     const PixelSnapSize(
-                      pixelSnapFunction: _pixelSnap,
                       child: Text('Pixel Snapping'),
                     ),
-                    SizedBox(width: 8.ps),
+                    const SizedBox(width: 8),
                     CustomButton(
                       onPressed: () {
-                        _setEnabled(!_enabled);
+                        state.enabled = !state.enabled;
                       },
-                      selected: _enabled,
+                      selected: state.enabled,
                       builder: _buttonBuilder,
                       child: const PixelSnapSize(
-                        pixelSnapFunction: _pixelSnap,
                         child: Text('Enabled'),
                       ),
                     ),
-                    SizedBox(width: 16.ps),
+                    const SizedBox(width: 16),
                     ...<Widget>[
-                      const _OverrideButton(ratio: null),
-                      const _OverrideButton(ratio: 1.0),
-                      const _OverrideButton(ratio: 1.25),
-                      const _OverrideButton(ratio: 1.5),
-                      const _OverrideButton(ratio: 1.75),
-                      const _OverrideButton(ratio: 2.0),
-                      const _OverrideButton(ratio: 2.25),
-                      const _OverrideButton(ratio: 2.5),
-                      const _OverrideButton(ratio: 2.75),
-                      const _OverrideButton(ratio: 3.0),
-                    ].intersperse(SizedBox(width: 4.ps)),
+                      _OverrideButton(ratio: null, state: state),
+                      _OverrideButton(ratio: 1.0, state: state),
+                      _OverrideButton(ratio: 1.25, state: state),
+                      _OverrideButton(ratio: 1.5, state: state),
+                      _OverrideButton(ratio: 1.75, state: state),
+                      _OverrideButton(ratio: 2.0, state: state),
+                      _OverrideButton(ratio: 2.25, state: state),
+                      _OverrideButton(ratio: 2.5, state: state),
+                      _OverrideButton(ratio: 2.75, state: state),
+                      _OverrideButton(ratio: 3.0, state: state),
+                    ].intersperse(const SizedBox(width: 4)),
                   ],
                 ),
               ),
@@ -123,45 +164,29 @@ String _formatRatio(double ratio) {
 
 class _OverrideButton extends StatelessWidget {
   final double? ratio;
+  final _PixelSnapState state;
 
   const _OverrideButton({
     super.key,
     this.ratio,
+    required this.state,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool selected = ratio == PixelSnap.instance.overrideDevicePixelRatio;
+    bool selected = ratio == state.overrideRatio;
     return CustomButton(
       onPressed: () {
-        PixelSnap.instance.overrideDevicePixelRatio = ratio;
+        state.overrideRatio = ratio;
       },
       selected: selected,
       builder: _buttonBuilder,
       child: PixelSnapSize(
-        pixelSnapFunction: _pixelSnap,
         child: PixelSnapSize(
-          pixelSnapFunction: _pixelSnap,
           child: Text(ratio != null ? _formatRatio(ratio!) : 'System'),
         ),
       ),
     );
-  }
-}
-
-bool _enabled = true;
-
-void _setEnabled(bool enabled) {
-  _enabled = enabled;
-  if (enabled) {
-    PixelSnap.instance.overridePixelSnapFunction = null;
-  } else {
-    PixelSnap.instance.overridePixelSnapFunction = ({
-      required double value,
-      required double devicePixelRatio,
-      required PixelSnapMode mode,
-    }) =>
-        value;
   }
 }
 
@@ -193,7 +218,7 @@ Widget _buttonBuilder(BuildContext context, ButtonState state, Widget? child) {
 
   return Container(
     decoration: decoration,
-    padding: EdgeInsets.symmetric(horizontal: 6.ps, vertical: 4.ps),
+    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
     child: child,
   );
 }

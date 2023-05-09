@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unnecessary_null_comparison, deprecated_member_use
 import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 import '../widgets/pixel_snap_size.dart';
 import 'package:flutter/widgets.dart' hide RawImage;
 import 'package:flutter/foundation.dart';
@@ -195,8 +196,9 @@ class Align extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Align(
-      alignment: alignment.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
       widthFactor: widthFactor,
       heightFactor: heightFactor,
       child: child,
@@ -248,8 +250,9 @@ class Baseline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Baseline(
-      baseline: baseline.pixelSnap(),
+      baseline: baseline.pixelSnap(pixelSnap),
       baselineType: baselineType,
       child: child,
     );
@@ -310,8 +313,9 @@ class ConstrainedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.ConstrainedBox(
-      constraints: constraints.pixelSnap(),
+      constraints: constraints.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -386,8 +390,9 @@ class DecoratedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.DecoratedBox(
-      decoration: decoration.pixelSnap(),
+      decoration: decoration.pixelSnap(pixelSnap),
       position: position,
       child: child,
     );
@@ -657,16 +662,17 @@ class Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Container(
-      alignment: alignment?.pixelSnap(),
-      padding: padding?.pixelSnap(),
+      alignment: alignment?.pixelSnap(pixelSnap),
+      padding: padding?.pixelSnap(pixelSnap),
       color: color,
-      decoration: decoration?.pixelSnap(),
-      foregroundDecoration: foregroundDecoration?.pixelSnap(),
-      constraints: constraints?.pixelSnap(),
-      margin: margin?.pixelSnap(),
+      decoration: decoration?.pixelSnap(pixelSnap),
+      foregroundDecoration: foregroundDecoration?.pixelSnap(pixelSnap),
+      constraints: constraints?.pixelSnap(pixelSnap),
+      margin: margin?.pixelSnap(pixelSnap),
       transform: transform,
-      transformAlignment: transformAlignment?.pixelSnap(),
+      transformAlignment: transformAlignment?.pixelSnap(pixelSnap),
       clipBehavior: clipBehavior,
       child: child,
     );
@@ -742,9 +748,10 @@ class IntrinsicWidth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.IntrinsicWidth(
-      stepWidth: stepWidth?.pixelSnap(),
-      stepHeight: stepHeight?.pixelSnap(),
+      stepWidth: stepWidth?.pixelSnap(pixelSnap),
+      stepHeight: stepHeight?.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -804,9 +811,10 @@ class LimitedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.LimitedBox(
-      maxWidth: maxWidth.pixelSnap(),
-      maxHeight: maxHeight.pixelSnap(),
+      maxWidth: maxWidth.pixelSnap(pixelSnap),
+      maxHeight: maxHeight.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -882,12 +890,13 @@ class OverflowBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.OverflowBox(
-      alignment: alignment.pixelSnap(),
-      minWidth: minWidth?.pixelSnap(),
-      maxWidth: maxWidth?.pixelSnap(),
-      minHeight: minHeight?.pixelSnap(),
-      maxHeight: maxHeight?.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
+      minWidth: minWidth?.pixelSnap(pixelSnap),
+      maxWidth: maxWidth?.pixelSnap(pixelSnap),
+      minHeight: minHeight?.pixelSnap(pixelSnap),
+      maxHeight: maxHeight?.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -963,8 +972,9 @@ class Padding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Padding(
-      padding: padding.pixelSnap(),
+      padding: padding.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -1063,9 +1073,10 @@ class SizedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.SizedBox(
-      width: width?.pixelSnap(),
-      height: height?.pixelSnap(),
+      width: width?.pixelSnap(pixelSnap),
+      height: height?.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -1127,9 +1138,10 @@ class SizedOverflowBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.SizedOverflowBox(
-      alignment: alignment.pixelSnap(),
-      size: size.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
+      size: size.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -1345,13 +1357,14 @@ class Positioned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Positioned(
-      left: left?.pixelSnap(),
-      top: top?.pixelSnap(),
-      right: right?.pixelSnap(),
-      bottom: bottom?.pixelSnap(),
-      width: width?.pixelSnap(),
-      height: height?.pixelSnap(),
+      left: left?.pixelSnap(pixelSnap),
+      top: top?.pixelSnap(pixelSnap),
+      right: right?.pixelSnap(pixelSnap),
+      bottom: bottom?.pixelSnap(pixelSnap),
+      width: width?.pixelSnap(pixelSnap),
+      height: height?.pixelSnap(pixelSnap),
       child: child,
     );
     return res;
@@ -1431,11 +1444,12 @@ class PhysicalModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.PhysicalModel(
       shape: shape,
       clipBehavior: clipBehavior,
-      borderRadius: borderRadius?.pixelSnap(),
-      elevation: elevation.pixelSnap(),
+      borderRadius: borderRadius?.pixelSnap(pixelSnap),
+      elevation: elevation.pixelSnap(pixelSnap),
       color: color,
       shadowColor: shadowColor,
       child: child,
@@ -1557,10 +1571,11 @@ class CustomPaint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.CustomPaint(
       painter: painter,
       foregroundPainter: foregroundPainter,
-      size: size.pixelSnap(),
+      size: size.pixelSnap(pixelSnap),
       isComplex: isComplex,
       willChange: willChange,
       child: child,
@@ -1787,9 +1802,10 @@ class Icon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.Icon(
       icon,
-      size: size?.pixelSnap(),
+      size: size?.pixelSnap(pixelSnap),
       fill: fill,
       weight: weight,
       grade: grade,
@@ -1853,9 +1869,10 @@ class ImageIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.ImageIcon(
       image,
-      size: size?.pixelSnap(),
+      size: size?.pixelSnap(pixelSnap),
       color: color,
       semanticLabel: semanticLabel,
     );
@@ -1962,8 +1979,9 @@ class AnimatedAlign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedAlign(
-      alignment: alignment.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
       heightFactor: heightFactor,
       widthFactor: widthFactor,
       curve: curve,
@@ -2137,15 +2155,16 @@ class AnimatedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedContainer(
-      alignment: alignment?.pixelSnap(),
-      padding: padding?.pixelSnap(),
-      decoration: decoration?.pixelSnap(),
-      foregroundDecoration: foregroundDecoration?.pixelSnap(),
-      constraints: constraints?.pixelSnap(),
-      margin: margin?.pixelSnap(),
+      alignment: alignment?.pixelSnap(pixelSnap),
+      padding: padding?.pixelSnap(pixelSnap),
+      decoration: decoration?.pixelSnap(pixelSnap),
+      foregroundDecoration: foregroundDecoration?.pixelSnap(pixelSnap),
+      constraints: constraints?.pixelSnap(pixelSnap),
+      margin: margin?.pixelSnap(pixelSnap),
       transform: transform,
-      transformAlignment: transformAlignment?.pixelSnap(),
+      transformAlignment: transformAlignment?.pixelSnap(pixelSnap),
       clipBehavior: clipBehavior,
       curve: curve,
       duration: duration,
@@ -2310,6 +2329,7 @@ class AnimatedCrossFade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedCrossFade(
       firstChild: firstChild,
       secondChild: secondChild,
@@ -2319,7 +2339,7 @@ class AnimatedCrossFade extends StatelessWidget {
       firstCurve: firstCurve,
       secondCurve: secondCurve,
       sizeCurve: sizeCurve,
-      alignment: alignment.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
       layoutBuilder: layoutBuilder,
       excludeBottomFocus: excludeBottomFocus,
     );
@@ -2450,13 +2470,14 @@ class AnimatedPositioned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedPositioned(
-      left: left?.pixelSnap(),
-      top: top?.pixelSnap(),
-      right: right?.pixelSnap(),
-      bottom: bottom?.pixelSnap(),
-      width: width?.pixelSnap(),
-      height: height?.pixelSnap(),
+      left: left?.pixelSnap(pixelSnap),
+      top: top?.pixelSnap(pixelSnap),
+      right: right?.pixelSnap(pixelSnap),
+      bottom: bottom?.pixelSnap(pixelSnap),
+      width: width?.pixelSnap(pixelSnap),
+      height: height?.pixelSnap(pixelSnap),
       curve: curve,
       duration: duration,
       onEnd: onEnd,
@@ -2564,11 +2585,12 @@ class AnimatedPhysicalModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedPhysicalModel(
       shape: shape,
       clipBehavior: clipBehavior,
-      borderRadius: borderRadius.pixelSnap(),
-      elevation: elevation.pixelSnap(),
+      borderRadius: borderRadius.pixelSnap(pixelSnap),
+      elevation: elevation.pixelSnap(pixelSnap),
       color: color,
       animateColor: animateColor,
       shadowColor: shadowColor,
@@ -2658,8 +2680,9 @@ class AnimatedSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pixelSnap = PixelSnap.of(context);
     Widget res = widgets.AnimatedSize(
-      alignment: alignment.pixelSnap(),
+      alignment: alignment.pixelSnap(pixelSnap),
       curve: curve,
       duration: duration,
       reverseDuration: reverseDuration,
@@ -2908,6 +2931,7 @@ class Flex extends MultiChildRenderObjectWidget {
   @override
   RenderFlex createRenderObject(BuildContext context) {
     return RenderFlex(
+      pixelSnap: PixelSnap.of(context),
       direction: direction,
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize: mainAxisSize,
@@ -2923,6 +2947,7 @@ class Flex extends MultiChildRenderObjectWidget {
   void updateRenderObject(
       BuildContext context, covariant RenderFlex renderObject) {
     renderObject
+      ..pixelSnap = PixelSnap.of(context)
       ..direction = direction
       ..mainAxisAlignment = mainAxisAlignment
       ..mainAxisSize = mainAxisSize
@@ -3433,6 +3458,7 @@ class FractionallySizedBox extends SingleChildRenderObjectWidget {
   @override
   RenderFractionallySizedOverflowBox createRenderObject(BuildContext context) {
     return RenderFractionallySizedOverflowBox(
+      pixelSnap: PixelSnap.of(context),
       alignment: alignment,
       widthFactor: widthFactor,
       heightFactor: heightFactor,
@@ -3444,6 +3470,7 @@ class FractionallySizedBox extends SingleChildRenderObjectWidget {
   void updateRenderObject(
       BuildContext context, RenderFractionallySizedOverflowBox renderObject) {
     renderObject
+      ..pixelSnap = PixelSnap.of(context)
       ..alignment = alignment
       ..widthFactor = widthFactor
       ..heightFactor = heightFactor
@@ -4058,6 +4085,7 @@ class RichText extends MultiChildRenderObjectWidget {
   RenderParagraph createRenderObject(BuildContext context) {
     assert(textDirection != null || debugCheckHasDirectionality(context));
     return RenderParagraph(
+      pixelSnap: PixelSnap.of(context),
       text,
       textAlign: textAlign,
       textDirection: textDirection ?? Directionality.of(context),
@@ -4078,6 +4106,7 @@ class RichText extends MultiChildRenderObjectWidget {
   void updateRenderObject(BuildContext context, RenderParagraph renderObject) {
     assert(textDirection != null || debugCheckHasDirectionality(context));
     renderObject
+      ..pixelSnap = PixelSnap.of(context)
       ..text = text
       ..textAlign = textAlign
       ..textDirection = textDirection ?? Directionality.of(context)
@@ -4181,6 +4210,7 @@ class FittedBox extends SingleChildRenderObjectWidget {
   @override
   RenderFittedBox createRenderObject(BuildContext context) {
     return RenderFittedBox(
+      pixelSnap: PixelSnap.of(context),
       fit: fit,
       alignment: alignment,
       textDirection: Directionality.maybeOf(context),
@@ -4191,6 +4221,7 @@ class FittedBox extends SingleChildRenderObjectWidget {
   @override
   void updateRenderObject(BuildContext context, RenderFittedBox renderObject) {
     renderObject
+      ..pixelSnap = PixelSnap.of(context)
       ..fit = fit
       ..alignment = alignment
       ..textDirection = Directionality.maybeOf(context)
