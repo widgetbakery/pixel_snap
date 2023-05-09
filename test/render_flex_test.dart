@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart' hide RenderFlex;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pixel_snap/material.dart';
 import 'package:pixel_snap/src/forked/render_flex.dart';
-import 'package:pixel_snap/src/internal.dart';
-
-import 'test_pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
 import 'test_rendering.dart';
 
 void _setFlex(RenderBox child, int? flex) {
@@ -29,7 +26,7 @@ void main() {
   TestRenderingFlutterBinding.ensureInitialized();
 
   group('Pixel Snap', () {
-    PixelSnap.setInstance(TextPixelSnap(1.0));
+    final pixelSnap = PixelSnap.custom(devicePixelRatio: 1.0);
     test('Filed and pixel-snapped', () {
       final box1 = RenderDecoratedBox(decoration: const BoxDecoration());
       final box2 = RenderDecoratedBox(decoration: const BoxDecoration());
@@ -40,6 +37,7 @@ void main() {
       final box7 = RenderDecoratedBox(decoration: const BoxDecoration());
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         children: [box1, box2, box3, box4, box5, box6, box7],
       );
@@ -79,6 +77,7 @@ void main() {
       final box7 = makeBox(10);
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         children: [box1, box2, box3, box4, box5, box6, box7],
       );
@@ -118,6 +117,7 @@ void main() {
       );
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         children: [box1, box2],
       );
@@ -139,6 +139,7 @@ void main() {
       final box3 = RenderConstrainedBox(additionalConstraints: constraints);
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [box1, box2, box3],
@@ -161,6 +162,7 @@ void main() {
       final box3 = RenderConstrainedBox(additionalConstraints: constraints);
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [box1, box2, box3],
@@ -183,6 +185,7 @@ void main() {
       final box3 = RenderConstrainedBox(additionalConstraints: constraints);
 
       final flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [box1, box2, box3],
@@ -200,13 +203,15 @@ void main() {
   });
 
   group('Original Tests', () {
-    PixelSnap.setInstance(TextPixelSnap(1.0));
+    final pixelSnap = PixelSnap.custom(devicePixelRatio: 1.0);
 
     test('Overconstrained flex', () {
       final RenderDecoratedBox box =
           RenderDecoratedBox(decoration: const BoxDecoration());
       final RenderFlex flex = RenderFlex(
-          textDirection: TextDirection.ltr, children: <RenderBox>[box]);
+          pixelSnap: pixelSnap,
+          textDirection: TextDirection.ltr,
+          children: <RenderBox>[box]);
       layout(flex,
           constraints: const BoxConstraints(
             minWidth: 200.0,
@@ -234,6 +239,7 @@ void main() {
       final RenderConstrainedBox box1 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisSize: MainAxisSize.min,
       );
@@ -294,6 +300,7 @@ void main() {
         additionalConstraints: const BoxConstraints.expand(),
       );
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         direction: Axis.vertical,
         children: <RenderBox>[
           RenderConstrainedBox(
@@ -320,6 +327,7 @@ void main() {
         additionalConstraints: const BoxConstraints.expand(),
       );
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         children: <RenderBox>[
           RenderConstrainedBox(
@@ -343,6 +351,7 @@ void main() {
 
     test('Vertical Flipped Constraints', () {
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         direction: Axis.vertical,
         children: <RenderBox>[
           RenderAspectRatio(aspectRatio: 1.0),
@@ -358,7 +367,9 @@ void main() {
     // RenderAspectRatio being height-in, width-out.
 
     test('Defaults', () {
-      final RenderFlex flex = RenderFlex();
+      final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
+      );
       expect(flex.crossAxisAlignment, equals(CrossAxisAlignment.center));
       expect(flex.direction, equals(Axis.horizontal));
       expect(flex, hasAGoodToStringDeep);
@@ -384,7 +395,9 @@ void main() {
       final RenderDecoratedBox box2 =
           RenderDecoratedBox(decoration: const BoxDecoration());
       final RenderFlex flex = RenderFlex(
-          textDirection: TextDirection.ltr, children: <RenderBox>[box1, box2]);
+          pixelSnap: pixelSnap,
+          textDirection: TextDirection.ltr,
+          children: <RenderBox>[box1, box2]);
       layout(flex,
           constraints: const BoxConstraints(
             maxWidth: 100.0,
@@ -410,7 +423,8 @@ void main() {
           RenderDecoratedBox(decoration: const BoxDecoration());
       final RenderDecoratedBox box2 =
           RenderDecoratedBox(decoration: const BoxDecoration());
-      final RenderFlex flex = RenderFlex(textDirection: TextDirection.ltr);
+      final RenderFlex flex =
+          RenderFlex(pixelSnap: pixelSnap, textDirection: TextDirection.ltr);
       flex.setupParentData(box2);
       final FlexParentData box2ParentData = box2.parentData! as FlexParentData;
       box2ParentData.flex = 2;
@@ -451,6 +465,7 @@ void main() {
           additionalConstraints:
               const BoxConstraints.tightFor(width: 100.0, height: 100.0));
       final RenderFlex flex = RenderFlex(
+          pixelSnap: pixelSnap,
           textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly);
       flex.addAll(<RenderBox>[box1, box2, box3]);
@@ -492,6 +507,7 @@ void main() {
           additionalConstraints:
               const BoxConstraints.tightFor(width: 100.0, height: 100.0));
       final RenderFlex flex = RenderFlex(
+          pixelSnap: pixelSnap,
           textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween);
       flex.addAll(<RenderBox>[box1, box2, box3]);
@@ -552,6 +568,7 @@ void main() {
           additionalConstraints:
               const BoxConstraints.tightFor(width: 100.0, height: 100.0));
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -618,6 +635,7 @@ void main() {
       final RenderConstrainedBox box3 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisSize: MainAxisSize.min,
       );
@@ -663,6 +681,7 @@ void main() {
       final RenderConstrainedBox box3 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         mainAxisSize: MainAxisSize.min,
       );
@@ -695,6 +714,7 @@ void main() {
       final RenderConstrainedBox box3 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
       );
       final RenderConstrainedOverflowBox parent = RenderConstrainedOverflowBox(
@@ -727,6 +747,7 @@ void main() {
       final RenderConstrainedBox box3 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.rtl,
         mainAxisSize: MainAxisSize.min,
       );
@@ -751,6 +772,7 @@ void main() {
       final RenderConstrainedBox box3 =
           RenderConstrainedBox(additionalConstraints: square);
       final RenderFlex flex = RenderFlex(
+          pixelSnap: pixelSnap,
           textDirection: TextDirection.ltr,
           children: <RenderBox>[box1, box2, box3]);
       layout(flex);
@@ -903,6 +925,7 @@ void main() {
         decoration: const BoxDecoration(),
       );
       final RenderFlex flex = RenderFlex(
+        pixelSnap: pixelSnap,
         textDirection: TextDirection.ltr,
         children: <RenderBox>[box],
         crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -932,7 +955,8 @@ void main() {
         'Can call methods that check overflow even if overflow value is not set',
         () {
       final List<dynamic> exceptions = <dynamic>[];
-      final RenderFlex flex = RenderFlex(children: const <RenderBox>[]);
+      final RenderFlex flex =
+          RenderFlex(pixelSnap: pixelSnap, children: const <RenderBox>[]);
       // This forces a check for _hasOverflow
       expect(flex.toStringShort(), isNot(contains('OVERFLOWING')));
       layout(flex, phase: EnginePhase.paint, onErrors: () {

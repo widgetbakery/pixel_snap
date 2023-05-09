@@ -1,17 +1,17 @@
 import 'package:flutter/rendering.dart' hide RenderFractionallySizedOverflowBox;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pixel_snap/pixel_snap.dart';
 import 'package:pixel_snap/src/forked/render_fractionally_sized_box.dart';
-import 'package:pixel_snap/src/internal.dart';
+import 'package:pixel_snap/src/pixel_snap.dart';
+import 'package:pixel_snap/src/pixel_snap_ext.dart';
+import 'package:pixel_snap/src/widgets/pixel_snap_size.dart';
 
-import 'test_pixel_snap.dart';
 import 'test_rendering.dart';
 
 void main() {
   TestRenderingFlutterBinding.ensureInitialized();
 
   test('RenderFractionallySizedBox constraints', () {
-    PixelSnap.setInstance(TextPixelSnap(1.0));
+    final pixelSnap = PixelSnap.custom(devicePixelRatio: 1.0);
 
     RenderBox root, leaf, test;
     root = RenderPositionedBox(
@@ -24,6 +24,7 @@ void main() {
           child: leaf = RenderConstrainedBox(
             additionalConstraints: const BoxConstraints.expand(),
           ),
+          pixelSnap: pixelSnap,
         ),
       ),
     );
@@ -37,9 +38,8 @@ void main() {
   });
 
   test('RenderPixelSnapSize', () {
-    PixelSnap.setInstance(TextPixelSnap(1.0));
-    double pixelSnap(double value) =>
-        PixelSnap.instance.pixelSnap(value, PixelSnapMode.snap);
+    final pixelSnap = PixelSnap.custom(devicePixelRatio: 1.0);
+
     RenderBox snapSize;
     final root = RenderPositionedBox(
       child: snapSize = RenderPixelSnapSize(
@@ -47,6 +47,7 @@ void main() {
             additionalConstraints:
                 const BoxConstraints.tightFor(width: 99.2, height: 99.8)),
         pixelSnap,
+        PixelSnapMode.snap,
       ),
     );
     layout(root);
@@ -56,10 +57,11 @@ void main() {
   });
 
   test('Alignment centers on pixel boundary', () {
-    PixelSnap.setInstance(TextPixelSnap(1.0));
+    final pixelSnap = PixelSnap.custom(devicePixelRatio: 1.0);
+
     RenderBox box;
     final root = RenderPositionedBox(
-      alignment: Alignment.center.pixelSnap(),
+      alignment: Alignment.center.pixelSnap(pixelSnap),
       child: box = RenderConstrainedBox(
           additionalConstraints:
               const BoxConstraints.tightFor(width: 11, height: 13)),

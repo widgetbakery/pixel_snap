@@ -28,6 +28,7 @@ class Generator {
 
     final classes = _ourCustomWidgets.join(', ');
     _buffer.writeln('import \'../pixel_snap.dart\';');
+    _buffer.writeln('import \'../pixel_snap_ext.dart\';');
     _buffer.writeln('import \'../widgets/pixel_snap_size.dart\';');
     _buffer.writeln('import \'package:flutter/widgets.dart\' hide RawImage;');
     _buffer.writeln('import \'package:flutter/foundation.dart\';');
@@ -52,7 +53,7 @@ class Generator {
     }
 
     for (final c in contents.forkedClasses) {
-      _buffer.writeln(c.contents);
+      _writeForkedClass(c);
     }
 
     return _buffer.toString();
@@ -71,6 +72,24 @@ class Generator {
     _buffer.writeln('export \'widgets.dart\';');
 
     return _buffer.toString();
+  }
+
+  void _writeForkedClass(ForkedClass c) {
+    var contents = c.contents;
+    contents = contents.replaceAllMapped(
+      RegExp('return Render(.*)\\('),
+      (match) {
+        final name = match.group(1);
+        return 'return Render$name(pixelSnap: PixelSnap.of(context),';
+      },
+    );
+    contents = contents.replaceAllMapped(
+      RegExp('renderObject\\n(\\s+)\\.\\.'),
+      (match) {
+        return 'renderObject\n..pixelSnap = PixelSnap.of(context)\n..';
+      },
+    );
+    _buffer.writeln(contents);
   }
 
   void _writeClass(Class c) {
@@ -119,32 +138,43 @@ class Generator {
     _buffer.writeln();
     _buffer.writeln('@override');
     _buffer.writeln('Widget build(BuildContext context) {');
+
+    const pixelSnapWhitelist = [
+      'double',
+      'EdgeInsetsGeometry',
+      'Size',
+      'Decoration',
+      'BoxConstraints',
+      'AlignmentGeometry',
+      'BorderRadius',
+    ];
+    const pixelSnapBlackList = [
+      'widthFactor',
+      'heightFactor',
+      'fill',
+      'weight',
+      'grade',
+      'opticalSize',
+    ];
+
+    bool shouldPixelSnap(Field field) =>
+        pixelSnapWhitelist.contains(field.type) &&
+        !pixelSnapBlackList.contains(field.name);
+
+    if (c.fields.any(shouldPixelSnap)) {
+      _buffer.writeln('final ps = PixelSnap.of(context);');
+    }
+
     _buffer.writeln('Widget res = widgets.${c.className}(');
+
     for (final field in c.fields) {
       if (field.name == 'child') {
         continue;
       }
-      const pixelSnapWhitelist = [
-        'double',
-        'EdgeInsetsGeometry',
-        'Size',
-        'Decoration',
-        'BoxConstraints',
-        'AlignmentGeometry',
-        'BorderRadius',
-      ];
-      const pixelSnapBlackList = [
-        'widthFactor',
-        'heightFactor',
-        'fill',
-        'weight',
-        'grade',
-        'opticalSize',
-      ];
+
       var pixelSnapSuffix = '';
-      if (pixelSnapWhitelist.contains(field.type) &&
-          !pixelSnapBlackList.contains(field.name)) {
-        pixelSnapSuffix = '.pixelSnap()';
+      if (shouldPixelSnap(field)) {
+        pixelSnapSuffix = '.pixelSnap(ps)';
       }
       if (pixelSnapSuffix.isNotEmpty && field.nullable) {
         pixelSnapSuffix = '?$pixelSnapSuffix';
@@ -158,10 +188,7 @@ class Generator {
       _buffer.writeln('child: child,');
     }
     _buffer.writeln(');');
-    if (c.className == 'Image') {
-      _buffer.writeln(
-          'if (width == null || height == null) { res = PixelSnapSize(child:res); }');
-    }
+
     if (c.className == 'ImageIcon') {
       _buffer.writeln('if (size == null) { res = PixelSnapSize(child:res); }');
     }

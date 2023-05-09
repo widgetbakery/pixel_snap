@@ -2,6 +2,7 @@ import 'package:flutter/rendering.dart' hide RenderFittedBox;
 import 'package:flutter/rendering.dart' as rendering;
 
 import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
 
 class RenderFittedBox extends rendering.RenderFittedBox {
   RenderFittedBox({
@@ -10,11 +11,28 @@ class RenderFittedBox extends rendering.RenderFittedBox {
     super.child,
     super.clipBehavior,
     super.textDirection,
-  }) : super(alignment: alignment.pixelSnap());
+    required PixelSnap pixelSnap,
+  })  : _pixelSnap = pixelSnap,
+        _originalAlignment = alignment,
+        super(alignment: alignment.pixelSnap(pixelSnap));
+
+  PixelSnap _pixelSnap;
+  AlignmentGeometry _originalAlignment;
+
+  PixelSnap get pixelSnap => _pixelSnap;
+
+  set pixelSnap(PixelSnap value) {
+    if (value != value) {
+      _pixelSnap = value;
+      alignment = _originalAlignment;
+      markNeedsLayout();
+    }
+  }
 
   @override
   set alignment(AlignmentGeometry value) {
-    super.alignment = value.pixelSnap();
+    _originalAlignment = value;
+    super.alignment = value.pixelSnap(_pixelSnap);
   }
 
   @override
@@ -45,7 +63,10 @@ class RenderFittedBox extends rendering.RenderFittedBox {
         case BoxFit.scaleDown:
           final BoxConstraints sizeConstraints = constraints.loosen();
           final Size unconstrainedSize = sizeConstraints
-              .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(childSize);
+              .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(
+            pixelSnap,
+            childSize,
+          );
           return constraints.constrain(unconstrainedSize);
         case BoxFit.contain:
         case BoxFit.cover:
@@ -54,7 +75,10 @@ class RenderFittedBox extends rendering.RenderFittedBox {
         case BoxFit.fitWidth:
         case BoxFit.none:
           return constraints
-              .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(childSize);
+              .pixelSnapConstrainSizeAndAttemptToPreserveAspectRatio(
+            pixelSnap,
+            childSize,
+          );
       }
     } else {
       return constraints.smallest;

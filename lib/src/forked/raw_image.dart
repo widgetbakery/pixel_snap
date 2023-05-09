@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter/widgets.dart' hide RawImage;
 
-import 'render_image.dart';
 import '../pixel_snap.dart';
+import '../pixel_snap_ext.dart';
+import 'render_image.dart';
 
 /// A widget that displays a [dart:ui.Image] directly.
 ///
@@ -37,17 +38,19 @@ class RawImage extends widgets.RawImage {
 
   @override
   RenderImagePixelSnap createRenderObject(BuildContext context) {
+    final ps = PixelSnap.of(context);
     return RenderImagePixelSnap(
+      pixelSnap: PixelSnap.of(context),
       image: image?.clone(),
       debugImageLabel: debugImageLabel,
-      width: width?.pixelSnap(),
-      height: height?.pixelSnap(),
+      width: width?.pixelSnap(ps),
+      height: height?.pixelSnap(ps),
       scale: scale,
       color: color,
       opacity: opacity,
       colorBlendMode: colorBlendMode,
       fit: fit,
-      alignment: alignment.pixelSnap(),
+      alignment: alignment.pixelSnap(ps),
       repeat: repeat,
       centerSlice: centerSlice,
       matchTextDirection: matchTextDirection,
@@ -63,6 +66,7 @@ class RawImage extends widgets.RawImage {
   @override
   void updateRenderObject(
       widgets.BuildContext context, RenderImagePixelSnap renderObject) {
+    final pixelSnap = PixelSnap.of(context);
     assert(
       image?.debugGetOpenHandleStackTraces()?.isNotEmpty ?? true,
       'Creator of a RawImage disposed of the image when the RawImage still '
@@ -71,14 +75,14 @@ class RawImage extends widgets.RawImage {
     renderObject
       ..image = image?.clone()
       ..debugImageLabel = debugImageLabel
-      ..width = width?.pixelSnap()
-      ..height = height?.pixelSnap()
+      ..width = width?.pixelSnap(pixelSnap)
+      ..height = height?.pixelSnap(pixelSnap)
       ..scale = scale
       ..color = color
       ..opacity = opacity
       ..colorBlendMode = colorBlendMode
       ..fit = fit
-      ..alignment = alignment.pixelSnap()
+      ..alignment = alignment.pixelSnap(pixelSnap)
       ..repeat = repeat
       ..centerSlice = centerSlice
       ..matchTextDirection = matchTextDirection
