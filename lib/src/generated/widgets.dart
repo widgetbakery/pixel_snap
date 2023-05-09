@@ -196,9 +196,9 @@ class Align extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Align(
-      alignment: alignment.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
       widthFactor: widthFactor,
       heightFactor: heightFactor,
       child: child,
@@ -250,9 +250,9 @@ class Baseline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Baseline(
-      baseline: baseline.pixelSnap(pixelSnap),
+      baseline: baseline.pixelSnap(ps),
       baselineType: baselineType,
       child: child,
     );
@@ -313,9 +313,9 @@ class ConstrainedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.ConstrainedBox(
-      constraints: constraints.pixelSnap(pixelSnap),
+      constraints: constraints.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -390,9 +390,9 @@ class DecoratedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.DecoratedBox(
-      decoration: decoration.pixelSnap(pixelSnap),
+      decoration: decoration.pixelSnap(ps),
       position: position,
       child: child,
     );
@@ -662,17 +662,17 @@ class Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Container(
-      alignment: alignment?.pixelSnap(pixelSnap),
-      padding: padding?.pixelSnap(pixelSnap),
+      alignment: alignment?.pixelSnap(ps),
+      padding: padding?.pixelSnap(ps),
       color: color,
-      decoration: decoration?.pixelSnap(pixelSnap),
-      foregroundDecoration: foregroundDecoration?.pixelSnap(pixelSnap),
-      constraints: constraints?.pixelSnap(pixelSnap),
-      margin: margin?.pixelSnap(pixelSnap),
+      decoration: decoration?.pixelSnap(ps),
+      foregroundDecoration: foregroundDecoration?.pixelSnap(ps),
+      constraints: constraints?.pixelSnap(ps),
+      margin: margin?.pixelSnap(ps),
       transform: transform,
-      transformAlignment: transformAlignment?.pixelSnap(pixelSnap),
+      transformAlignment: transformAlignment?.pixelSnap(ps),
       clipBehavior: clipBehavior,
       child: child,
     );
@@ -748,10 +748,10 @@ class IntrinsicWidth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.IntrinsicWidth(
-      stepWidth: stepWidth?.pixelSnap(pixelSnap),
-      stepHeight: stepHeight?.pixelSnap(pixelSnap),
+      stepWidth: stepWidth?.pixelSnap(ps),
+      stepHeight: stepHeight?.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -811,10 +811,10 @@ class LimitedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.LimitedBox(
-      maxWidth: maxWidth.pixelSnap(pixelSnap),
-      maxHeight: maxHeight.pixelSnap(pixelSnap),
+      maxWidth: maxWidth.pixelSnap(ps),
+      maxHeight: maxHeight.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -890,13 +890,13 @@ class OverflowBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.OverflowBox(
-      alignment: alignment.pixelSnap(pixelSnap),
-      minWidth: minWidth?.pixelSnap(pixelSnap),
-      maxWidth: maxWidth?.pixelSnap(pixelSnap),
-      minHeight: minHeight?.pixelSnap(pixelSnap),
-      maxHeight: maxHeight?.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
+      minWidth: minWidth?.pixelSnap(ps),
+      maxWidth: maxWidth?.pixelSnap(ps),
+      minHeight: minHeight?.pixelSnap(ps),
+      maxHeight: maxHeight?.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -972,9 +972,9 @@ class Padding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Padding(
-      padding: padding.pixelSnap(pixelSnap),
+      padding: padding.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -1073,10 +1073,10 @@ class SizedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.SizedBox(
-      width: width?.pixelSnap(pixelSnap),
-      height: height?.pixelSnap(pixelSnap),
+      width: width?.pixelSnap(ps),
+      height: height?.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -1138,10 +1138,10 @@ class SizedOverflowBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.SizedOverflowBox(
-      alignment: alignment.pixelSnap(pixelSnap),
-      size: size.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
+      size: size.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -1357,14 +1357,14 @@ class Positioned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Positioned(
-      left: left?.pixelSnap(pixelSnap),
-      top: top?.pixelSnap(pixelSnap),
-      right: right?.pixelSnap(pixelSnap),
-      bottom: bottom?.pixelSnap(pixelSnap),
-      width: width?.pixelSnap(pixelSnap),
-      height: height?.pixelSnap(pixelSnap),
+      left: left?.pixelSnap(ps),
+      top: top?.pixelSnap(ps),
+      right: right?.pixelSnap(ps),
+      bottom: bottom?.pixelSnap(ps),
+      width: width?.pixelSnap(ps),
+      height: height?.pixelSnap(ps),
       child: child,
     );
     return res;
@@ -1444,12 +1444,12 @@ class PhysicalModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.PhysicalModel(
       shape: shape,
       clipBehavior: clipBehavior,
-      borderRadius: borderRadius?.pixelSnap(pixelSnap),
-      elevation: elevation.pixelSnap(pixelSnap),
+      borderRadius: borderRadius?.pixelSnap(ps),
+      elevation: elevation.pixelSnap(ps),
       color: color,
       shadowColor: shadowColor,
       child: child,
@@ -1571,11 +1571,11 @@ class CustomPaint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.CustomPaint(
       painter: painter,
       foregroundPainter: foregroundPainter,
-      size: size.pixelSnap(pixelSnap),
+      size: size.pixelSnap(ps),
       isComplex: isComplex,
       willChange: willChange,
       child: child,
@@ -1802,10 +1802,10 @@ class Icon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.Icon(
       icon,
-      size: size?.pixelSnap(pixelSnap),
+      size: size?.pixelSnap(ps),
       fill: fill,
       weight: weight,
       grade: grade,
@@ -1869,10 +1869,10 @@ class ImageIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.ImageIcon(
       image,
-      size: size?.pixelSnap(pixelSnap),
+      size: size?.pixelSnap(ps),
       color: color,
       semanticLabel: semanticLabel,
     );
@@ -1979,9 +1979,9 @@ class AnimatedAlign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedAlign(
-      alignment: alignment.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
       heightFactor: heightFactor,
       widthFactor: widthFactor,
       curve: curve,
@@ -2155,16 +2155,16 @@ class AnimatedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedContainer(
-      alignment: alignment?.pixelSnap(pixelSnap),
-      padding: padding?.pixelSnap(pixelSnap),
-      decoration: decoration?.pixelSnap(pixelSnap),
-      foregroundDecoration: foregroundDecoration?.pixelSnap(pixelSnap),
-      constraints: constraints?.pixelSnap(pixelSnap),
-      margin: margin?.pixelSnap(pixelSnap),
+      alignment: alignment?.pixelSnap(ps),
+      padding: padding?.pixelSnap(ps),
+      decoration: decoration?.pixelSnap(ps),
+      foregroundDecoration: foregroundDecoration?.pixelSnap(ps),
+      constraints: constraints?.pixelSnap(ps),
+      margin: margin?.pixelSnap(ps),
       transform: transform,
-      transformAlignment: transformAlignment?.pixelSnap(pixelSnap),
+      transformAlignment: transformAlignment?.pixelSnap(ps),
       clipBehavior: clipBehavior,
       curve: curve,
       duration: duration,
@@ -2329,7 +2329,7 @@ class AnimatedCrossFade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedCrossFade(
       firstChild: firstChild,
       secondChild: secondChild,
@@ -2339,7 +2339,7 @@ class AnimatedCrossFade extends StatelessWidget {
       firstCurve: firstCurve,
       secondCurve: secondCurve,
       sizeCurve: sizeCurve,
-      alignment: alignment.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
       layoutBuilder: layoutBuilder,
       excludeBottomFocus: excludeBottomFocus,
     );
@@ -2470,14 +2470,14 @@ class AnimatedPositioned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedPositioned(
-      left: left?.pixelSnap(pixelSnap),
-      top: top?.pixelSnap(pixelSnap),
-      right: right?.pixelSnap(pixelSnap),
-      bottom: bottom?.pixelSnap(pixelSnap),
-      width: width?.pixelSnap(pixelSnap),
-      height: height?.pixelSnap(pixelSnap),
+      left: left?.pixelSnap(ps),
+      top: top?.pixelSnap(ps),
+      right: right?.pixelSnap(ps),
+      bottom: bottom?.pixelSnap(ps),
+      width: width?.pixelSnap(ps),
+      height: height?.pixelSnap(ps),
       curve: curve,
       duration: duration,
       onEnd: onEnd,
@@ -2585,12 +2585,12 @@ class AnimatedPhysicalModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedPhysicalModel(
       shape: shape,
       clipBehavior: clipBehavior,
-      borderRadius: borderRadius.pixelSnap(pixelSnap),
-      elevation: elevation.pixelSnap(pixelSnap),
+      borderRadius: borderRadius.pixelSnap(ps),
+      elevation: elevation.pixelSnap(ps),
       color: color,
       animateColor: animateColor,
       shadowColor: shadowColor,
@@ -2680,9 +2680,9 @@ class AnimatedSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     Widget res = widgets.AnimatedSize(
-      alignment: alignment.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
       curve: curve,
       duration: duration,
       reverseDuration: reverseDuration,

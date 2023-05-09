@@ -162,7 +162,7 @@ class Generator {
         !pixelSnapBlackList.contains(field.name);
 
     if (c.fields.any(shouldPixelSnap)) {
-      _buffer.writeln('final pixelSnap = PixelSnap.of(context);');
+      _buffer.writeln('final ps = PixelSnap.of(context);');
     }
 
     _buffer.writeln('Widget res = widgets.${c.className}(');
@@ -174,7 +174,7 @@ class Generator {
 
       var pixelSnapSuffix = '';
       if (shouldPixelSnap(field)) {
-        pixelSnapSuffix = '.pixelSnap(pixelSnap)';
+        pixelSnapSuffix = '.pixelSnap(ps)';
       }
       if (pixelSnapSuffix.isNotEmpty && field.nullable) {
         pixelSnapSuffix = '?$pixelSnapSuffix';

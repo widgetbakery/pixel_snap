@@ -38,19 +38,19 @@ class RawImage extends widgets.RawImage {
 
   @override
   RenderImagePixelSnap createRenderObject(BuildContext context) {
-    final pixelSnap = PixelSnap.of(context);
+    final ps = PixelSnap.of(context);
     return RenderImagePixelSnap(
       pixelSnap: PixelSnap.of(context),
       image: image?.clone(),
       debugImageLabel: debugImageLabel,
-      width: width?.pixelSnap(pixelSnap),
-      height: height?.pixelSnap(pixelSnap),
+      width: width?.pixelSnap(ps),
+      height: height?.pixelSnap(ps),
       scale: scale,
       color: color,
       opacity: opacity,
       colorBlendMode: colorBlendMode,
       fit: fit,
-      alignment: alignment.pixelSnap(pixelSnap),
+      alignment: alignment.pixelSnap(ps),
       repeat: repeat,
       centerSlice: centerSlice,
       matchTextDirection: matchTextDirection,
