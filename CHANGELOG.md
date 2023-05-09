@@ -3,25 +3,9 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 2023-05-04
+## 0.1.0
 
-### Changes
-
----
-
-Packages with breaking changes:
-
- - There are no breaking changes in this release.
-
-Packages with other changes:
-
- - [`pixel_snap` - `v0.0.5`](#pixel_snap---v005)
-
----
-
-#### `pixel_snap` - `v0.0.5`
-
- - **FEAT**: upgrade to latest Flutter stable (#10).
+  **BREAKING**: Removed global state. It is now necessary to get PixelSnap from build context.
 
 ## 0.0.5
 
