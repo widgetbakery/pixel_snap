@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.0+1
+
+ - **FIX**: missing imports.
+
 ## 0.1.0
 
   **BREAKING**: Removed global state. It is now necessary to get PixelSnap from build context.
