@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-10
+
+### Changes
+
+## 0.1.0+2
+
+ - **FIX**: stack overflow when snapping EdgeInsetsDirectional.
+
 ## 0.1.0+1
 
  - **FIX**: missing imports.
