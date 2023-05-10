@@ -96,6 +96,18 @@ extension PixelSnapExtEdgeInsets on EdgeInsets {
   }
 }
 
+extension PixelSnapEdgeInsetDirectional on EdgeInsetsDirectional {
+  EdgeInsetsDirectional pixelSnap(PixelSnap ps,
+      [PixelSnapMode mode = PixelSnapMode.snap]) {
+    return EdgeInsetsDirectional.only(
+      start: start.pixelSnap(ps, mode),
+      top: top.pixelSnap(ps, mode),
+      end: end.pixelSnap(ps, mode),
+      bottom: bottom.pixelSnap(ps, mode),
+    );
+  }
+}
+
 extension PixelSnapExtConstraints on BoxConstraints {
   BoxConstraints pixelSnap(PixelSnap ps,
       [PixelSnapMode mode = PixelSnapMode.snap]) {
