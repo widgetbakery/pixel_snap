@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pixel_snap` - `v0.1.1`](#pixel_snap---v011)
+
+---
+
+#### `pixel_snap` - `v0.1.1`
+
+ - **FEAT**: add PixelSnapScrollController (#12).
+
+## 0.1.1
+
+ - **FEAT**: add PixelSnapScrollController (#12).
+
+
 ## 2023-05-10
 
 ### Changes
