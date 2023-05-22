@@ -12,7 +12,7 @@ import 'package:flutter/rendering.dart'
     show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;
 import 'dart:ui' as ui;
 import 'dart:io' show File;
-export 'package:flutter/widgets.dart' hide RawImage;
+export 'package:flutter/widgets.dart' hide RawImage, ScrollController;
 import '../forked/render_flex.dart';
 import '../forked/render_fractionally_sized_box.dart';
 import '../forked/render_paragraph.dart';

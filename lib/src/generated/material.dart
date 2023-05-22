@@ -2,6 +2,7 @@
 export 'package:flutter/material.dart'
     hide
         RawImage,
+        ScrollController,
         Flex,
         Row,
         Column,

@@ -2,6 +2,7 @@
 export 'package:flutter/cupertino.dart'
     hide
         RawImage,
+        ScrollController,
         Flex,
         Row,
         Column,
