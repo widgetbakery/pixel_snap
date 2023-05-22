@@ -15,8 +15,9 @@ class GeneratorException implements Exception {
 class Generator {
   Generator(this.contents);
 
-  final List<String> _ourCustomWidgets = [
+  final List<String> _ourCustomClasses = [
     'RawImage',
+    'ScrollController',
   ];
 
   String generateWidgets() {
@@ -26,7 +27,7 @@ class Generator {
     _buffer.writeln(
         "// ignore_for_file: unnecessary_null_comparison, deprecated_member_use");
 
-    final classes = _ourCustomWidgets.join(', ');
+    final classes = _ourCustomClasses.join(', ');
     _buffer.writeln('import \'../pixel_snap.dart\';');
     _buffer.writeln('import \'../pixel_snap_ext.dart\';');
     _buffer.writeln('import \'../widgets/pixel_snap_size.dart\';');
@@ -63,7 +64,7 @@ class Generator {
     _buffer.clear();
     _buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     final classes = [
-      ..._ourCustomWidgets,
+      ..._ourCustomClasses,
       ...contents.forkedClasses.map((e) => e.className),
       ...contents.classes.map((e) => e.className)
     ].join(', ');

@@ -14,12 +14,13 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
+          flutter-version: "3.7.12"
       - name: Install Melos
         run: flutter pub global activate melos
       - name: Melos Boostrap
         run: melos bootstrap
       - name: Flutter Format
-        run: melos exec -c 1 flutter format . --output=none --set-exit-if-changed
+        run: melos exec -c 1 dart format . --output=none --set-exit-if-changed
       - name: Flutter Analyze
         run: melos exec -c 1 flutter analyze
       - name: Futter Test

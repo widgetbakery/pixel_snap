@@ -143,6 +143,8 @@ If you stick to these, you application should be pixel-perfect with very little 
 
 * If you are using foreign widgets that are not physical pixels aware but are customizable enough so that they let you specify padding, insets or border, you can use the `.pixelSnap()` extension method to pixel snap them.
 
+* For scroll views you can use `PixelSnapScrollController` or simply `ScrollController` after importing `pixel_snap/widgets.dart` or `pixel_snap/material.dart`. The scroll controller will ensure that the scroll offset is always snapped to physical pixels.ƒ
+
 ## Simulating different device pixel ratios
 
 PixelSnap comes with `PixelSnapDebugBar` widget. You can put it above your applicaiton widget (it should be the top level widget) and it will give you a bar that can be used to switch between simulated device pixel ratios and turn pixel snapping on and off.
