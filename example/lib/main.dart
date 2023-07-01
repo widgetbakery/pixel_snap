@@ -62,19 +62,25 @@ class MainApp extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(10).copyWith(top: 0),
-                decoration: _simpleDecoration,
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(
-                    3,
-                    (index) => Container(
-                      margin: const EdgeInsets.all(4),
-                      decoration: _simpleDecoration,
-                      width: 40,
-                      height: 10,
+              PixelSnapSize(
+                child: PixelSnapOverride(
+                  pixelSnapFunction: (value, _, __) => value,
+                  child: Container(
+                    margin: const EdgeInsets.all(10).copyWith(top: 0),
+                    decoration: _simpleDecoration,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: List.generate(
+                        3,
+                        (index) => Container(
+                          margin: const EdgeInsets.all(4),
+                          decoration: _simpleDecoration,
+                          width: 40,
+                          height: 10,
+                        ),
+                      ),
                     ),
                   ),
                 ),
