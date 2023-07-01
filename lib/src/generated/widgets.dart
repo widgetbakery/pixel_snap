@@ -36,13 +36,6 @@ import '../forked/raw_image.dart';
 /// dimension and the size factor. For example if widthFactor is 2.0 then
 /// the width of this widget will always be twice its child's width.
 ///
-/// ## How it works
-///
-/// The [alignment] property describes a point in the `child`'s coordinate system
-/// and a different point in the coordinate system of this widget. The [Align]
-/// widget positions the `child` such that both points are lined up on top of
-/// each other.
-///
 /// {@tool snippet}
 /// The [Align] widget in this example uses one of the defined constants from
 /// [Alignment], [Alignment.topRight]. This places the [FlutterLogo] in the top
@@ -67,15 +60,27 @@ import '../forked/raw_image.dart';
 /// ```
 /// {@end-tool}
 ///
+/// ## How it works
+///
+/// The [alignment] property describes a point in the `child`'s coordinate system
+/// and a different point in the coordinate system of this widget. The [Align]
+/// widget positions the `child` such that both points are lined up on top of
+/// each other.
+///
 /// {@tool snippet}
-/// The [Alignment] used in the following example defines a single point:
+/// The [Alignment] used in the following example defines two points:
 ///
 ///   * (0.2 * width of [FlutterLogo]/2 + width of [FlutterLogo]/2, 0.6 * height
-///   of [FlutterLogo]/2 + height of [FlutterLogo]/2) = (36.0, 48.0).
+///     of [FlutterLogo]/2 + height of [FlutterLogo]/2) = (36.0, 48.0) in the
+///     coordinate system of the [FlutterLogo].
+///   * (0.2 * width of [Align]/2 + width of [Align]/2, 0.6 * height
+///     of [Align]/2 + height of [Align]/2) = (72.0, 96.0) in the
+///     coordinate system of the [Align] widget (blue area).
 ///
-/// The [Alignment] class uses a coordinate system with an origin in the center
-/// of the [Container], as shown with the [Icon] above. [Align] will place the
-/// [FlutterLogo] at (36.0, 48.0) according to this coordinate system.
+/// The [Align] widget positions the [FlutterLogo] such that the two points are on
+/// top of each other. In this example, the top left of the [FlutterLogo] will
+/// be placed at (72.0, 96.0) - (36.0, 48.0) = (36.0, 48.0) from the top left of
+/// the [Align] widget.
 ///
 /// ![A blue square container with the Flutter logo positioned according to the
 /// Alignment specified above. A point is marked at the center of the container
@@ -102,9 +107,9 @@ import '../forked/raw_image.dart';
 /// The [FractionalOffset] used in the following example defines two points:
 ///
 ///   * (0.2 * width of [FlutterLogo], 0.6 * height of [FlutterLogo]) = (12.0, 36.0)
-///     in the coordinate system of the blue container.
+///     in the coordinate system of the [FlutterLogo].
 ///   * (0.2 * width of [Align], 0.6 * height of [Align]) = (24.0, 72.0) in the
-///     coordinate system of the [Align] widget.
+///     coordinate system of the [Align] widget (blue area).
 ///
 /// The [Align] widget positions the [FlutterLogo] such that the two points are on
 /// top of each other. In this example, the top left of the [FlutterLogo] will
@@ -157,8 +162,7 @@ class Align extends StatelessWidget {
       this.widthFactor,
       this.heightFactor,
       this.child})
-      : assert(alignment != null),
-        assert(widthFactor == null || widthFactor >= 0.0),
+      : assert(widthFactor == null || widthFactor >= 0.0),
         assert(heightFactor == null || heightFactor >= 0.0);
 
   /// How to align the child.
@@ -232,9 +236,7 @@ class Baseline extends StatelessWidget {
       {super.key,
       required this.baseline,
       required this.baselineType,
-      this.child})
-      : assert(baseline != null),
-        assert(baselineType != null);
+      this.child});
 
   /// The number of logical pixels from the top of this box at which to position
   /// the child's baseline.
@@ -300,8 +302,7 @@ class ConstrainedBox extends StatelessWidget {
   ///
   /// The [constraints] argument must not be null.
   ConstrainedBox({super.key, required this.constraints, this.child})
-      : assert(constraints != null),
-        assert(constraints.debugAssertIsValid());
+      : assert(constraints.debugAssertIsValid());
 
   /// The additional constraints to impose on the child.
   final BoxConstraints constraints;
@@ -371,9 +372,7 @@ class DecoratedBox extends StatelessWidget {
       {super.key,
       required this.decoration,
       this.position = DecorationPosition.background,
-      this.child})
-      : assert(decoration != null),
-        assert(position != null);
+      this.child});
 
   /// What decoration to paint.
   ///
@@ -561,7 +560,6 @@ class Container extends StatelessWidget {
         assert(padding == null || padding.isNonNegative),
         assert(decoration == null || decoration.debugAssertIsValid()),
         assert(constraints == null || constraints.debugAssertIsValid()),
-        assert(clipBehavior != null),
         assert(decoration != null || clipBehavior == Clip.none),
         assert(
             color == null || decoration == null,
@@ -793,8 +791,8 @@ class LimitedBox extends StatelessWidget {
       this.maxWidth = double.infinity,
       this.maxHeight = double.infinity,
       this.child})
-      : assert(maxWidth != null && maxWidth >= 0.0),
-        assert(maxHeight != null && maxHeight >= 0.0);
+      : assert(maxWidth >= 0.0),
+        assert(maxHeight >= 0.0);
 
   /// The maximum width limit to apply in the absence of a
   /// [BoxConstraints.maxWidth] constraint.
@@ -934,7 +932,7 @@ class OverflowBox extends StatelessWidget {
 /// ### Why use a [Padding] widget rather than a [Container] with a [Container.padding] property?
 ///
 /// There isn't really any difference between the two. If you supply a
-/// [Container.padding] argument, [Container] simply builds a [Padding] widget
+/// [Container.padding] argument, [Container] builds a [Padding] widget
 /// for you.
 ///
 /// [Container] doesn't implement its properties directly. Instead, [Container]
@@ -945,22 +943,22 @@ class OverflowBox extends StatelessWidget {
 /// convenient, feel free to use it. If not, feel free to build these simpler
 /// widgets in whatever combination meets your needs.
 ///
-/// In fact, the majority of widgets in Flutter are simply combinations of other
+/// In fact, the majority of widgets in Flutter are combinations of other
 /// simpler widgets. Composition, rather than inheritance, is the primary
 /// mechanism for building up widgets.
 ///
 /// See also:
 ///
+///  * [EdgeInsets], the class that is used to describe the padding dimensions.
 ///  * [AnimatedPadding], which animates changes in [padding] over a given
 ///    duration.
-///  * [EdgeInsets], the class that is used to describe the padding dimensions.
+///  * [SliverPadding], the sliver equivalent of this widget.
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class Padding extends StatelessWidget {
   /// Creates a widget that insets its child.
   ///
   /// The [padding] argument must not be null.
-  const Padding({super.key, required this.padding, this.child})
-      : assert(padding != null);
+  const Padding({super.key, required this.padding, this.child});
 
   /// The amount of space by which to inset the child.
   final EdgeInsetsGeometry padding;
@@ -1104,9 +1102,7 @@ class SizedOverflowBox extends StatelessWidget {
       {super.key,
       required this.size,
       this.alignment = Alignment.center,
-      this.child})
-      : assert(size != null),
-        assert(alignment != null);
+      this.child});
 
   /// How to align the child.
   ///
@@ -1274,18 +1270,15 @@ class Positioned extends StatelessWidget {
       double? width,
       double? height,
       required Widget child}) {
-    assert(textDirection != null);
     double? left;
     double? right;
     switch (textDirection) {
       case TextDirection.rtl:
         left = end;
         right = start;
-        break;
       case TextDirection.ltr:
         left = start;
         right = end;
-        break;
     }
     return Positioned(
         key: key,
@@ -1403,11 +1396,7 @@ class PhysicalModel extends StatelessWidget {
       required this.color,
       this.shadowColor = const Color(0xFF000000),
       this.child})
-      : assert(shape != null),
-        assert(elevation != null && elevation >= 0.0),
-        assert(color != null),
-        assert(shadowColor != null),
-        assert(clipBehavior != null);
+      : assert(elevation >= 0.0);
 
   /// The type of shape.
   final BoxShape shape;
@@ -1483,8 +1472,7 @@ class PhysicalModel extends StatelessWidget {
 /// a child, they attempt to size themselves to the [size], which defaults to
 /// [Size.zero]. [size] must not be null.
 ///
-/// [isComplex] and [willChange] are hints to the compositor's raster cache
-/// and must not be null.
+/// [isComplex] and [willChange] are hints to the compositor's raster cache.
 ///
 /// {@tool snippet}
 ///
@@ -1523,10 +1511,7 @@ class CustomPaint extends StatelessWidget {
       this.isComplex = false,
       this.willChange = false,
       this.child})
-      : assert(size != null),
-        assert(isComplex != null),
-        assert(willChange != null),
-        assert(painter != null ||
+      : assert(painter != null ||
             foregroundPainter != null ||
             (!isComplex && !willChange));
 
@@ -1550,8 +1535,8 @@ class CustomPaint extends StatelessWidget {
   /// The compositor contains a raster cache that holds bitmaps of layers in
   /// order to avoid the cost of repeatedly rendering those layers on each
   /// frame. If this flag is not set, then the compositor will apply its own
-  /// heuristics to decide whether the this layer is complex enough to benefit
-  /// from caching.
+  /// heuristics to decide whether the layer containing this widget is complex
+  /// enough to benefit from caching.
   ///
   /// This flag can't be set to true if both [painter] and [foregroundPainter]
   /// are null because this flag will be ignored in such case.
@@ -1559,6 +1544,11 @@ class CustomPaint extends StatelessWidget {
 
   /// Whether the raster cache should be told that this painting is likely
   /// to change in the next frame.
+  ///
+  /// This hint tells the compositor not to cache the layer containing this
+  /// widget because the cache will not be used in the future. If this hint is
+  /// not set, the compositor will apply its own heuristics to decide whether
+  /// the layer is likely to be reused in the future.
   ///
   /// This flag can't be set to true if both [painter] and [foregroundPainter]
   /// are null because this flag will be ignored in such case.
@@ -1606,9 +1596,9 @@ class CustomPaint extends StatelessWidget {
 /// ![The following code snippet would generate a row of icons consisting of a pink heart, a green musical note, and a blue umbrella, each progressively bigger than the last.](https://flutter.github.io/assets-for-api-docs/assets/widgets/icon.png)
 ///
 /// ```dart
-/// Row(
+/// const Row(
 ///   mainAxisAlignment: MainAxisAlignment.spaceAround,
-///   children: const <Widget>[
+///   children: <Widget>[
 ///     Icon(
 ///       Icons.favorite,
 ///       color: Colors.pink,
@@ -1928,8 +1918,7 @@ class AnimatedAlign extends StatelessWidget {
       this.curve = Curves.linear,
       required this.duration,
       this.onEnd})
-      : assert(alignment != null),
-        assert(widthFactor == null || widthFactor >= 0.0),
+      : assert(widthFactor == null || widthFactor >= 0.0),
         assert(heightFactor == null || heightFactor >= 0.0);
 
   /// How to align the child.
@@ -2241,17 +2230,7 @@ class AnimatedCrossFade extends StatelessWidget {
       required this.duration,
       this.reverseDuration,
       this.layoutBuilder = widgets.AnimatedCrossFade.defaultLayoutBuilder,
-      this.excludeBottomFocus = true})
-      : assert(firstChild != null),
-        assert(secondChild != null),
-        assert(firstCurve != null),
-        assert(secondCurve != null),
-        assert(sizeCurve != null),
-        assert(alignment != null),
-        assert(crossFadeState != null),
-        assert(duration != null),
-        assert(layoutBuilder != null),
-        assert(excludeBottomFocus != null);
+      this.excludeBottomFocus = true});
 
   /// The child that is visible when [crossFadeState] is
   /// [CrossFadeState.showFirst]. It fades out when transitioning
@@ -2525,15 +2504,7 @@ class AnimatedPhysicalModel extends StatelessWidget {
       this.curve = Curves.linear,
       required this.duration,
       this.onEnd})
-      : assert(child != null),
-        assert(shape != null),
-        assert(clipBehavior != null),
-        assert(borderRadius != null),
-        assert(elevation != null && elevation >= 0.0),
-        assert(color != null),
-        assert(shadowColor != null),
-        assert(animateColor != null),
-        assert(animateShadowColor != null);
+      : assert(elevation >= 0.0);
 
   /// The widget below this widget in the tree.
   ///
@@ -2628,10 +2599,7 @@ class AnimatedSize extends StatelessWidget {
       this.curve = Curves.linear,
       required this.duration,
       this.reverseDuration,
-      @Deprecated('This field is now ignored. ' 'This feature was deprecated after v2.2.0-10.1.pre.')
-          TickerProvider? vsync,
-      this.clipBehavior = Clip.hardEdge})
-      : assert(clipBehavior != null);
+      this.clipBehavior = Clip.hardEdge});
 
   /// The widget below this widget in the tree.
   ///
@@ -2723,8 +2691,8 @@ class AnimatedSize extends StatelessWidget {
 ///
 /// Layout for a [Flex] proceeds in six steps:
 ///
-/// 1. Layout each child a null or zero flex factor (e.g., those that are not
-///    [Expanded]) with unbounded main axis constraints and the incoming
+/// 1. Layout each child with a null or zero flex factor (e.g., those that are
+///    not [Expanded]) with unbounded main axis constraints and the incoming
 ///    cross axis constraints. If the [crossAxisAlignment] is
 ///    [CrossAxisAlignment.stretch], instead use tight cross axis constraints
 ///    that match the incoming max extent in the cross axis.
@@ -2778,7 +2746,7 @@ class Flex extends MultiChildRenderObjectWidget {
   /// to be necessary to decide which direction to lay the children in or to
   /// disambiguate `start` or `end` values for the main or cross axis
   /// directions, the [textDirection] must not be null.
-  Flex({
+  const Flex({
     super.key,
     required this.direction,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -2789,16 +2757,11 @@ class Flex extends MultiChildRenderObjectWidget {
     this.textBaseline, // NO DEFAULT: we don't know what the text's baseline should be
     this.clipBehavior = Clip.none,
     super.children,
-  })  : assert(direction != null),
-        assert(mainAxisAlignment != null),
-        assert(mainAxisSize != null),
-        assert(crossAxisAlignment != null),
-        assert(verticalDirection != null),
-        assert(
-            crossAxisAlignment != CrossAxisAlignment.baseline ||
+  }) : assert(
+            !identical(crossAxisAlignment, CrossAxisAlignment.baseline) ||
                 textBaseline != null,
-            'textBaseline is required if you specify the crossAxisAlignment with CrossAxisAlignment.baseline'),
-        assert(clipBehavior != null);
+            'textBaseline is required if you specify the crossAxisAlignment with CrossAxisAlignment.baseline');
+  // Cannot use == in the assert above instead of identical because of https://github.com/dart-lang/language/issues/1811.
 
   /// The direction to use as the main axis.
   ///
@@ -2896,12 +2859,10 @@ class Flex extends MultiChildRenderObjectWidget {
   final Clip clipBehavior;
 
   bool get _needTextDirection {
-    assert(direction != null);
     switch (direction) {
       case Axis.horizontal:
         return true; // because it affects the layout order.
       case Axis.vertical:
-        assert(crossAxisAlignment != null);
         return crossAxisAlignment == CrossAxisAlignment.start ||
             crossAxisAlignment == CrossAxisAlignment.end;
     }
@@ -3002,8 +2963,8 @@ class Flex extends MultiChildRenderObjectWidget {
 /// ![](https://flutter.github.io/assets-for-api-docs/assets/widgets/row.png)
 ///
 /// ```dart
-/// Row(
-///   children: const <Widget>[
+/// const Row(
+///   children: <Widget>[
 ///     Expanded(
 ///       child: Text('Deliver features faster', textAlign: TextAlign.center),
 ///     ),
@@ -3037,8 +2998,8 @@ class Flex extends MultiChildRenderObjectWidget {
 /// Suppose, for instance, that you had this code:
 ///
 /// ```dart
-/// Row(
-///   children: const <Widget>[
+/// const Row(
+///   children: <Widget>[
 ///     FlutterLogo(),
 ///     Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
 ///     Icon(Icons.sentiment_very_satisfied),
@@ -3064,8 +3025,8 @@ class Flex extends MultiChildRenderObjectWidget {
 /// row that the child should be given the remaining room:
 ///
 /// ```dart
-/// Row(
-///   children: const <Widget>[
+/// const Row(
+///   children: <Widget>[
 ///     FlutterLogo(),
 ///     Expanded(
 ///       child: Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
@@ -3093,9 +3054,9 @@ class Flex extends MultiChildRenderObjectWidget {
 /// [TextDirection.rtl]. This is shown in the example below
 ///
 /// ```dart
-/// Row(
+/// const Row(
 ///   textDirection: TextDirection.rtl,
-///   children: const <Widget>[
+///   children: <Widget>[
 ///     FlutterLogo(),
 ///     Expanded(
 ///       child: Text("Flutter's hot reload helps you quickly and easily experiment, build UIs, add features, and fix bug faster. Experience sub-second reload times, without losing state, on emulators, simulators, and hardware for iOS and Android."),
@@ -3114,8 +3075,8 @@ class Flex extends MultiChildRenderObjectWidget {
 ///
 /// Layout for a [Row] proceeds in six steps:
 ///
-/// 1. Layout each child a null or zero flex factor (e.g., those that are not
-///    [Expanded]) with unbounded horizontal constraints and the incoming
+/// 1. Layout each child with a null or zero flex factor (e.g., those that are
+///    not [Expanded]) with unbounded horizontal constraints and the incoming
 ///    vertical constraints. If the [crossAxisAlignment] is
 ///    [CrossAxisAlignment.stretch], instead use tight vertical constraints that
 ///    match the incoming max height.
@@ -3167,7 +3128,7 @@ class Row extends Flex {
   /// unless the row has no children or only one child) or to disambiguate
   /// `start` or `end` values for the [mainAxisAlignment], the [textDirection]
   /// must not be null.
-  Row({
+  const Row({
     super.key,
     super.mainAxisAlignment,
     super.mainAxisSize,
@@ -3204,8 +3165,8 @@ class Row extends Flex {
 /// ![Using the Column in this way creates two short lines of text with a large Flutter underneath.](https://flutter.github.io/assets-for-api-docs/assets/widgets/column.png)
 ///
 /// ```dart
-/// Column(
-///   children: const <Widget>[
+/// const Column(
+///   children: <Widget>[
 ///     Text('Deliver features faster'),
 ///     Text('Craft beautiful UIs'),
 ///     Expanded(
@@ -3305,8 +3266,8 @@ class Row extends Flex {
 ///
 /// Layout for a [Column] proceeds in six steps:
 ///
-/// 1. Layout each child a null or zero flex factor (e.g., those that are not
-///    [Expanded]) with unbounded vertical constraints and the incoming
+/// 1. Layout each child with a null or zero flex factor (e.g., those that are
+///    not [Expanded]) with unbounded vertical constraints and the incoming
 ///    horizontal constraints. If the [crossAxisAlignment] is
 ///    [CrossAxisAlignment.stretch], instead use tight horizontal constraints
 ///    that match the incoming max width.
@@ -3360,7 +3321,7 @@ class Column extends Flex {
   /// any. If there is no ambient directionality, and a text direction is going
   /// to be necessary to disambiguate `start` or `end` values for the
   /// [crossAxisAlignment], the [textDirection] must not be null.
-  Column({
+  const Column({
     super.key,
     super.mainAxisAlignment,
     super.mainAxisSize,
@@ -3407,8 +3368,7 @@ class FractionallySizedBox extends SingleChildRenderObjectWidget {
     this.widthFactor,
     this.heightFactor,
     super.child,
-  })  : assert(alignment != null),
-        assert(widthFactor == null || widthFactor >= 0.0),
+  })  : assert(widthFactor == null || widthFactor >= 0.0),
         assert(heightFactor == null || heightFactor >= 0.0);
 
   /// {@template flutter.widgets.basic.fractionallySizedBox.widthFactor}
@@ -3627,11 +3587,7 @@ class Text extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  })  : assert(
-          data != null,
-          'A non-null String must be provided to a Text widget.',
-        ),
-        textSpan = null;
+  }) : textSpan = null;
 
   /// Creates a text widget with a [InlineSpan].
   ///
@@ -3659,11 +3615,7 @@ class Text extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  })  : assert(
-          textSpan != null,
-          'A non-null TextSpan must be provided to a Text.rich widget.',
-        ),
-        data = null;
+  }) : data = null;
 
   /// The text to display.
   ///
@@ -3785,7 +3737,7 @@ class Text extends StatelessWidget {
     if (style == null || style!.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
     }
-    if (MediaQuery.boldTextOverride(context)) {
+    if (MediaQuery.boldTextOf(context)) {
       effectiveTextStyle = effectiveTextStyle!
           .merge(const TextStyle(fontWeight: FontWeight.bold));
     }
@@ -3978,13 +3930,7 @@ class RichText extends MultiChildRenderObjectWidget {
     this.textHeightBehavior,
     this.selectionRegistrar,
     this.selectionColor,
-  })  : assert(text != null),
-        assert(textAlign != null),
-        assert(softWrap != null),
-        assert(overflow != null),
-        assert(textScaleFactor != null),
-        assert(maxLines == null || maxLines > 0),
-        assert(textWidthBasis != null),
+  })  : assert(maxLines == null || maxLines > 0),
         assert(selectionRegistrar == null || selectionColor != null),
         super(children: _extractChildren(text));
 
@@ -4158,17 +4104,18 @@ class RichText extends MultiChildRenderObjectWidget {
 /// {@youtube 560 315 https://www.youtube.com/watch?v=T4Uehk3_wlY}
 ///
 /// {@tool dartpad}
-/// In this example, the image is stretched to fill the entire [Container], which would
-/// not happen normally without using FittedBox.
+/// In this example, the [Placeholder] is stretched to fill the entire
+/// [Container]. Try changing the fit types to see the effect on the layout of
+/// the [Placeholder].
 ///
 /// ** See code in examples/api/lib/widgets/basic/fitted_box.0.dart **
 /// {@end-tool}
 ///
 /// See also:
 ///
-///  * [Transform], which applies an arbitrary transform to its child widget at
-///    paint time.
-///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
+/// * [Transform], which applies an arbitrary transform to its child widget at
+///   paint time.
+/// * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class FittedBox extends SingleChildRenderObjectWidget {
   /// Creates a widget that scales and positions its child within itself according to [fit].
   ///
@@ -4179,9 +4126,7 @@ class FittedBox extends SingleChildRenderObjectWidget {
     this.alignment = Alignment.center,
     this.clipBehavior = Clip.none,
     super.child,
-  })  : assert(fit != null),
-        assert(alignment != null),
-        assert(clipBehavior != null);
+  });
 
   /// How to inscribe the child into the space allocated during layout.
   final BoxFit fit;
@@ -4285,16 +4230,33 @@ class FittedBox extends SingleChildRenderObjectWidget {
 /// ```
 /// {@end-tool}
 ///
+/// ## Memory usage
+///
+/// The image is stored in memory in uncompressed form (so that it can be
+/// rendered). Large images will use a lot of memory: a 4K image (3840×2160)
+/// will use over 30MB of RAM (assuming 32 bits per pixel).
+///
+/// This problem is exacerbated by the images being cached in the [ImageCache],
+/// so large images can use memory for even longer than they are displayed.
+///
 /// The [Image.asset], [Image.network], [Image.file], and [Image.memory]
-/// constructors allow a custom decode size to be specified through
-/// `cacheWidth` and `cacheHeight` parameters. The engine will decode the
-/// image to the specified size, which is primarily intended to reduce the
-/// memory usage of [ImageCache].
+/// constructors allow a custom decode size to be specified through `cacheWidth`
+/// and `cacheHeight` parameters. The engine will then decode and store the
+/// image at the specified size, instead of the image's natural size.
+///
+/// This can significantly reduce the memory usage. For example, a 4K image that
+/// will be rendered at only 384×216 pixels (one-tenth the horizontal and
+/// vertical dimensions) would only use 330KB if those dimensions are specified
+/// using the `cacheWidth` and `cacheHeight` parameters, a 100-fold reduction in
+/// memory usage.
+///
+/// ### Web considerations
 ///
 /// In the case where a network image is used on the Web platform, the
-/// `cacheWidth` and `cacheHeight` parameters are ignored as the Web engine
-/// delegates image decoding of network images to the Web, which does not support
-/// custom decode sizes.
+/// `cacheWidth` and `cacheHeight` parameters are only supported when the
+/// application is running with the CanvasKit renderer. When the application is
+/// using the HTML renderer, the web engine delegates image decoding of network
+/// images to the Web, which does not support custom decode sizes.
 ///
 /// See also:
 ///
@@ -4346,12 +4308,7 @@ class Image extends StatefulWidget {
     this.gaplessPlayback = false,
     this.isAntiAlias = false,
     this.filterQuality = FilterQuality.low,
-  })  : assert(image != null),
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(filterQuality != null),
-        assert(matchTextDirection != null),
-        assert(isAntiAlias != null);
+  });
 
   /// Creates a widget that displays an [ImageStream] obtained from the network.
   ///
@@ -4371,7 +4328,7 @@ class Image extends StatefulWidget {
   ///
   /// If [excludeFromSemantics] is true, then [semanticLabel] will be ignored.
   ///
-  /// If [cacheWidth] or [cacheHeight] are provided, it indicates to the
+  /// If `cacheWidth` or `cacheHeight` are provided, they indicate to the
   /// engine that the image should be decoded at the specified size. The image
   /// will be rendered to the constraints of the layout or [width] and [height]
   /// regardless of these parameters. These parameters are primarily intended
@@ -4380,9 +4337,6 @@ class Image extends StatefulWidget {
   /// In the case where the network image is on the Web platform, the [cacheWidth]
   /// and [cacheHeight] parameters are ignored as the web engine delegates
   /// image decoding to the web which does not support custom decode sizes.
-  //
-  // TODO(garyq): We should eventually support custom decoding of network images
-  // on Web as well, see https://github.com/flutter/flutter/issues/42789.
   Image.network(
     String src, {
     super.key,
@@ -4410,12 +4364,8 @@ class Image extends StatefulWidget {
     int? cacheHeight,
   })  : image = ResizeImage.resizeIfNeeded(cacheWidth, cacheHeight,
             NetworkImage(src, scale: scale, headers: headers)),
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(matchTextDirection != null),
         assert(cacheWidth == null || cacheWidth > 0),
-        assert(cacheHeight == null || cacheHeight > 0),
-        assert(isAntiAlias != null);
+        assert(cacheHeight == null || cacheHeight > 0);
 
   /// Creates a widget that displays an [ImageStream] obtained from a [File].
   ///
@@ -4433,7 +4383,7 @@ class Image extends StatefulWidget {
   ///
   /// If [excludeFromSemantics] is true, then [semanticLabel] will be ignored.
   ///
-  /// If [cacheWidth] or [cacheHeight] are provided, it indicates to the
+  /// If `cacheWidth` or `cacheHeight` are provided, they indicate to the
   /// engine that the image must be decoded at the specified size. The image
   /// will be rendered to the constraints of the layout or [width] and [height]
   /// regardless of these parameters. These parameters are primarily intended
@@ -4480,13 +4430,8 @@ class Image extends StatefulWidget {
         image = ResizeImage.resizeIfNeeded(
             cacheWidth, cacheHeight, FileImage(file, scale: scale)),
         loadingBuilder = null,
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(filterQuality != null),
-        assert(matchTextDirection != null),
         assert(cacheWidth == null || cacheWidth > 0),
-        assert(cacheHeight == null || cacheHeight > 0),
-        assert(isAntiAlias != null);
+        assert(cacheHeight == null || cacheHeight > 0);
 
   // TODO(ianh): Implement the following (see ../services/image_resolution.dart):
   //
@@ -4516,7 +4461,7 @@ class Image extends StatefulWidget {
   ///
   /// If [excludeFromSemantics] is true, then [semanticLabel] will be ignored.
   ///
-  /// If [cacheWidth] or [cacheHeight] are provided, it indicates to the
+  /// If `cacheWidth` or `cacheHeight` are provided, they indicate to the
   /// engine that the image must be decoded at the specified size. The image
   /// will be rendered to the constraints of the layout or [width] and [height]
   /// regardless of these parameters. These parameters are primarily intended
@@ -4647,12 +4592,8 @@ class Image extends StatefulWidget {
               : AssetImage(name, bundle: bundle, package: package),
         ),
         loadingBuilder = null,
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(matchTextDirection != null),
         assert(cacheWidth == null || cacheWidth > 0),
-        assert(cacheHeight == null || cacheHeight > 0),
-        assert(isAntiAlias != null);
+        assert(cacheHeight == null || cacheHeight > 0);
 
   /// Creates a widget that displays an [ImageStream] obtained from a [Uint8List].
   ///
@@ -4679,7 +4620,7 @@ class Image extends StatefulWidget {
   ///
   /// If [excludeFromSemantics] is true, then [semanticLabel] will be ignored.
   ///
-  /// If [cacheWidth] or [cacheHeight] are provided, it indicates to the
+  /// If `cacheWidth` or `cacheHeight` are provided, they indicate to the
   /// engine that the image must be decoded at the specified size. The image
   /// will be rendered to the constraints of the layout or [width] and [height]
   /// regardless of these parameters. These parameters are primarily intended
@@ -4710,12 +4651,8 @@ class Image extends StatefulWidget {
   })  : image = ResizeImage.resizeIfNeeded(
             cacheWidth, cacheHeight, MemoryImage(bytes, scale: scale)),
         loadingBuilder = null,
-        assert(alignment != null),
-        assert(repeat != null),
-        assert(matchTextDirection != null),
         assert(cacheWidth == null || cacheWidth > 0),
-        assert(cacheHeight == null || cacheHeight > 0),
-        assert(isAntiAlias != null);
+        assert(cacheHeight == null || cacheHeight > 0);
 
   /// The image to display.
   final ImageProvider image;
@@ -5124,7 +5061,7 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
   }
 
   void _updateInvertColors() {
-    _invertColors = MediaQuery.maybeOf(context)?.invertColors ??
+    _invertColors = MediaQuery.maybeInvertColorsOf(context) ??
         SemanticsBinding.instance.accessibilityFeatures.invertColors;
   }
 
@@ -5140,7 +5077,6 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
           ? Size(widget.width!, widget.height!)
           : null,
     ));
-    assert(newStream != null);
     _updateSourceStream(newStream);
   }
 

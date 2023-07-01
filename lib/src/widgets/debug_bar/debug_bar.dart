@@ -70,7 +70,6 @@ class _PixelSnapDebugBarState extends State<PixelSnapDebugBar>
     if (kReleaseMode && !widget.enableInReleaseMode) {
       return widget.child;
     }
-
     return original.Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -78,8 +77,7 @@ class _PixelSnapDebugBarState extends State<PixelSnapDebugBar>
         Expanded(
           child: PixelRatioOverrideWidget(
             newDevicePixelRatio: overrideRatio,
-            originalDevicePixelRatio:
-                WidgetsBinding.instance.window.devicePixelRatio,
+            originalDevicePixelRatio: View.of(context).devicePixelRatio,
             child: PixelSnapOverride(
               devicePixelRatio: overrideRatio,
               pixelSnapFunction: !enabled ? _dummyPixelSnap : null,
@@ -100,7 +98,7 @@ class _PixelSnapDebugBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+      data: MediaQueryData.fromView(View.of(context)),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: DefaultTextStyle(
