@@ -1,6 +1,6 @@
 name: pixel_snap
 description: Sharp looking Flutter applications at any pixel scaling factor.
-version: 0.1.2
+version: 0.1.3
 homepage: https://github.com/irondash/pixel_snap
 
 environment:
