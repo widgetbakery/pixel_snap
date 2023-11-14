@@ -32,6 +32,7 @@ export 'package:flutter/material.dart'
         AnimatedContainer,
         AnimatedCrossFade,
         AnimatedPositioned,
+        AnimatedPadding,
         AnimatedPhysicalModel,
         AnimatedSize;
 export 'widgets.dart';

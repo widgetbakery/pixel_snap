@@ -37,7 +37,7 @@ class Generator {
     _buffer.writeln('import \'package:flutter/scheduler.dart\';');
     _buffer.writeln('import \'package:flutter/widgets.dart\' as widgets;');
     _buffer.writeln(
-        'import \'package:flutter/rendering.dart\' show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;');
+        'import \'package:flutter/rendering.dart\' show SelectionRegistrar;');
     _buffer.writeln('import \'dart:ui\' as ui;');
     _buffer.writeln('import \'dart:io\' show File;');
 

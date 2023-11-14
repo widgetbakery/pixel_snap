@@ -8,8 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart' as widgets;
-import 'package:flutter/rendering.dart'
-    show PlaceholderSpanIndexSemanticsTag, SelectionRegistrar;
+import 'package:flutter/rendering.dart' show SelectionRegistrar;
 import 'dart:ui' as ui;
 import 'dart:io' show File;
 export 'package:flutter/widgets.dart' hide RawImage, ScrollController;
@@ -363,6 +362,7 @@ class ConstrainedBox extends StatelessWidget {
 ///  * [Decoration], which you can extend to provide other effects with
 ///    [DecoratedBox].
 ///  * [CustomPaint], another way to draw custom effects from the widget layer.
+///  * [DecoratedSliver], which applies a [Decoration] to a sliver.
 class DecoratedBox extends StatelessWidget {
   /// Creates a widget that paints a [Decoration].
   ///
@@ -2466,6 +2466,76 @@ class AnimatedPositioned extends StatelessWidget {
   }
 }
 
+/// Animated version of [Padding] which automatically transitions the
+/// indentation over a given duration whenever the given inset changes.
+///
+/// {@youtube 560 315 https://www.youtube.com/watch?v=PY2m0fhGNz4}
+///
+/// Here's an illustration of what using this widget looks like, using a [curve]
+/// of [Curves.fastOutSlowIn].
+/// {@animation 250 266 https://flutter.github.io/assets-for-api-docs/assets/widgets/animated_padding.mp4}
+///
+/// {@tool dartpad}
+/// The following code implements the [AnimatedPadding] widget, using a [curve] of
+/// [Curves.easeInOut].
+///
+/// ** See code in examples/api/lib/widgets/implicit_animations/animated_padding.0.dart **
+/// {@end-tool}
+///
+/// See also:
+///
+///  * [AnimatedContainer], which can transition more values at once.
+///  * [AnimatedAlign], which automatically transitions its child's
+///    position over a given duration whenever the given
+///    [AnimatedAlign.alignment] changes.
+class AnimatedPadding extends StatelessWidget {
+  /// Creates a widget that insets its child by a value that animates
+  /// implicitly.
+  ///
+  /// The [padding], [curve], and [duration] arguments must not be null.
+  AnimatedPadding(
+      {super.key,
+      required this.padding,
+      this.child,
+      this.curve = Curves.linear,
+      required this.duration,
+      this.onEnd})
+      : assert(padding.isNonNegative);
+
+  /// The amount of space by which to inset the child.
+  final EdgeInsetsGeometry padding;
+
+  /// The widget below this widget in the tree.
+  ///
+  /// {@macro flutter.widgets.ProxyWidget.child}
+  final Widget? child;
+
+  /// The curve to apply when animating the parameters of this container.
+  final Curve curve;
+
+  /// The duration over which to animate the parameters of this container.
+  final Duration duration;
+
+  /// Called every time an animation completes.
+  ///
+  /// This can be useful to trigger additional actions (e.g. another animation)
+  /// at the end of the current animation.
+  final void Function()? onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    final ps = PixelSnap.of(context);
+    Widget res = widgets.AnimatedPadding(
+      padding: padding.pixelSnap(ps),
+      curve: curve,
+      duration: duration,
+      onEnd: onEnd,
+      child: child,
+    );
+    return res;
+  }
+}
+
 /// Animated version of [PhysicalModel].
 ///
 /// The [borderRadius] and [elevation] are animated.
@@ -3770,7 +3840,8 @@ class Text extends StatelessWidget {
     );
     if (registrar != null) {
       result = MouseRegion(
-        cursor: SystemMouseCursors.text,
+        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+            SystemMouseCursors.text,
         child: result,
       );
     }
@@ -3932,24 +4003,8 @@ class RichText extends MultiChildRenderObjectWidget {
     this.selectionColor,
   })  : assert(maxLines == null || maxLines > 0),
         assert(selectionRegistrar == null || selectionColor != null),
-        super(children: _extractChildren(text));
-
-  // Traverses the InlineSpan tree and depth-first collects the list of
-  // child widgets that are created in WidgetSpans.
-  static List<Widget> _extractChildren(InlineSpan span) {
-    int index = 0;
-    final List<Widget> result = <Widget>[];
-    span.visitChildren((InlineSpan span) {
-      if (span is WidgetSpan) {
-        result.add(Semantics(
-          tagForChildren: PlaceholderSpanIndexSemanticsTag(index++),
-          child: span.child,
-        ));
-      }
-      return true;
-    });
-    return result;
-  }
+        super(
+            children: WidgetSpan.extractFromInlineSpan(text, textScaleFactor));
 
   /// The text to display in this widget.
   final InlineSpan text;

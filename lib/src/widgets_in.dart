@@ -29,6 +29,7 @@ class GeneratePixelSnapFork<T> {
 @GeneratePixelSnap<AnimatedContainer>()
 @GeneratePixelSnap<AnimatedCrossFade>()
 @GeneratePixelSnap<AnimatedPositioned>()
+@GeneratePixelSnap<AnimatedPadding>()
 @GeneratePixelSnap<AnimatedPhysicalModel>()
 @GeneratePixelSnap<AnimatedSize>()
 @GeneratePixelSnapFork<Flex>()
