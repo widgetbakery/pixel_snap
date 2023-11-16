@@ -25,7 +25,7 @@ class Generator {
     _buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
     // There are still some asserts in Flutter code
     _buffer.writeln(
-        "// ignore_for_file: unnecessary_null_comparison, deprecated_member_use");
+        "// ignore_for_file: unnecessary_null_comparison, deprecated_member_use, deprecated_member_use_from_same_package");
 
     final classes = _ourCustomClasses.join(', ');
     _buffer.writeln('import \'../pixel_snap.dart\';');

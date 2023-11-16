@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unnecessary_null_comparison, deprecated_member_use
+// ignore_for_file: unnecessary_null_comparison, deprecated_member_use, deprecated_member_use_from_same_package
 import '../pixel_snap.dart';
 import '../pixel_snap_ext.dart';
 import '../widgets/pixel_snap_size.dart';
