@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unnecessary_null_comparison, deprecated_member_use
+// ignore_for_file: unnecessary_null_comparison, deprecated_member_use, deprecated_member_use_from_same_package
 import '../pixel_snap.dart';
 import '../pixel_snap_ext.dart';
 import '../widgets/pixel_snap_size.dart';
@@ -229,8 +229,6 @@ class Align extends StatelessWidget {
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class Baseline extends StatelessWidget {
   /// Creates a widget that positions its child according to the child's baseline.
-  ///
-  /// The [baseline] and [baselineType] arguments must not be null.
   const Baseline(
       {super.key,
       required this.baseline,
@@ -298,8 +296,6 @@ class Baseline extends StatelessWidget {
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class ConstrainedBox extends StatelessWidget {
   /// Creates a widget that imposes additional constraints on its child.
-  ///
-  /// The [constraints] argument must not be null.
   ConstrainedBox({super.key, required this.constraints, this.child})
       : assert(constraints.debugAssertIsValid());
 
@@ -366,8 +362,7 @@ class ConstrainedBox extends StatelessWidget {
 class DecoratedBox extends StatelessWidget {
   /// Creates a widget that paints a [Decoration].
   ///
-  /// The [decoration] and [position] arguments must not be null. By default the
-  /// decoration paints behind the child.
+  /// By default the decoration paints behind the child.
   const DecoratedBox(
       {super.key,
       required this.decoration,
@@ -784,8 +779,7 @@ class IntrinsicWidth extends StatelessWidget {
 class LimitedBox extends StatelessWidget {
   /// Creates a box that limits its size only when it's unconstrained.
   ///
-  /// The [maxWidth] and [maxHeight] arguments must not be null and must not be
-  /// negative.
+  /// The [maxWidth] and [maxHeight] arguments must not be negative.
   const LimitedBox(
       {super.key,
       this.maxWidth = double.infinity,
@@ -821,6 +815,12 @@ class LimitedBox extends StatelessWidget {
 
 /// A widget that imposes different constraints on its child than it gets
 /// from its parent, possibly allowing the child to overflow the parent.
+///
+/// {@tool dartpad}
+/// This example shows how an [OverflowBox] is used, and what its effect is.
+///
+/// ** See code in examples/api/lib/widgets/basic/overflowbox.0.dart **
+/// {@end-tool}
 ///
 /// See also:
 ///
@@ -956,8 +956,6 @@ class OverflowBox extends StatelessWidget {
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class Padding extends StatelessWidget {
   /// Creates a widget that insets its child.
-  ///
-  /// The [padding] argument must not be null.
   const Padding({super.key, required this.padding, this.child});
 
   /// The amount of space by which to inset the child.
@@ -1096,8 +1094,6 @@ class SizedBox extends StatelessWidget {
 ///  * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class SizedOverflowBox extends StatelessWidget {
   /// Creates a widget of a given size that lets its child overflow.
-  ///
-  /// The [size] argument must not be null.
   const SizedOverflowBox(
       {super.key,
       required this.size,
@@ -1254,8 +1250,6 @@ class Positioned extends StatelessWidget {
   /// [left] property. Otherwise, if `textDirection` is [TextDirection.ltr],
   /// then the `start` argument is used for the [left] property and the `end`
   /// argument is used for the [right] property.
-  ///
-  /// The `textDirection` argument must not be null.
   ///
   /// See also:
   ///
@@ -1468,11 +1462,13 @@ class PhysicalModel extends StatelessWidget {
 /// `setState` or `markNeedsLayout` during the callback (the layout for this
 /// frame has already happened).
 ///
-/// Custom painters normally size themselves to their child. If they do not have
-/// a child, they attempt to size themselves to the [size], which defaults to
-/// [Size.zero]. [size] must not be null.
+/// Custom painters normally size themselves to their [child]. If they do not
+/// have a child, they attempt to size themselves to the specified [size], which
+/// defaults to [Size.zero]. The parent [may enforce constraints on this
+/// size](https://docs.flutter.dev/ui/layout/constraints).
 ///
-/// [isComplex] and [willChange] are hints to the compositor's raster cache.
+/// The [isComplex] and [willChange] properties are hints to the compositor's
+/// raster cache.
 ///
 /// {@tool snippet}
 ///
@@ -1907,8 +1903,6 @@ class ImageIcon extends StatelessWidget {
 class AnimatedAlign extends StatelessWidget {
   /// Creates a widget that positions its child by an alignment that animates
   /// implicitly.
-  ///
-  /// The [alignment], [curve], and [duration] arguments must not be null.
   const AnimatedAlign(
       {super.key,
       required this.alignment,
@@ -2019,8 +2013,6 @@ class AnimatedAlign extends StatelessWidget {
 ///  * [AnimatedCrossFade], which fades between two children and interpolates their sizes.
 class AnimatedContainer extends StatelessWidget {
   /// Creates a container that animates its parameters implicitly.
-  ///
-  /// The [curve] and [duration] arguments must not be null.
   AnimatedContainer(
       {super.key,
       this.alignment,
@@ -2216,8 +2208,6 @@ class AnimatedCrossFade extends StatelessWidget {
   /// The [duration] of the animation is the same for all components (fade in,
   /// fade out, and size), and you can pass [Interval]s instead of [Curve]s in
   /// order to have finer control, e.g., creating an overlap between the fades.
-  ///
-  /// All the arguments other than [key] must be non-null.
   const AnimatedCrossFade(
       {super.key,
       required this.firstChild,
@@ -2372,8 +2362,6 @@ class AnimatedPositioned extends StatelessWidget {
   /// [width]), and only two out of the three vertical values ([top],
   /// [bottom], [height]), can be set. In each case, at least one of
   /// the three must be null.
-  ///
-  /// The [curve] and [duration] arguments must not be null.
   const AnimatedPositioned(
       {super.key,
       required this.child,
@@ -2390,8 +2378,6 @@ class AnimatedPositioned extends StatelessWidget {
         assert(top == null || bottom == null || height == null);
 
   /// Creates a widget that animates the rectangle it occupies implicitly.
-  ///
-  /// The [curve] and [duration] arguments must not be null.
   AnimatedPositioned.fromRect(
       {super.key,
       required this.child,
@@ -2491,8 +2477,6 @@ class AnimatedPositioned extends StatelessWidget {
 class AnimatedPadding extends StatelessWidget {
   /// Creates a widget that insets its child by a value that animates
   /// implicitly.
-  ///
-  /// The [padding], [curve], and [duration] arguments must not be null.
   AnimatedPadding(
       {super.key,
       required this.padding,
@@ -2553,9 +2537,7 @@ class AnimatedPadding extends StatelessWidget {
 class AnimatedPhysicalModel extends StatelessWidget {
   /// Creates a widget that animates the properties of a [PhysicalModel].
   ///
-  /// The [child], [shape], [borderRadius], [elevation], [color], [shadowColor],
-  /// [curve], [clipBehavior], and [duration] arguments must not be null.
-  /// Additionally, [elevation] must be non-negative.
+  /// The [elevation] must be non-negative.
   ///
   /// Animating [color] is optional and is controlled by the [animateColor] flag.
   ///
@@ -2660,8 +2642,6 @@ class AnimatedPhysicalModel extends StatelessWidget {
 ///  * [SizeTransition], which changes its size based on an [Animation].
 class AnimatedSize extends StatelessWidget {
   /// Creates a widget that animates its size to match that of its child.
-  ///
-  /// The [curve] and [duration] arguments must not be null.
   const AnimatedSize(
       {super.key,
       this.child,
@@ -2713,7 +2693,7 @@ class AnimatedSize extends StatelessWidget {
 
   /// {@macro flutter.material.Material.clipBehavior}
   ///
-  /// Defaults to [Clip.hardEdge], and must not be null.
+  /// Defaults to [Clip.hardEdge].
   final Clip clipBehavior;
 
   @override
@@ -2807,9 +2787,8 @@ class Flex extends MultiChildRenderObjectWidget {
   ///
   /// The [direction] is required.
   ///
-  /// The [direction], [mainAxisAlignment], [crossAxisAlignment], and
-  /// [verticalDirection] arguments must not be null. If [crossAxisAlignment] is
-  /// [CrossAxisAlignment.baseline], then [textBaseline] must not be null.
+  /// If [crossAxisAlignment] is [CrossAxisAlignment.baseline], then
+  /// [textBaseline] must not be null.
   ///
   /// The [textDirection] argument defaults to the ambient [Directionality], if
   /// any. If there is no ambient directionality, and a text direction is going
@@ -3187,8 +3166,6 @@ class Flex extends MultiChildRenderObjectWidget {
 class Row extends Flex {
   /// Creates a horizontal array of children.
   ///
-  /// The [mainAxisAlignment], [mainAxisSize], [crossAxisAlignment], and
-  /// [verticalDirection] arguments must not be null.
   /// If [crossAxisAlignment] is [CrossAxisAlignment.baseline], then
   /// [textBaseline] must not be null.
   ///
@@ -3382,8 +3359,6 @@ class Row extends Flex {
 class Column extends Flex {
   /// Creates a vertical array of children.
   ///
-  /// The [mainAxisAlignment], [mainAxisSize], [crossAxisAlignment], and
-  /// [verticalDirection] arguments must not be null.
   /// If [crossAxisAlignment] is [CrossAxisAlignment.baseline], then
   /// [textBaseline] must not be null.
   ///
@@ -3635,8 +3610,6 @@ class Text extends StatelessWidget {
   /// If the [style] argument is null, the text will use the style from the
   /// closest enclosing [DefaultTextStyle].
   ///
-  /// The [data] parameter must not be null.
-  ///
   /// The [overflow] property's behavior is affected by the [softWrap] argument.
   /// If the [softWrap] is true or null, the glyph causing overflow, and those
   /// that follow, will not be rendered. Otherwise, it will be shown with the
@@ -3651,13 +3624,23 @@ class Text extends StatelessWidget {
     this.locale,
     this.softWrap,
     this.overflow,
+    @Deprecated(
+      'Use textScaler instead. '
+      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+      'This feature was deprecated after v3.12.0-2.0.pre.',
+    )
     this.textScaleFactor,
+    this.textScaler,
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : textSpan = null;
+  })  : textSpan = null,
+        assert(
+          textScaler == null || textScaleFactor == null,
+          'textScaleFactor is deprecated and cannot be specified when textScaler is specified.',
+        );
 
   /// Creates a text widget with a [InlineSpan].
   ///
@@ -3665,8 +3648,6 @@ class Text extends StatelessWidget {
   ///
   /// * [TextSpan]s define text and children [InlineSpan]s.
   /// * [WidgetSpan]s define embedded inline widgets.
-  ///
-  /// The [textSpan] parameter must not be null.
   ///
   /// See [RichText] which provides a lower-level way to draw text.
   const Text.rich(
@@ -3679,13 +3660,23 @@ class Text extends StatelessWidget {
     this.locale,
     this.softWrap,
     this.overflow,
+    @Deprecated(
+      'Use textScaler instead. '
+      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+      'This feature was deprecated after v3.12.0-2.0.pre.',
+    )
     this.textScaleFactor,
+    this.textScaler,
     this.maxLines,
     this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : data = null;
+  })  : data = null,
+        assert(
+          textScaler == null || textScaleFactor == null,
+          'textScaleFactor is deprecated and cannot be specified when textScaler is specified.',
+        );
 
   /// The text to display.
   ///
@@ -3745,6 +3736,9 @@ class Text extends StatelessWidget {
   /// from the nearest [DefaultTextStyle] ancestor will be used.
   final TextOverflow? overflow;
 
+  /// Deprecated. Will be removed in a future version of Flutter. Use
+  /// [textScaler] instead.
+  ///
   /// The number of font pixels for each logical pixel.
   ///
   /// For example, if the text scale factor is 1.5, text will be 50% larger than
@@ -3753,7 +3747,15 @@ class Text extends StatelessWidget {
   /// The value given to the constructor as textScaleFactor. If null, will
   /// use the [MediaQueryData.textScaleFactor] obtained from the ambient
   /// [MediaQuery], or 1.0 if there is no [MediaQuery] in scope.
+  @Deprecated(
+    'Use textScaler instead. '
+    'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+    'This feature was deprecated after v3.12.0-2.0.pre.',
+  )
   final double? textScaleFactor;
+
+  /// {@macro flutter.painting.textPainter.textScaler}
+  final TextScaler? textScaler;
 
   /// An optional maximum number of lines for the text to span, wrapping if necessary.
   /// If the text exceeds the given number of lines, it will be truncated according
@@ -3812,6 +3814,14 @@ class Text extends StatelessWidget {
           .merge(const TextStyle(fontWeight: FontWeight.bold));
     }
     final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+    final TextScaler textScaler = switch ((this.textScaler, textScaleFactor)) {
+      (final TextScaler textScaler, _) => textScaler,
+      // For unmigrated apps, fall back to textScaleFactor.
+      (null, final double textScaleFactor) =>
+        TextScaler.linear(textScaleFactor),
+      (null, null) => MediaQuery.textScalerOf(context),
+    };
+
     Widget result = RichText(
       textAlign: textAlign ?? defaultTextStyle.textAlign ?? TextAlign.start,
       textDirection:
@@ -3821,7 +3831,7 @@ class Text extends StatelessWidget {
       softWrap: softWrap ?? defaultTextStyle.softWrap,
       overflow:
           overflow ?? effectiveTextStyle?.overflow ?? defaultTextStyle.overflow,
-      textScaleFactor: textScaleFactor ?? MediaQuery.textScaleFactorOf(context),
+      textScaler: textScaler,
       maxLines: maxLines ?? defaultTextStyle.maxLines,
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
@@ -3978,9 +3988,6 @@ class Text extends StatelessWidget {
 class RichText extends MultiChildRenderObjectWidget {
   /// Creates a paragraph of rich text.
   ///
-  /// The [text], [textAlign], [softWrap], [overflow], and [textScaleFactor]
-  /// arguments must not be null.
-  ///
   /// The [maxLines] property may be null (and indeed defaults to null), but if
   /// it is not null, it must be greater than zero.
   ///
@@ -3993,7 +4000,13 @@ class RichText extends MultiChildRenderObjectWidget {
     this.textDirection,
     this.softWrap = true,
     this.overflow = TextOverflow.clip,
-    this.textScaleFactor = 1.0,
+    @Deprecated(
+      'Use textScaler instead. '
+      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+      'This feature was deprecated after v3.12.0-2.0.pre.',
+    )
+    double textScaleFactor = 1.0,
+    TextScaler textScaler = TextScaler.noScaling,
     this.maxLines,
     this.locale,
     this.strutStyle,
@@ -4003,8 +4016,24 @@ class RichText extends MultiChildRenderObjectWidget {
     this.selectionColor,
   })  : assert(maxLines == null || maxLines > 0),
         assert(selectionRegistrar == null || selectionColor != null),
+        assert(
+            textScaleFactor == 1.0 ||
+                identical(textScaler, TextScaler.noScaling),
+            'Use textScaler instead.'),
+        textScaler = _effectiveTextScalerFrom(textScaler, textScaleFactor),
         super(
-            children: WidgetSpan.extractFromInlineSpan(text, textScaleFactor));
+            children: WidgetSpan.extractFromInlineSpan(
+                text, _effectiveTextScalerFrom(textScaler, textScaleFactor)));
+
+  static TextScaler _effectiveTextScalerFrom(
+      TextScaler textScaler, double textScaleFactor) {
+    return switch ((textScaler, textScaleFactor)) {
+      (final TextScaler scaler, 1.0) => scaler,
+      (TextScaler.noScaling, final double textScaleFactor) =>
+        TextScaler.linear(textScaleFactor),
+      (final TextScaler scaler, _) => scaler,
+    };
+  }
 
   /// The text to display in this widget.
   final InlineSpan text;
@@ -4036,11 +4065,22 @@ class RichText extends MultiChildRenderObjectWidget {
   /// How visual overflow should be handled.
   final TextOverflow overflow;
 
+  /// Deprecated. Will be removed in a future version of Flutter. Use
+  /// [textScaler] instead.
+  ///
   /// The number of font pixels for each logical pixel.
   ///
   /// For example, if the text scale factor is 1.5, text will be 50% larger than
   /// the specified font size.
-  final double textScaleFactor;
+  @Deprecated(
+    'Use textScaler instead. '
+    'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+    'This feature was deprecated after v3.12.0-2.0.pre.',
+  )
+  double get textScaleFactor => textScaler.textScaleFactor;
+
+  /// {@macro flutter.painting.textPainter.textScaler}
+  final TextScaler textScaler;
 
   /// An optional maximum number of lines for the text to span, wrapping if necessary.
   /// If the text exceeds the given number of lines, it will be truncated according
@@ -4092,7 +4132,7 @@ class RichText extends MultiChildRenderObjectWidget {
       textDirection: textDirection ?? Directionality.of(context),
       softWrap: softWrap,
       overflow: overflow,
-      textScaleFactor: textScaleFactor,
+      textScaler: textScaler,
       maxLines: maxLines,
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis,
@@ -4113,7 +4153,7 @@ class RichText extends MultiChildRenderObjectWidget {
       ..textDirection = textDirection ?? Directionality.of(context)
       ..softWrap = softWrap
       ..overflow = overflow
-      ..textScaleFactor = textScaleFactor
+      ..textScaler = textScaler
       ..maxLines = maxLines
       ..strutStyle = strutStyle
       ..textWidthBasis = textWidthBasis
@@ -4137,8 +4177,8 @@ class RichText extends MultiChildRenderObjectWidget {
         showName: true));
     properties.add(EnumProperty<TextOverflow>('overflow', overflow,
         defaultValue: TextOverflow.clip));
-    properties.add(
-        DoubleProperty('textScaleFactor', textScaleFactor, defaultValue: 1.0));
+    properties.add(DiagnosticsProperty<TextScaler>('textScaler', textScaler,
+        defaultValue: TextScaler.noScaling));
     properties.add(IntProperty('maxLines', maxLines, ifNull: 'unlimited'));
     properties.add(EnumProperty<TextWidthBasis>(
         'textWidthBasis', textWidthBasis,
@@ -4173,8 +4213,6 @@ class RichText extends MultiChildRenderObjectWidget {
 /// * The [catalog of layout widgets](https://flutter.dev/widgets/layout/).
 class FittedBox extends SingleChildRenderObjectWidget {
   /// Creates a widget that scales and positions its child within itself according to [fit].
-  ///
-  /// The [fit] and [alignment] arguments must not be null.
   const FittedBox({
     super.key,
     this.fit = BoxFit.contain,
@@ -4313,6 +4351,16 @@ class FittedBox extends SingleChildRenderObjectWidget {
 /// using the HTML renderer, the web engine delegates image decoding of network
 /// images to the Web, which does not support custom decode sizes.
 ///
+/// ## Custom image providers
+///
+/// {@tool dartpad}
+/// In this example, a variant of [NetworkImage] is created that passes all the
+/// [ImageConfiguration] information (locale, platform, size, etc) to the server
+/// using query arguments in the image URL.
+///
+/// ** See code in examples/api/lib/painting/image_provider/image_provider.0.dart **
+/// {@end-tool}
+///
 /// See also:
 ///
 ///  * [Icon], which shows an image from a font.
@@ -4328,9 +4376,6 @@ class Image extends StatefulWidget {
   ///
   /// To show an image from the network or from an asset bundle, consider using
   /// [Image.network] and [Image.asset] respectively.
-  ///
-  /// The [image], [alignment], [repeat], and [matchTextDirection] arguments
-  /// must not be null.
   ///
   /// Either the [width] and [height] arguments should be specified, or the
   /// widget should be placed in a context that sets tight layout constraints.
@@ -4366,8 +4411,6 @@ class Image extends StatefulWidget {
   });
 
   /// Creates a widget that displays an [ImageStream] obtained from the network.
-  ///
-  /// The [src], [scale], and [repeat] arguments must not be null.
   ///
   /// Either the [width] and [height] arguments should be specified, or the
   /// widget should be placed in a context that sets tight layout constraints.
@@ -4423,8 +4466,6 @@ class Image extends StatefulWidget {
         assert(cacheHeight == null || cacheHeight > 0);
 
   /// Creates a widget that displays an [ImageStream] obtained from a [File].
-  ///
-  /// The [file], [scale], and [repeat] arguments must not be null.
   ///
   /// Either the [width] and [height] arguments should be specified, or the
   /// widget should be placed in a context that sets tight layout constraints.
@@ -4521,8 +4562,6 @@ class Image extends StatefulWidget {
   /// will be rendered to the constraints of the layout or [width] and [height]
   /// regardless of these parameters. These parameters are primarily intended
   /// to reduce the memory usage of [ImageCache].
-  ///
-  /// The [name] and [repeat] arguments must not be null.
   ///
   /// Either the [width] and [height] arguments should be specified, or the
   /// widget should be placed in a context that sets tight layout constraints.
@@ -4659,8 +4698,6 @@ class Image extends StatefulWidget {
   /// The `scale` argument specifies the linear scale factor for drawing this
   /// image at its intended size and applies to both the width and the height.
   /// {@macro flutter.painting.imageInfo.scale}
-  ///
-  /// The `bytes`, `scale`, and [repeat] arguments must not be null.
   ///
   /// This only accepts compressed image formats (e.g. PNG). Uncompressed
   /// formats like rawRgba (the default format of [dart:ui.Image.toByteData])
@@ -4827,7 +4864,7 @@ class Image extends StatefulWidget {
   /// {@end-tool}
   final ImageErrorWidgetBuilder? errorBuilder;
 
-  /// If non-null, require the image to have this width.
+  /// If non-null, require the image to have this width (in logical pixels).
   ///
   /// If null, the image will pick a size that best preserves its intrinsic
   /// aspect ratio.
@@ -4839,7 +4876,7 @@ class Image extends StatefulWidget {
   /// and height if the exact image dimensions are not known in advance.
   final double? width;
 
-  /// If non-null, require the image to have this height.
+  /// If non-null, require the image to have this height (in logical pixels).
   ///
   /// If null, the image will pick a size that best preserves its intrinsic
   /// aspect ratio.
