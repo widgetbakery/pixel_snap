@@ -10,7 +10,13 @@ class RenderParagraph extends rendering.RenderParagraph {
     required super.textDirection,
     super.softWrap,
     super.overflow,
+    @Deprecated(
+      'Use textScaler instead. '
+      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
+      'This feature was deprecated after v3.12.0-2.0.pre.',
+    )
     super.textScaleFactor,
+    super.textScaler,
     super.maxLines,
     super.locale,
     super.strutStyle,
