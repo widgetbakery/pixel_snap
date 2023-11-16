@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.4
+
+ - Regenerated widgets for latest Flutter stable (3.16.0).
+
 ## 0.1.3
 
  - Regenerated widgets for latest Flutter stable.
