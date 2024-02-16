@@ -29,7 +29,7 @@ class PixelSnap {
         context.dependOnInheritedWidgetOfExactType<PixelSnapOverride>();
     return PixelSnap.custom(
       devicePixelRatio:
-          override?.devicePixelRatio ?? MediaQuery.of(context).devicePixelRatio,
+          override?.devicePixelRatio ?? MediaQuery.devicePixelRatioOf(context),
       pixelSnapFunction: override?.pixelSnapFunction ?? _defaultPixelSnap,
     );
   }
