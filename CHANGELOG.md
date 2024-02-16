@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.5
+
+ - Use MediaQuery.devicePixelRatioOf(context) instead of MediaQuery.of(context).devicePixelRatio (#19).
+
 ## 0.1.4
 
  - Regenerated widgets for latest Flutter stable (3.16.0).
